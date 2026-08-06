@@ -1,0 +1,78 @@
+<div class="container mt-13" style="margin-top: 95px;">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div class="card-body p-4">
+          <h3 class="text-center mb-4">Crear Cuenta</h3>
+
+          @if (errorMessage()) {
+            <div class="alert alert-danger">{{ errorMessage() }}</div>
+          }
+
+          <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+
+            <div class="row">
+              <div class="col-6 mb-3">
+                <label class="form-label">Nombres</label>
+                <input type="text" class="form-control" formControlName="nombres">
+              </div>
+              <div class="col-6 mb-3">
+                <label class="form-label">Apellidos</label>
+                <input type="text" class="form-control" formControlName="apellidos">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Correo electrónico</label>
+              <input type="email" class="form-control" formControlName="email">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Contraseña</label>
+              <input type="password" class="form-control" formControlName="password">
+            </div>
+
+            <!-- TIPO DE USUARIO -->
+            <div class="mb-3">
+              <label class="form-label fw-bold">¿Cómo vas a usar FitApp?</label>
+              <select class="form-select" formControlName="tipoUsuario">
+                <option value="independiente">Entreno por mi cuenta (Independiente)</option>
+                <option value="gym"> Soy cliente de un Gimnasio</option>
+              </select>
+              <small class="text-muted">
+                @if (registerForm.value.tipoUsuario === 'gym') {
+                  Podrás vincularte a un gimnasio desde tu perfil.
+                } @else {
+                  Acceso completo sin vinculación a gimnasio.
+                }
+              </small>
+            </div>
+
+            <div class="row">
+              <div class="col-6 mb-3">
+                <label class="form-label">Teléfono</label>
+                <input type="text" class="form-control" formControlName="telefono">
+              </div>
+              <div class="col-6 mb-3">
+                <label class="form-label">Ciudad</label>
+                <input type="text" class="form-control" formControlName="ciudad">
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100" [disabled]="cargando()">
+              @if (cargando()) {
+                <span class="spinner-border spinner-border-sm me-2"></span>
+              }
+              Registrarse
+            </button>
+
+            <p class="text-center mt-3 mb-0">
+              ¿Ya tienes cuenta? <a routerLink="/login">Iniciar sesión</a>
+            </p>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

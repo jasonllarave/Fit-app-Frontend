@@ -1,0 +1,167 @@
+<div  style="margin-top: 105px; ">
+
+  <!-- HEADER BIENVENIDA -->
+  <div class="mb-4">
+    <h2 class="fw-bold mb-1">
+       Hola, {{ usuario()?.nombre || 'Entrenador' }}
+    </h2>
+    <p class="text-muted mb-0 mt-4" >
+      Hoy es <strong>{{ diaHoy() | titlecase }}</strong>. 
+      @if (rutinasHoy().length > 0) {
+        Tenés {{ rutinasHoy().length }} rutina{{ rutinasHoy().length > 1 ? 's' : '' }} programada{{ rutinasHoy().length > 1 ? 's' : '' }}.
+      } @else {
+        No tenés rutinas programadas para hoy.
+      }
+    </p>
+  </div>
+
+  @if (error()) {
+    <div class="alert alert-danger">{{ error() }}</div>
+  }
+
+  @if (cargando()) {
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary"></div>
+    </div>
+  }
+
+  @if (!cargando()) {
+
+    <!-- CARDS RESUMEN -->
+    <div class="row mb-4">
+      <div class="col-6 col-md-3 mb-3">
+        <div class="card shadow-sm text-center h-100 border-0 bg-light">
+          <div class="card-body">
+            <i class="bi bi-heart-pulse fs-3 text-dark"></i> 
+            <h3 class="fw-bold mb-0 mt-2">{{ rutinasActivas().length }}</h3>
+            <small class="text-muted text-uppercase" style="font-size: 0.65rem;">Rutinas activas</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3 mb-3">
+        <div class="card shadow-sm text-center h-100 border-0 bg-light">
+          <div class="card-body">
+            <i class="bi bi-speedometer fs-3 text-dark"></i>
+            <h3 class="fw-bold mb-0 mt-2">{{ sesionesEstaSemana().length }}</h3>
+            <small class="text-muted text-uppercase" style="font-size: 0.65rem;">Esta semana</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3 mb-3">
+        <div class="card shadow-sm text-center h-100 border-0 bg-light">
+          <div class="card-body">
+            <i class="bi bi-rocket-takeoff fs-3 text-dark"></i>
+            <h3 class="fw-bold mb-0 mt-2">{{ racha() }}</h3>
+            <small class="text-muted text-uppercase" style="font-size: 0.65rem;">Días de racha</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3 mb-3">
+        <div class="card shadow-sm text-center h-100 border-0 bg-light">
+          <div class="card-body">
+            <i class="bi bi-crosshair fs-3 text-dark"></i>
+            <h3 class="fw-bold mb-0 mt-2">{{ puntos()?.saldo ?? 0 }}</h3>
+            <small class="text-muted text-uppercase" style="font-size: 0.65rem;">Puntos</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RUTINAS DE HOY -->
+    @if (rutinasHoy().length > 0) {
+      <h4 class="fw-bold mb-3"> Rutinas de hoy</h4>
+      <div class="row mb-4">
+        @for (rutina of rutinasHoy(); track rutina._id) {
+          <div class="col-md-6 col-lg-4 mb-3 mt-4">
+            <div class="card shadow-sm h-100 border-0">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                  <h6 class="fw-bold mb-0">{{ rutina.nombre }}</h6>
+                  <span class="badge bg-success">Activa</span>
+                </div>
+                <p class="text-muted small mb-2">{{ rutina.descripcion || 'Sin descripción' }}</p>
+                
+                <div class="mb-2">
+                  @for (dia of rutina.diasSemana; track dia) {
+                    <span class="badge bg-dark text-success border me-1" 
+                          [class.bg-primary]="dia === diaHoy()"
+                          [class.text-white]="dia === diaHoy()">
+                      {{ traducirDia(dia) }}
+                    </span>
+                  }
+                </div>
+
+                <small class="text-muted d-block mb-2">
+                  {{ rutina.ejercicios?.length || 0 }} ejercicios
+                </small>
+
+                <a class="btn btn-dark btn-sm w-100" [routerLink]="['/iniciar-sesion', rutina._id]">
+                  <i class="bi bi-play-fill me-1"></i>Entrenar ahora
+                </a>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- ACCESO RÁPIDO -->
+    <h4 class="fw-bold mb-3"> Acceso rápido</h4>
+    <div class="row mb-4 mt-4">
+      <div class="col-6 col-md-3 mb-3">
+        <a class="card shadow-sm text-center text-decoration-none h-100 border-0 text-dark" routerLink="/rutinas">
+          <div class="card-body">
+            <i class="bi bi-cloud-haze2 fs-2 text-dark mb-2 d-block"></i>
+            <span class="fw-bold small">Mis Rutinas</span>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-3 mb-3">
+        <a class="card shadow-sm text-center text-decoration-none h-100 border-0 text-dark" routerLink="/ejercicios">
+          <div class="card-body">
+            <i class="bi bi-droplet-half fs-2 text-dark mb-2 d-block"></i>
+            <span class="fw-bold small">Ejercicios</span>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-3 mb-3">
+        <a class="card shadow-sm text-center text-decoration-none h-100 border-0 text-dark" routerLink="/progreso">
+          <div class="card-body">
+            <i class="bi bi-cloud-sun fs-2 text-dark mb-2 d-block"></i>
+            <span class="fw-bold small">Progreso</span>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-3 mb-3">
+        <a class="card shadow-sm text-center text-decoration-none h-100 border-0 text-dark" routerLink="/recompensas">
+          <div class="card-body">
+            <i class="bi bi-envelope fs-2 text-dark mb-2 d-block"></i>
+            <span class="fw-bold small">Recompensas</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- ÚLTIMA SESIÓN -->
+    @if (ultimaSesion()) {
+      <h4 class="fw-bold mb-3"> Última sesión</h4>
+      <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="fw-bold mb-1">{{ ultimaSesion().rutina?.nombre || 'Entrenamiento' }}</h6>
+              <small class="text-muted">
+                {{ ultimaSesion().fecha | date:'dd MMM, HH:mm' }} · 
+                {{ ultimaSesion().duracionMinutos || 0 }} min · 
+                {{ ultimaSesion().ejercicios?.length || 0 }} ejercicios
+              </small>
+            </div>
+            <span class="badge bg-success">Completada</span>
+          </div>
+        </div>
+      </div>
+    }
+
+  }
+
+</div>

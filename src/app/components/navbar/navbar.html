@@ -1,0 +1,108 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
+  <div class="container-fluid">
+
+    <!-- Logo -->
+    <a class="navbar-brand d-flex align-items-center" routerLink="/dashboard">
+      <i class="bi bi-heart-pulse-fill fs-3 me-2 text-danger"></i>
+      <span>FitApp</span>
+    </a>
+    
+    <!-- Toggler móvil -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <!-- Links -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      
+      <!-- Links principales + Admin (todo junto) -->
+      <ul class="navbar-nav mx-auto">
+        
+        <li class="nav-item">
+          <a class="nav-link d-flex flex-column align-items-center px-3" routerLink="/dashboard" routerLinkActive="active">
+            <i class="bi bi-browser-safari fs-5"></i>
+            <small>Inicio</small>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link d-flex flex-column align-items-center px-3" routerLink="/ejercicios" routerLinkActive="active">
+            <i class="bi bi-activity fs-5"></i>
+            <small>Ejercicios</small>
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link d-flex flex-column align-items-center px-3" routerLink="/rutinas" routerLinkActive="active">
+            <i class="bi bi-clipboard-pulse fs-5"></i>
+            <small>Rutinas</small>
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link d-flex flex-column align-items-center px-3" routerLink="/sesiones" routerLinkActive="active">
+            <i class="bi bi-play-circle fs-5"></i>
+            <small>Sesiones</small>
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link d-flex flex-column align-items-center px-3" routerLink="/progreso" routerLinkActive="active">
+            <i class="bi bi-graph-up-arrow fs-5"></i>
+            <small>Progreso</small>
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link d-flex flex-column align-items-center px-3" routerLink="/recompensas" routerLinkActive="active">
+            <i class="bi bi-sourceforge fs-5"></i>
+            <small>Logros</small>
+          </a>
+        </li>
+
+        <!-- Solo para superadmin -->
+        @if (esSuperAdmin()) {
+          <li class="nav-item">
+            <a class="nav-link d-flex flex-column align-items-center px-3" routerLink="/admin" routerLinkActive="active">
+              <i class="bi bi-shield-lock fs-5"></i>
+              <small>Admin</small>
+            </a>
+          </li>
+        }
+
+        <!-- Solo para admin gym o superadmin -->
+        @if (esAdmin()) {
+          <li class="nav-item">
+            <a class="nav-link d-flex flex-column align-items-center px-3" routerLink="/admin-gym" routerLinkActive="active">
+              <i class="bi bi-building fs-5"></i>
+              <small>Gym</small>
+            </a>
+          </li>
+        }
+        
+      </ul>
+      
+      <!-- Perfil dropdown a la derecha -->
+      <ul class="navbar-nav perfil-offset">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle d-flex flex-column align-items-center" data-bs-toggle="dropdown">
+            <i class="bi bi-person-circle fs-5"></i>
+            <small>Perfil</small>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <a class="dropdown-item" routerLink="/perfil">
+                <i class="bi bi-person me-2"></i>Mi cuenta
+              </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <button class="dropdown-item text-danger" (click)="logout()">Cerrar Sesión</button>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,161 @@
+<!-- Desktop: sidebar oscuro fijo -->
+<div class="d-none d-md-block h-100 bg-dark mt-2 p-3 rounded" style="min-height: 100vh;">
+  <div class="text-center mb-4 pt-3">
+    <i class="bi bi-funnel fs-2 text-danger"></i>
+    <small class="d-block text-white">Filtrar</small>
+  </div>
+
+  <!-- Categorías -->
+  <div class="mb-3">
+    <small class="text-secondary text-uppercase" style="font-size: 0.7rem;">Categoría</small>
+    <ul class="nav flex-column">
+      @for (cat of categorias; track cat) {
+        <li class="nav-item">
+          <a class="nav-link py-1"
+             [class.text-white]="filtroCategoria() !== cat"
+             [class.text-danger]="filtroCategoria() === cat"
+             [class.fw-bold]="filtroCategoria() === cat"
+             style="cursor: pointer; font-size: 0.85rem;"
+             (click)="toggleFiltro('categoria', cat)">
+            <i class="bi bi-chevron-right me-2" [class.text-danger]="filtroCategoria() === cat"></i>{{ cat }}
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
+
+  <!-- Equipos -->
+  <div class="mb-3">
+    <small class="text-secondary text-uppercase" style="font-size: 0.7rem;">Equipo</small>
+    <ul class="nav flex-column">
+      @for (eq of equipos; track eq) {
+        <li class="nav-item">
+          <a class="nav-link py-1"
+             [class.text-white]="filtroEquipo() !== eq"
+             [class.text-danger]="filtroEquipo() === eq"
+             [class.fw-bold]="filtroEquipo() === eq"
+             style="cursor: pointer; font-size: 0.85rem;"
+             (click)="toggleFiltro('equipo', eq)">
+            <i class="bi bi-chevron-right me-2" [class.text-danger]="filtroEquipo() === eq"></i>{{ eq }}
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
+
+  <!-- Músculos -->
+  <div class="mb-3">
+    <small class="text-secondary text-uppercase" style="font-size: 0.7rem;">Músculo</small>
+    <ul class="nav flex-column">
+      @for (mus of musculos; track mus) {
+        <li class="nav-item">
+          <a class="nav-link py-1"
+             [class.text-white]="filtroMusculo() !== mus"
+             [class.text-danger]="filtroMusculo() === mus"
+             [class.fw-bold]="filtroMusculo() === mus"
+             style="cursor: pointer; font-size: 0.85rem;"
+             (click)="toggleFiltro('musculo', mus)">
+            <i class="bi bi-chevron-right me-2" [class.text-danger]="filtroMusculo() === mus"></i>{{ mus }}
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
+
+  @if (filtroCategoria() || filtroEquipo() || filtroMusculo()) {
+    <button class="btn btn-outline-danger btn-sm w-100 mt-2" (click)="limpiar()">
+      <i class="bi bi-x-circle me-1"></i>Limpiar
+    </button>
+  }
+</div>
+
+<!-- Móvil: botón vertical fijo (SIEMPRE visible en mobile) -->
+<div class="d-md-none position-fixed" style="top: 63px; left: 3px; z-index: 1030;">
+  <button class="btn btn-dark btn-sm"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#sidebarOffcanvas"
+          style="writing-mode: vertical-rl; text-orientation: mixed; padding: 8px 4px;">
+    <i class="bi bi-funnel mb-1"></i>
+    Filtrar
+  </button>
+</div>
+
+<!-- Móvil: Offcanvas -->
+<div class="offcanvas offcanvas-start bg-dark text-white" id="sidebarOffcanvas" tabindex="-1">
+  <div class="offcanvas-header border-bottom border-secondary">
+    <h5 class="offcanvas-title text-white">
+      <i class="bi bi-funnel me-2 text-danger"></i>Filtrar Ejercicios
+    </h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+
+    <!-- Categorías móvil -->
+    <div class="mb-3">
+      <small class="text-secondary text-uppercase" style="font-size: 0.7rem;">Categoría</small>
+      <ul class="nav flex-column">
+        @for (cat of categorias; track cat) {
+          <li class="nav-item">
+            <a class="nav-link py-1"
+               [class.text-white]="filtroCategoria() !== cat"
+               [class.text-danger]="filtroCategoria() === cat"
+               [class.fw-bold]="filtroCategoria() === cat"
+               style="cursor: pointer;"
+               data-bs-dismiss="offcanvas"
+               (click)="toggleFiltro('categoria', cat)">
+              <i class="bi bi-chevron-right me-2"></i>{{ cat }}
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+
+    <!-- Equipos móvil -->
+    <div class="mb-3">
+      <small class="text-secondary text-uppercase" style="font-size: 0.7rem;">Equipo</small>
+      <ul class="nav flex-column">
+        @for (eq of equipos; track eq) {
+          <li class="nav-item">
+            <a class="nav-link py-1"
+               [class.text-white]="filtroEquipo() !== eq"
+               [class.text-danger]="filtroEquipo() === eq"
+               [class.fw-bold]="filtroEquipo() === eq"
+               style="cursor: pointer;"
+               data-bs-dismiss="offcanvas"
+               (click)="toggleFiltro('equipo', eq)">
+              <i class="bi bi-chevron-right me-2"></i>{{ eq }}
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+
+    <!-- Músculos móvil -->
+    <div class="mb-3">
+      <small class="text-secondary text-uppercase" style="font-size: 0.7rem;">Músculo</small>
+      <ul class="nav flex-column">
+        @for (mus of musculos; track mus) {
+          <li class="nav-item">
+            <a class="nav-link py-1"
+               [class.text-white]="filtroMusculo() !== mus"
+               [class.text-danger]="filtroMusculo() === mus"
+               [class.fw-bold]="filtroMusculo() === mus"
+               style="cursor: pointer;"
+               data-bs-dismiss="offcanvas"
+               (click)="toggleFiltro('musculo', mus)">
+              <i class="bi bi-chevron-right me-2"></i>{{ mus }}
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+
+    @if (filtroCategoria() || filtroEquipo() || filtroMusculo()) {
+      <button class="btn btn-outline-danger w-100" data-bs-dismiss="offcanvas" (click)="limpiar()">
+        <i class="bi bi-x-circle me-1"></i>Limpiar filtros
+      </button>
+    }
+
+  </div>
+</div>

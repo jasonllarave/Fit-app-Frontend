@@ -1,0 +1,29 @@
+.nav-link {
+  color: #6c757d;
+  transition: all 0.3s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #dc3545 !important;
+}
+
+.nav-link.active i {
+  color: #dc3545;
+}
+
+.navbar-brand {
+  font-weight: bold;
+}
+
+
+.perfil-offset {
+  transform: translateX(-210px);
+}
+
+/* Cuando el navbar colapsa (menor a 992px en Bootstrap lg), quitamos el offset */
+@media (max-width: 992px) {
+  .perfil-offset {
+    transform: none !important;
+  }
+}

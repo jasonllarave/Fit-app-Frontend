@@ -1,0 +1,73 @@
+<div class="container"  style="margin-top: 105px;">
+
+  <!-- Loading -->
+  @if (cargando()) {
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary"></div>
+      <p class="mt-2 text-muted">Cargando rutina...</p>
+    </div>
+  }
+
+  <!-- Error -->
+  @if (error()) {
+    <div class="alert alert-danger">{{ error() }}</div>
+  }
+
+  @if (rutina() && !cargando()) {
+
+    <!-- Header -->
+    <div class="mb-4">
+      <h2 class="fw-bold">{{ rutina().nombre }}</h2>
+      <p class="text-muted">{{ rutina().descripcion || 'Sin descripción' }}</p>
+    </div>
+
+    <!-- Bloqueado por cooldown -->
+    @if (bloqueado()) {
+      <div class="alert alert-warning">
+        <i class="bi bi-clock-history me-2"></i>
+        {{ mensajeBloqueo() }}
+      </div>
+      <a routerLink="/rutinas" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left me-2"></i>Volver a mis rutinas
+      </a>
+    }
+
+    <!-- Listo para entrenar -->
+    @else {
+
+      <!-- Resumen de ejercicios -->
+      <h5 class="mb-3">Ejercicios de esta rutina ({{ rutina().ejercicios.length }})</h5>
+
+      <div class="row mb-4">
+        @for (ej of rutina().ejercicios; track ej.ejercicio?._id || $index) {
+          <div class="col-6 col-md-3 mb-3">
+            <div class="card h-100 text-center">
+              <img [src]="'http://localhost:3000' + (ej.ejercicio?.gif || ej.ejercicio?.imagen)"
+                   class="card-img-top"
+                   style="height: 100px; object-fit: cover;"
+                   [alt]="ej.ejercicio?.nombre">
+              <div class="card-body p-2">
+                <small class="text-capitalize d-block text-truncate">{{ ej.ejercicio?.nombre }}</small>
+                <small class="text-muted">{{ ej.series.length }} series</small>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Aviso anti-trampa -->
+      <div class="alert alert-light border">
+        <i class="bi bi-info-circle me-2"></i>
+        Necesitás entrenar mínimo <strong>{{ DURACION_MINIMA_MINUTOS }} minutos</strong> para poder finalizar la sesión.
+      </div>
+
+      <!-- Botón iniciar -->
+      <button type="button" class="btn btn-dark btn-lg w-100" (click)="iniciarEntrenamiento()">
+        <i class="bi bi-lightning-charge-fill me-2"></i>Empezar entrenamiento
+      </button>
+
+    }
+
+  }
+
+</div>

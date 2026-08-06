@@ -1,0 +1,8 @@
+.nav-link:hover {
+  color: #dc3545 !important;
+  transition: color 0.2s;
+}
+
+.offcanvas {
+  width: 260px;
+}

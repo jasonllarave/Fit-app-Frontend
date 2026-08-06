@@ -1,0 +1,11 @@
+.alarma-pulsante {
+  background-color: #dc3545;
+  color: white;
+  animation: pulsar 1.2s infinite;
+}
+
+@keyframes pulsar {
+  0%   { background-color: #dc3545; }
+  50%  { background-color: #ff6b6b; }
+  100% { background-color: #dc3545; }
+}

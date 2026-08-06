@@ -1,0 +1,217 @@
+<!-- Desktop: sidebar fijo -->
+<div class="d-none d-md-block h-100 bg-dark mt-5 p-4" style="min-height: 100vh;">
+    <div class="text-center mb-4 pt-3">
+        <i class="bi bi-heart-pulse-fill fs-2 text-danger"></i>
+        <small class="d-block text-white">FitApp</small>
+    </div>
+    
+    <h6 class="text-white text-uppercase mb-3">Filtrar Ejercicios</h6>
+    
+    <!-- Categorías -->
+    <div class="mb-3">
+        <small class="text-secondary">Categoría</small>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link text-white py-1" href="#">
+                    <i class="bi bi-chevron-right me-2"></i>Pecho
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white py-1" href="#">
+                    <i class="bi bi-chevron-right me-2"></i>Espalda
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white py-1" href="#">
+                    <i class="bi bi-chevron-right me-2"></i>Brazos
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white py-1" href="#">
+                    <i class="bi bi-chevron-right me-2"></i>Piernas
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white py-1" href="#">
+                    <i class="bi bi-chevron-right me-2"></i>Hombros
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white py-1" href="#">
+                    <i class="bi bi-chevron-right me-2"></i>Cardio
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+    <!-- Equipos -->
+    <div class="mb-3">
+        <small class="text-secondary">Equipo</small>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link text-white py-1" href="#">
+                    <i class="bi bi-chevron-right me-2"></i>Mancuernas
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white py-1" href="#">
+                    <i class="bi bi-chevron-right me-2"></i>Barra
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white py-1" href="#">
+                    <i class="bi bi-chevron-right me-2"></i>Máquinas
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white py-1" href="#">
+                    <i class="bi bi-chevron-right me-2"></i>Peso Corporal
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+    <!-- Músculos -->
+    <div class="mb-3">
+        <small class="text-secondary">Músculo</small>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link text-white py-1" href="#">
+                    <i class="bi bi-chevron-right me-2"></i>Bíceps
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white py-1" href="#">
+                    <i class="bi bi-chevron-right me-2"></i>Tríceps
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white py-1" href="#">
+                    <i class="bi bi-chevron-right me-2"></i>Abdomen
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white py-1" href="#">
+                    <i class="bi bi-chevron-right me-2"></i>Glúteos
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Móvil: botón "Filtrar Ejercicios" -->
+<!-- Móvil: botón vertical fijo -->
+<div class="d-md-none position-fixed" 
+     style="top: 85px; left: 3px; z-index: 1030;">
+    <button class="btn btn-dark btn-sm" 
+            type="button" 
+            data-bs-toggle="offcanvas" 
+            data-bs-target="#sidebarOffcanvas"
+            style="writing-mode: vertical-rl; text-orientation: mixed; padding: 8px 4px;">
+        <i class="bi bi-funnel mb-1"></i>
+        Filtrar Ejercicios
+    </button>
+</div>
+
+<!-- Offcanvas para móvil -->
+<div class="offcanvas offcanvas-start bg-dark text-white" 
+     id="sidebarOffcanvas" 
+     tabindex="-1">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title text-white">
+            <i class="bi bi-funnel me-2"></i>
+            Filtrar Ejercicios
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+        <!-- Mismo contenido de filtros -->
+        <div class="mb-3">
+            <small class="text-secondary">Categoría</small>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link text-white py-1" href="#">
+                        <i class="bi bi-chevron-right me-2"></i>Pecho
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white py-1" href="#">
+                        <i class="bi bi-chevron-right me-2"></i>Espalda
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white py-1" href="#">
+                        <i class="bi bi-chevron-right me-2"></i>Brazos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white py-1" href="#">
+                        <i class="bi bi-chevron-right me-2"></i>Piernas
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white py-1" href="#">
+                        <i class="bi bi-chevron-right me-2"></i>Hombros
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white py-1" href="#">
+                        <i class="bi bi-chevron-right me-2"></i>Cardio
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="mb-3">
+            <small class="text-secondary">Equipo</small>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link text-white py-1" href="#">
+                        <i class="bi bi-chevron-right me-2"></i>Mancuernas
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white py-1" href="#">
+                        <i class="bi bi-chevron-right me-2"></i>Barra
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white py-1" href="#">
+                        <i class="bi bi-chevron-right me-2"></i>Máquinas
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white py-1" href="#">
+                        <i class="bi bi-chevron-right me-2"></i>Peso Corporal
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="mb-3">
+            <small class="text-secondary">Músculo</small>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link text-white py-1" href="#">
+                        <i class="bi bi-chevron-right me-2"></i>Bíceps
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white py-1" href="#">
+                        <i class="bi bi-chevron-right me-2"></i>Tríceps
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white py-1" href="#">
+                        <i class="bi bi-chevron-right me-2"></i>Abdomen
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white py-1" href="#">
+                        <i class="bi bi-chevron-right me-2"></i>Glúteos
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

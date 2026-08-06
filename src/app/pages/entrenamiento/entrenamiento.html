@@ -1,0 +1,222 @@
+<div class="container" style="margin-top: 95px;">
+
+  @if (cargando()) {
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary"></div>
+      <p class="mt-2 text-muted">Cargando entrenamiento...</p>
+    </div>
+  }
+
+  @if (error()) {
+    <div class="alert alert-danger">{{ error() }}</div>
+  }
+
+  @if (sesion() && !cargando()) {
+
+    <!-- CRONÓMETRO GENERAL DE LA SESIÓN -->
+    <div class="card mb-4 shadow sticky-top" style="top: 10px; z-index: 10;"
+         [class.bg-dark]="!alarmaActiva()" [class.text-white]="!alarmaActiva()"
+         [class.alarma-pulsante]="alarmaActiva()">
+      <div class="card-body text-center py-3">
+
+        @if (!alarmaActiva()) {
+          <small class="text-uppercase text-white-50">Tiempo total de la sesión</small>
+          <h1 class="mb-1 font-monospace">{{ formatearTiempo(segundosTranscurridos()) }}</h1>
+          <small class="text-warning d-block mb-2">
+            <i class="bi bi-lock-fill me-1"></i>
+            Mínimo requerido: {{ formatearTiempo(segundosMinimosSesion()) }}
+          </small>
+        } @else {
+          <i class="bi bi-alarm-fill fs-1 d-block mb-1"></i>
+          <h3 class="mb-1 fw-bold">¡SESIÓN TERMINADA!</h3>
+          <p class="mb-2">Tiempo cumplido: {{ formatearTiempo(segundosTranscurridos()) }}</p>
+          <button type="button" class="btn btn-light btn-sm" (click)="verSesion()">
+           <i class="bi bi-arrow-down-circle me-1"></i>Calificar y finalizar
+          </button>
+        }
+
+        <div class="d-flex justify-content-center gap-2 mt-2">
+          <button type="button" class="btn btn-outline-light btn-sm" (click)="bajarMinimoSesion(5)" [disabled]="!puedeBajarMinimo()">
+            -5 min
+          </button>
+          <button type="button" class="btn btn-outline-light btn-sm" (click)="subirMinimoSesion(5)">
+            +5 min
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- EJERCICIOS -->
+    <h5 class="mb-3">Ejercicios</h5>
+
+    @for (ej of sesion().ejercicios; track ej.ejercicio?._id || $index; let ejIndex = $index) {
+      <div class="card mb-4 shadow-sm" [class.border-success]="ejercicioCompletado(ejIndex)">
+
+        <div class="card-header d-flex align-items-center justify-content-between"
+             [class.bg-success-subtle]="ejercicioCompletado(ejIndex)"
+             [class.bg-light]="!ejercicioCompletado(ejIndex)">
+          <div class="d-flex align-items-center gap-3">
+            <img [src]="'http://localhost:3000' + (ej.ejercicio?.gif || ej.ejercicio?.imagen)"
+                 style="width: 55px; height: 55px; object-fit: cover; border-radius: 8px;">
+            <div>
+              <h6 class="mb-0 text-capitalize fw-bold">{{ ej.ejercicio?.nombre }}</h6>
+              <small class="text-muted text-capitalize">{{ ej.ejercicio?.musculoObjetivo }}</small>
+            </div>
+          </div>
+
+          @if (ejercicioCompletado(ejIndex)) {
+            <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Terminado</span>
+          } @else if (ejercicioEnProgreso(ejIndex)) {
+            <span class="badge bg-warning text-dark">En progreso</span>
+          } @else {
+            <span class="badge bg-secondary">Pendiente</span>
+          }
+        </div>
+
+        <div class="card-body">
+          @for (est of estadosSeries()[ejIndex]; track $index; let sIndex = $index) {
+
+            <div class="border rounded p-3 mb-2"
+                 [class.border-primary]="est.estado === 'ejecucion'"
+                 [class.border-info]="est.estado === 'descanso'"
+                 [class.bg-light]="est.estado === 'completada'">
+
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <strong>Serie {{ est.numeroSerie }}</strong>
+              </div>
+
+              <!-- ESTADO: PENDIENTE -->
+              @if (est.estado === 'pendiente') {
+                <div class="row g-2 align-items-end">
+                  <div class="col-4 col-md-2">
+                    <label class="form-label small mb-0">Peso (kg)</label>
+                    <input type="number" class="form-control form-control-sm"
+                           [value]="est.pesoObjetivo"
+                           (change)="actualizarPeso(ejIndex, sIndex, $any($event.target).value)">
+                  </div>
+                  <div class="col-4 col-md-2">
+                    <label class="form-label small mb-0">Reps</label>
+                    <input type="number" class="form-control form-control-sm"
+                           [value]="est.repsObjetivo"
+                           (change)="actualizarReps(ejIndex, sIndex, $any($event.target).value)">
+                  </div>
+                  <div class="col-4 col-md-2">
+                    <label class="form-label small mb-0">Descanso</label>
+                    <input type="number" class="form-control form-control-sm"
+                           [value]="est.descansoValor"
+                           (change)="actualizarDescansoValor(ejIndex, sIndex, $any($event.target).value)">
+                  </div>
+                  <div class="col-6 col-md-2">
+                    <label class="form-label small mb-0">Unidad</label>
+                    <select class="form-select form-select-sm"
+                            (change)="actualizarDescansoUnidad(ejIndex, sIndex, $any($event.target).value)">
+                      <option value="min" [selected]="est.descansoUnidad === 'min'">Minutos</option>
+                      <option value="seg" [selected]="est.descansoUnidad === 'seg'">Segundos</option>
+                    </select>
+                  </div>
+                  <div class="col-6 col-md-4">
+                    <button type="button" class="btn btn-primary btn-sm w-100" (click)="iniciarEjecucion(ejIndex, sIndex)">
+                      <i class="bi bi-play-fill me-1"></i>Empezar serie
+                    </button>
+                  </div>
+                </div>
+              }
+
+              <!-- ESTADO: EJECUCIÓN -->
+              @if (est.estado === 'ejecucion') {
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                  <div class="alert alert-primary py-2 mb-0 flex-grow-1">
+                    <i class="bi bi-lightning-charge-fill me-1"></i>
+                    En ejecución — {{ formatearTiempo(est.segundosEjecucion) }}
+                    <small class="d-block text-muted">{{ est.pesoObjetivo }} kg · {{ est.repsObjetivo }} reps</small>
+                  </div>
+                  <button type="button" class="btn btn-success btn-sm" (click)="terminarEjecucion(ejIndex, sIndex)">
+                    <i class="bi bi-check-lg me-1"></i>Terminé
+                  </button>
+                </div>
+              }
+
+            <!-- ESTADO: DESCANSO -->
+             @if (est.estado === 'descanso') {
+               <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+                 <div>
+                   <span class="badge bg-info text-dark mb-1">Descansando</span>
+                   <h4 class="font-monospace mb-0">{{ formatearTiempo(est.segundosDescansoRestante) }}</h4>
+                 </div>
+                 <div class="d-flex gap-2">
+                   <button type="button" class="btn btn-outline-primary btn-sm" (click)="reanudarEjecucion(ejIndex, sIndex)">
+                     <i class="bi bi-arrow-repeat me-1"></i>Reanudar
+                   </button>
+                   <button type="button" class="btn btn-outline-success btn-sm" (click)="terminarSerie(ejIndex, sIndex)">
+                     <i class="bi bi-flag-fill me-1"></i>Terminar serie
+                   </button>
+                 </div>
+               </div>
+             
+               <div class="row g-2 align-items-end mt-1">
+                 <div class="col-6">
+                   <label class="form-label small mb-0">¿Cuántas repeticiones hiciste realmente?</label>
+                   <input type="number" class="form-control form-control-sm"
+                          [value]="est.repsReales"
+                          (change)="actualizarRepsReales(ejIndex, sIndex, $any($event.target).value)">
+                 </div>
+                 <div class="col-6">
+                   <small class="text-muted">Meta original: {{ est.repsObjetivo }} reps</small>
+                 </div>
+               </div>
+             }
+
+            <!-- ESTADO: COMPLETADA -->
+              @if (est.estado === 'completada') {
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                  <div class="text-success">
+                    <i class="bi bi-check-circle-fill me-1"></i>
+                    {{ est.repsReales }} / {{ est.repsObjetivo }} reps · {{ est.pesoObjetivo }} kg — completada
+                  </div>
+                  @if (sIndex === estadosSeries()[ejIndex].length - 1) {
+                    <button type="button" class="btn btn-outline-dark btn-sm" (click)="agregarSerie(ejIndex)">
+                      <i class="bi bi-plus-lg me-1"></i>Agregar nueva serie
+                    </button>
+                  }
+                </div>
+              }
+
+            </div>
+          }
+
+          @if (ej.notas) {
+            <div class="alert alert-light border mt-2 mb-0 py-2">
+              <small class="text-muted"><i class="bi bi-sticky me-1"></i>{{ ej.notas }}</small>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- FINALIZAR -->
+    <div class="card shadow-sm" id="finalizar-card">
+      <div class="card-body">
+        <h6 class="fw-bold mb-3">¿Cómo te sentiste?</h6>
+        <div class="d-flex gap-2 flex-wrap mb-3">
+          <button type="button" class="btn btn-outline-danger btn-sm" (click)="finalizarEntrenamiento('dificil')" [disabled]="!puedeCompletar()">
+            <i class="bi bi-3-circle"></i>
+            Difícil
+          </button>
+          <button type="button" class="btn btn-outline-warning btn-sm" (click)="finalizarEntrenamiento('normal')" [disabled]="!puedeCompletar()">
+            <i class="bi bi-2-circle"></i>
+            Normal
+          </button>
+          <button type="button" class="btn btn-outline-success btn-sm" (click)="finalizarEntrenamiento('facil')" [disabled]="!puedeCompletar()">
+            <i class="bi bi-1-circle"></i>
+             Muy bien
+          </button>
+        </div>
+        @if (!puedeCompletar()) {
+          <small class="text-muted">Podrás finalizar cuando se cumpla el tiempo mínimo de la sesión.</small>
+        }
+      </div>
+    </div>
+
+  }
+
+</div>

@@ -1,0 +1,100 @@
+<div class="container mt-4">
+
+  <h2 class="mb-4">🏆 Mis Recompensas</h2>
+
+  <!-- ============================================ -->
+  <!-- ESTADO 1: INDEPENDIENTE (BLOQUEADO) -->
+  <!-- ============================================ -->
+  @if (esIndependiente()) {
+    <div class="card border-warning shadow-sm">
+      <div class="card-body text-center py-5">
+        <i class="bi bi-lock-fill fs-1 text-warning mb-3 d-block"></i>
+        <h4 class="fw-bold">Recompensas solo para Gimnasios</h4>
+        <p class="text-muted">
+          El sistema de recompensas está diseñado para miembros de gimnasios afiliados a FitApp.
+        </p>
+        <div class="alert alert-light border mt-3">
+          <strong>¿Quieres acceder a recompensas?</strong><br>
+          Contacta a tu gimnasio para que se afilie a nuestra plataforma.
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- ============================================ -->
+  <!-- ESTADO 2 Y 3: GYM (ACTIVAS O DESACTIVADAS) -->
+  <!-- ============================================ -->
+  @else {
+    
+    <!-- Saldo de puntos -->
+    @if (puntos()) {
+      <div class="card bg-primary text-white mb-4 shadow">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <div>
+            <h3 class="mb-0">{{ puntos().saldo }}</h3>
+            <small>Puntos disponibles</small>
+          </div>
+          <i class="bi bi-trophy-fill fs-1 opacity-50"></i>
+        </div>
+      </div>
+    }
+
+    @if (error()) {
+      <div class="alert alert-danger">{{ error() }}</div>
+    }
+
+    @if (cargando()) {
+      <div class="text-center py-4">
+        <div class="spinner-border text-primary"></div>
+      </div>
+    }
+
+    <!-- Lista de recompensas -->
+    <div class="row">
+      @for (rec of recompensas(); track rec._id) {
+        <div class="col-md-4 col-lg-3 mb-4">
+          <div class="card h-100 shadow-sm">
+            
+            @if (rec.imagen) {
+              <img [src]="rec.imagen" class="card-img-top" style="height: 150px; object-fit: cover;">
+            }
+
+            <div class="card-body">
+              <span class="badge bg-secondary mb-2">{{ rec.tipo | titlecase }}</span>
+              <h5 class="card-title">{{ rec.nombre }}</h5>
+              <p class="card-text text-muted small">{{ rec.descripcion }}</p>
+              
+              @if (rec.stock !== -1) {
+                <small class="text-muted d-block mb-2">Stock: {{ rec.stock }} unidades</small>
+              } @else {
+                <small class="text-muted d-block mb-2">Stock ilimitado</small>
+              }
+
+              <div class="d-flex justify-content-between align-items-center mt-3">
+                <span class="badge bg-warning text-dark fs-6">
+                  <i class="bi bi-star-fill me-1"></i>{{ rec.puntosNecesarios }}
+                </span>
+                <button class="btn btn-primary btn-sm" 
+                        (click)="canjear(rec._id, rec.puntosNecesarios)"
+                        [disabled]="(puntos()?.saldo || 0) < rec.puntosNecesarios">
+                  Canjear
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Sin recompensas -->
+    @if (recompensas().length === 0 && !cargando()) {
+      <div class="alert alert-secondary text-center py-5">
+        <i class="bi bi-gift fs-1 d-block mb-3 text-muted"></i>
+        <h5 class="text-muted">No hay recompensas disponibles</h5>
+        <p class="text-muted">Tu gimnasio aún no ha cargado recompensas.</p>
+      </div>
+    }
+
+  }
+
+</div>

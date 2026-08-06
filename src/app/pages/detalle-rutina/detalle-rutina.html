@@ -1,0 +1,144 @@
+<div class="container "  style="margin-top: 95px;">
+
+  <!-- Loading -->
+  @if (cargando()) {
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary"></div>
+    </div>
+  }
+
+  <!-- Error -->
+  @if (error()) {
+    <div class="alert alert-danger">{{ error() }}</div>
+  }
+
+  @if (rutina() && !cargando()) {
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-start mb-4">
+      <div>
+        <h2 class="mb-1">{{ rutina().nombre }}</h2>
+        <p class="text-muted mb-0">{{ rutina().descripcion || 'Sin descripción' }}</p>
+      </div>
+      <div class="d-flex gap-2">
+        <span class="badge fs-6" [class.bg-success]="rutina().activa" [class.bg-secondary]="!rutina().activa">
+          {{ rutina().activa ? 'Activa' : 'Inactiva' }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Info general -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4">
+            <small class="text-muted text-uppercase">Frecuencia</small>
+            <p class="fw-bold mb-0">{{ rutina().frecuencia | titlecase }}</p>
+          </div>
+          <div class="col-md-4">
+            <small class="text-muted text-uppercase">Días</small>
+            <p class="mb-0">
+              @for (dia of rutina().diasSemana; track dia) {
+                <span class="badge bg-light text-dark border me-1">{{ traducirDia(dia) }}</span>
+              }
+            </p>
+          </div>
+          <div class="col-md-4">
+            <small class="text-muted text-uppercase">Ejercicios</small>
+            <p class="fw-bold mb-0">{{ rutina().ejercicios.length }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="d-flex gap-2 mb-4">
+      <a class="btn btn-warning" [routerLink]="['/crear-rutina', rutina()._id]">
+        <i class="bi bi-pencil me-2"></i>Editar Rutina
+      </a>
+      <button class="btn" [class.btn-outline-success]="!rutina().activa" [class.btn-outline-secondary]="rutina().activa" (click)="toggleActiva()">
+        @if (rutina().activa) {
+          <i class="bi bi-pause-circle me-2"></i>Desactivar
+        } @else {
+          <i class="bi bi-play-circle me-2"></i>Activar
+        }
+      </button>
+      <a class="btn btn-success" style="background-color: rgb(1, 32, 11);" [routerLink]="['/ejercicios']" [queryParams]="{editarRutina: rutina()._id}">
+        <i class="bi bi-plus-circle me-2"></i>Añadir Ejercicios
+      </a>
+    </div>
+
+    <!-- Ejercicios con GIF grande -->
+    <h4 class="mb-3">Ejercicios</h4>
+
+    <div class="row">
+      @for (ej of rutina().ejercicios; track ej.ejercicio?._id || $index) {
+        <div class="col-md-6 mb-4">
+          <div class="card h-100 shadow-sm">
+            
+            <!-- GIF grande -->
+            <div class="position-relative bg-light text-center p-3">
+              <img [src]="'http://localhost:3000' + (ej.ejercicio?.gif || ej.ejercicio?.imagen)" 
+                   class="img-fluid rounded" 
+                   style="max-height: 250px; object-fit: contain;"
+                   [alt]="ej.ejercicio?.nombre">
+            </div>
+
+            <div class="card-body">
+              <h5 class="card-title text-capitalize fw-bold">{{ ej.ejercicio?.nombre }}</h5>
+              
+              <!-- Badges -->
+              <div class="mb-3">
+                <span class="badge bg-primary me-1">{{ ej.ejercicio?.categoria }}</span>
+                <span class="badge bg-info">{{ ej.ejercicio?.musculoObjetivo }}</span>
+              </div>
+
+              <!-- Series -->
+              <h6 class="fw-bold small text-muted text-uppercase">Series</h6>
+              <div class="table-responsive">
+                <table class="table table-sm table-bordered">
+                  <thead class="table-light">
+                    <tr>
+                      <th>#</th>
+                      <th>Reps</th>
+                      <th>Peso</th>
+                      <th>Descanso</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (serie of ej.series; track $index) {
+                      <tr>
+                        <td class="fw-bold">{{ serie.numeroSerie }}</td>
+                        <td>{{ serie.repeticiones }}</td>
+                        <td>{{ serie.pesoObjetivo }} kg</td>
+                        <td>{{ serie.descansoSegundos }}s</td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Notas -->
+              @if (ej.notas) {
+                <div class="alert alert-light border mt-3 mb-0">
+                  <small class="text-muted fw-bold">📝 Notas:</small>
+                  <p class="mb-0">{{ ej.notas }}</p>
+                </div>
+              } @else {
+                <p class="text-muted small mb-0 fst-italic">Sin notas</p>
+              }
+
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Volver -->
+    <div class="mt-4 mb-5">
+      <a routerLink="/rutinas" class="btn btn-outline-dark">
+        <i class="bi bi-arrow-left me-2"></i>Volver a mis rutinas
+      </a>
+    </div>
+  }
+
+</div>
