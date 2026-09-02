@@ -3,9 +3,12 @@
     <div class="col-12">
 
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold"><i class="bi bi-building me-2"></i>Admin de Gimnasio</h2>
-        <a class="btn btn-dark border-secondary" routerLink="/dashboard">
-          <i class="bi bi-arrow-left me-2"></i>Volver
+        <div>
+          <h2 class="fw-bold mb-0"><i class="bi bi-building me-2 text-danger"></i>Panel del Gym</h2>
+          <small class="text-muted">Administrando: {{ admin()?.nombres }} {{ admin()?.apellidos }}</small>
+        </div>
+        <a class="btn btn-outline-dark" routerLink="/dashboard">
+          <i class="bi bi-arrow-left me-2"></i>Salir del panel
         </a>
       </div>
 
@@ -13,114 +16,216 @@
         <div class="alert alert-danger"><i class="bi bi-exclamation-triangle me-2"></i>{{ error() }}</div>
       }
 
-      <!-- Stats -->
+      <!-- STATS -->
       <div class="row mb-4">
-        <div class="col-md-4 mb-3">
-          <div class="card bg-dark border-secondary text-center">
+        <div class="col-6 col-md-3 mb-3">
+          <div class="card border shadow-sm text-center h-100">
             <div class="card-body">
               <i class="bi bi-people fs-3 text-secondary"></i>
-              <h3 class="fw-bold mb-0 mt-2">{{ usuariosGym().length }}</h3>
-              <small class="text-muted text-uppercase">Miembros</small>
+              <h3 class="fw-bold mb-0 mt-2">{{ totalClientes() }}</h3>
+              <small class="text-muted text-uppercase">Clientes</small>
             </div>
           </div>
         </div>
-        <div class="col-md-4 mb-3">
-          <div class="card bg-dark border-secondary text-center">
+        <div class="col-6 col-md-3 mb-3">
+          <div class="card border shadow-sm text-center h-100">
             <div class="card-body">
-              <i class="bi bi-gift fs-3 text-secondary"></i>
-              <h3 class="fw-bold mb-0 mt-2">{{ recompensas().length }}</h3>
-              <small class="text-muted text-uppercase">Recompensas</small>
+              <i class="bi bi-lightning-charge fs-3 text-warning"></i>
+              <h3 class="fw-bold mb-0 mt-2">{{ clientesActivosHoy() }}</h3>
+              <small class="text-muted text-uppercase">Entrenaron hoy</small>
             </div>
           </div>
         </div>
-        <div class="col-md-4 mb-3">
-          <div class="card bg-dark border-secondary text-center">
+        <div class="col-6 col-md-3 mb-3">
+          <div class="card border shadow-sm text-center h-100">
             <div class="card-body">
-              <i class="bi bi-trophy fs-3 text-secondary"></i>
-              <h3 class="fw-bold mb-0 mt-2">{{ usuariosGym().filter(u => u.suscripcionActiva).length }}</h3>
-              <small class="text-muted text-uppercase">Suscriptos</small>
+              <i class="bi bi-check-circle fs-3 text-success"></i>
+              <h3 class="fw-bold mb-0 mt-2">{{ totalSesionesCompletadas() }}</h3>
+              <small class="text-muted text-uppercase">Sesiones</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 mb-3">
+          <div class="card border shadow-sm text-center h-100">
+            <div class="card-body">
+              <i class="bi bi-trophy fs-3 text-danger"></i>
+              <h3 class="fw-bold mb-0 mt-2">{{ puntosRepartidos() }}</h3>
+              <small class="text-muted text-uppercase">Puntos repartidos</small>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Usuarios del gym -->
-      <div class="card bg-dark border-secondary shadow-sm mb-4">
-        <div class="card-header border-secondary bg-transparent">
-          <h6 class="mb-0"><i class="bi bi-people me-2"></i>Miembros del gym</h6>
-        </div>
-        <div class="card-body p-0">
-          @if (cargando()) {
-            <div class="text-center py-4">
-              <div class="spinner-border text-light spinner-border-sm"></div>
-            </div>
-          } @else {
-            <div class="table-responsive">
-              <table class="table table-dark table-hover mb-0 align-middle">
-                <thead>
-                  <tr>
-                    <th class="text-muted small text-uppercase">Nombre</th>
-                    <th class="text-muted small text-uppercase">Email</th>
-                    <th class="text-muted small text-uppercase">Rol</th>
-                    <th class="text-muted small text-uppercase">Puntos</th>
-                    <th class="text-muted small text-uppercase">Estado</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @for (u of usuariosGym(); track u._id) {
+      <!-- NAVEGACIÓN INTERNA -->
+      <div class="d-flex gap-2 mb-4 border-bottom pb-2">
+        <button class="btn btn-sm" 
+                [class.btn-dark]="seccionActiva() === 'clientes'"
+                [class.btn-outline-secondary]="seccionActiva() !== 'clientes'"
+                (click)="volverAClientes()">
+          <i class="bi bi-people me-1"></i>Clientes
+        </button>
+        <button class="btn btn-sm"
+                [class.btn-dark]="seccionActiva() === 'recompensas'"
+                [class.btn-outline-secondary]="seccionActiva() !== 'recompensas'"
+                (click)="seccionActiva.set('recompensas')">
+          <i class="bi bi-gift me-1"></i>Recompensas
+        </button>
+        <button class="btn btn-sm"
+                [class.btn-dark]="seccionActiva() === 'estadisticas'"
+                [class.btn-outline-secondary]="seccionActiva() !== 'estadisticas'"
+                (click)="seccionActiva.set('estadisticas')">
+          <i class="bi bi-graph-up me-1"></i>Estadísticas
+        </button>
+      </div>
+
+      <!-- SECCIÓN CLIENTES -->
+      @if (seccionActiva() === 'clientes') {
+        <div class="card border shadow-sm">
+          <div class="card-header bg-white d-flex justify-content-between align-items-center">
+            <h6 class="mb-0"><i class="bi bi-people me-2"></i>Miembros del gym</h6>
+            <input type="text" 
+                   class="form-control form-control-sm" 
+                   style="width: 250px;"
+                   placeholder="Buscar cliente..."
+                   [value]="busquedaCliente()"
+                   (input)="busquedaCliente.set($any($event.target).value)">
+          </div>
+          <div class="card-body p-0">
+            @if (cargando()) {
+              <div class="text-center py-4">
+                <div class="spinner-border spinner-border-sm"></div>
+              </div>
+            } @else {
+              <div class="table-responsive">
+                <table class="table table-hover mb-0 align-middle">
+                  <thead class="table-light">
                     <tr>
-                      <td class="fw-medium">{{ u.nombres }} {{ u.apellidos }}</td>
-                      <td class="text-muted small">{{ u.email }}</td>
-                      <td>
-                        <span class="badge bg-dark border border-secondary">{{ u.rol }}</span>
-                      </td>
-                      <td class="text-warning">{{ u.puntos?.saldo ?? 0 }}</td>
-                      <td>
-                        @if (u.suscripcionActiva) {
-                          <span class="badge bg-dark border border-success text-success">Activo</span>
-                        } @else {
-                          <span class="badge bg-dark border border-secondary text-muted">Inactivo</span>
-                        }
-                      </td>
+                      <th class="text-muted small text-uppercase">Cliente</th>
+                      <th class="text-muted small text-uppercase">Email</th>
+                      <th class="text-muted small text-uppercase">Rol</th>
+                      <th class="text-muted small text-uppercase">Puntos</th>
+                      <th class="text-muted small text-uppercase">Estado</th>
+                      <th class="text-muted small text-uppercase text-end">Acción</th>
                     </tr>
-                  }
-                </tbody>
-              </table>
-            </div>
-          }
-        </div>
-      </div>
-
-      <!-- Recompensas del gym -->
-      <div class="card bg-dark border-secondary shadow-sm">
-        <div class="card-header border-secondary bg-transparent">
-          <h6 class="mb-0"><i class="bi bi-gift me-2"></i>Recompensas activas</h6>
-        </div>
-        <div class="card-body">
-          @if (recompensas().length === 0) {
-            <p class="text-muted text-center mb-0">No hay recompensas configuradas</p>
-          }
-          <div class="row">
-            @for (r of recompensas(); track r._id) {
-              <div class="col-md-6 col-lg-4 mb-3">
-                <div class="card bg-dark border-secondary h-100">
-                  <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                      <h6 class="fw-bold mb-1">{{ r.nombre }}</h6>
-                      <span class="badge bg-dark border border-warning text-warning">{{ r.costoPuntos }} pts</span>
-                    </div>
-                    <p class="text-muted small mb-2">{{ r.descripcion }}</p>
-                    <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" [checked]="r.activa">
-                      <label class="form-check-label small text-muted">Activa</label>
-                    </div>
-                  </div>
-                </div>
+                  </thead>
+                  <tbody>
+                    @for (c of clientesFiltrados(); track c._id) {
+                      <tr>
+                        <td class="fw-medium">{{ c.nombres }} {{ c.apellidos }}</td>
+                        <td class="text-muted small">{{ c.email }}</td>
+                        <td>
+                          <span class="badge bg-light text-dark border">{{ c.rol }}</span>
+                        </td>
+                        <td class="text-warning fw-bold">{{ c.puntos?.saldo ?? 0 }}</td>
+                        <td>
+                          @if (c.suscripcionActiva) {
+                            <span class="badge bg-light text-success border">Activo</span>
+                          } @else {
+                            <span class="badge bg-light text-secondary border">Inactivo</span>
+                          }
+                        </td>
+                        <td class="text-end">
+                          <button class="btn btn-outline-dark btn-sm" (click)="verCliente(c)">
+                            <i class="bi bi-eye me-1"></i>Ver progreso
+                          </button>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
               </div>
             }
           </div>
         </div>
-      </div>
+      }
+
+      <!-- SECCIÓN RECOMPENSAS -->
+      @if (seccionActiva() === 'recompensas') {
+        <div class="row">
+          <div class="col-12 mb-3">
+            <button class="btn btn-outline-dark" (click)="seccionActiva.set('clientes')">
+              <i class="bi bi-arrow-left me-2"></i>Volver
+            </button>
+          </div>
+          
+          @for (r of recompensas(); track r._id) {
+            <div class="col-md-4 col-lg-3 mb-3">
+              <div class="card border shadow-sm h-100">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h6 class="fw-bold mb-0">{{ r.nombre }}</h6>
+                    <span class="badge bg-light text-warning border">{{ r.costoPuntos }} pts</span>
+                  </div>
+                  <p class="text-muted small mb-3">{{ r.descripcion }}</p>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" 
+                           type="checkbox" 
+                           [checked]="r.activa"
+                           (change)="toggleRecompensa(r._id, !r.activa)">
+                    <label class="form-check-label small text-muted">
+                      {{ r.activa ? 'Activa' : 'Inactiva' }}
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          } @empty {
+            <div class="col-12 text-center py-5">
+              <i class="bi bi-gift fs-1 text-muted mb-3 d-block"></i>
+              <p class="text-muted">No hay recompensas configuradas para este gym.</p>
+            </div>
+          }
+        </div>
+      }
+
+      <!-- SECCIÓN ESTADÍSTICAS CLIENTE -->
+      @if (seccionActiva() === 'estadisticas' && clienteSeleccionado()) {
+        <div>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold mb-0">
+              <i class="bi bi-person-badge me-2"></i>
+              {{ clienteSeleccionado().nombres }} {{ clienteSeleccionado().apellidos }}
+            </h5>
+            <button class="btn btn-outline-dark btn-sm" (click)="volverAClientes()">
+              <i class="bi bi-arrow-left me-1"></i>Volver a clientes
+            </button>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <div class="card border shadow-sm text-center">
+                <div class="card-body">
+                  <h4 class="fw-bold text-warning">{{ clienteSeleccionado().puntos?.saldo ?? 0 }}</h4>
+                  <small class="text-muted text-uppercase">Puntos acumulados</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card border shadow-sm text-center">
+                <div class="card-body">
+                  <h4 class="fw-bold text-danger">{{ clienteSeleccionado().racha ?? 0 }}</h4>
+                  <small class="text-muted text-uppercase">Días de racha</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card border shadow-sm text-center">
+                <div class="card-body">
+                  <h4 class="fw-bold text-success">{{ clienteSeleccionado().sesionesCompletadas ?? 0 }}</h4>
+                  <small class="text-muted text-uppercase">Sesiones</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card border shadow-sm">
+            <div class="card-body text-center py-5">
+              <i class="bi bi-graph-up fs-1 text-muted mb-3 d-block"></i>
+              <p class="text-muted">Vista detallada del progreso del cliente.<br>Próximamente: gráfico de volumen y evolución.</p>
+            </div>
+          </div>
+        </div>
+      }
 
     </div>
   </div>

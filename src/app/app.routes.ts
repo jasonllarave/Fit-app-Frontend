@@ -6,6 +6,8 @@ import { Layout } from './layout/layout';
 import { Register } from './pages/register/register';
 import { Dashboard } from './pages/dashboard/dashboard';
 
+import { Landing } from './pages/landing/landing/landing';
+
 // Privadas
 import { Rutinas } from './pages/rutinas/rutinas';
 import { Sesiones } from './pages/sesiones/sesiones';
@@ -32,6 +34,7 @@ export const routes: Routes = [
      // RUTAS PÚBLICAS (sin sidebar)
      { path: 'login', component: Login },
      { path: 'register', component: Register },
+     { path: '', component: Landing },
 
      // RUTAS PRIVADAS (con sidebar + navbar)
 

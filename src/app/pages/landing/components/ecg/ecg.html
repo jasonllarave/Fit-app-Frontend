@@ -1,0 +1,50 @@
+<section class="ecg-section">
+  <div class="ecg-inner">
+    <div class="ecg-header">
+      <span class="ecg-badge"><i class="bi bi-activity"></i> Latido en vivo</span>
+      <h3 class="ecg-title">Tu progreso tiene ritmo</h3>
+      <p class="ecg-subtitle">Cada sesión deja una huella. El ECG marca tu constancia.</p>
+    </div>
+
+    <div class="ecg-stage">
+      <!-- Línea ECG animada -->
+      <svg class="ecg-svg" viewBox="0 0 800 120" preserveAspectRatio="none" aria-hidden="true">
+        <!-- grid sutil -->
+        <defs>
+          <pattern id="ecgGrid" width="40" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 20" fill="none" stroke="rgba(220,53,69,0.06)" stroke-width="0.7"/>
+          </pattern>
+          <linearGradient id="ecgGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="rgba(220,53,69,0)" />
+            <stop offset="45%" stop-color="rgba(220,53,69,0.9)" />
+            <stop offset="55%" stop-color="#ff3b4a" />
+            <stop offset="100%" stop-color="rgba(220,53,69,0)" />
+          </linearGradient>
+        </defs>
+        <rect width="800" height="120" fill="url(#ecgGrid)" />
+        <!-- sombra glow -->
+        <path class="ecg-path ecg-path-glow" d="M0 60 H140 L155 60 L165 20 L175 100 L185 12 L195 60 H260 L275 60 L285 28 L295 92 L305 60 H380 L395 60 L405 18 L415 102 L425 8 L435 60 H520 L535 60 L545 32 L555 88 L565 60 H640 L655 60 L665 22 L675 98 L685 60 H800" />
+        <!-- línea principal -->
+        <path class="ecg-path ecg-path-main" d="M0 60 H140 L155 60 L165 20 L175 100 L185 12 L195 60 H260 L275 60 L285 28 L295 92 L305 60 H380 L395 60 L405 18 L415 102 L425 8 L435 60 H520 L535 60 L545 32 L555 88 L565 60 H640 L655 60 L665 22 L675 98 L685 60 H800" />
+        <!-- punto que sigue la onda -->
+        <circle class="ecg-dot" cx="0" cy="60" r="4.5" />
+      </svg>
+
+      <!-- Pulso central que parpadea y expande onda como el logo -->
+      <div class="ecg-pulse-center">
+        <div class="pulse-ring ring1"></div>
+        <div class="pulse-ring ring2"></div>
+        <div class="pulse-ring ring3"></div>
+        <div class="pulse-core">
+          <i class="bi bi-heart-pulse-fill"></i>
+        </div>
+      </div>
+
+      <div class="ecg-labels">
+        <span class="ecg-chip"><i class="bi bi-soundwave"></i> Frecuencia activa</span>
+        <span class="ecg-chip bpm"><span class="bpm-value">142</span> BPM</span>
+        <span class="ecg-chip"><i class="bi bi-rocket-takeoff"></i> En racha</span>
+      </div>
+    </div>
+  </div>
+</section>

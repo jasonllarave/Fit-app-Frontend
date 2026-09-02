@@ -1,0 +1,139 @@
+/* Hero - padding reducido */
+.section-dark{background:#0a0a0f;color:#fff}
+.hero-section{position:relative;overflow:hidden;padding-top:68px;min-height:auto}
+.hero-grid{position:absolute;inset:0;opacity:.04;background-image:linear-gradient(rgba(219,217,209,.44) 1px,transparent 1px),linear-gradient(90deg,#f5ecec 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+.hero-glow-red{position:absolute;top:-10%;right:-5%;width:700px;height:700px;background:radial-gradient(circle,rgba(220,53,69,.15) 0%,transparent 65%);pointer-events:none}
+.hero-glow-green{position:absolute;bottom:-10%;left:-10%;width:500px;height:500px;background:radial-gradient(circle,rgba(32,201,151,.06) 0%,transparent 60%);pointer-events:none}
+.hero-container{position:relative;z-index:2;padding-top:30px;padding-bottom:40px}
+.hero-row{min-height:calc(100vh - 140px);align-items:center}
+
+.hero-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:5px 16px 5px 5px;margin-bottom:16px;backdrop-filter:blur(8px)}
+.badge-nuevo{background:linear-gradient(135deg,#dc3545,#ff6b6b);color:#fff;font-size:.68rem;font-weight:700;padding:4px 10px;border-radius:999px;margin-right:10px;letter-spacing:.3px;display:inline-flex;align-items:center}
+.badge-text{color:rgba(255,255,255,.70);font-size:.82rem}
+.hero-title{font-size:clamp(2.2rem,5vw,3.6rem);font-weight:800;line-height:1.05;margin-bottom:20px;letter-spacing:-1.5px}
+.hero-gradient{background:linear-gradient(135deg,#ff6b6b,#dc3545);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-subtitle{font-size:1.05rem;color:rgba(255,255,255,.58);max-width:480px;margin:0 auto 28px auto;line-height:1.7}
+.hero-actions{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
+@media(min-width:576px){.hero-actions{flex-direction:row;justify-content:center} }
+@media(min-width:992px){.hero-actions{justify-content:flex-start} .hero-subtitle{margin:0 0 28px 0} .hero-checks{justify-content:flex-start} }
+.hero-btn-primary{border-radius:999px;height:50px;padding:0 26px;font-weight:700;display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#dc3545,#c0392b);color:#fff;border:none;box-shadow:0 4px 15px rgba(220,53,69,.3)}
+.hero-btn-primary:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.hero-btn-ghost{border-radius:999px;height:50px;padding:0 26px;font-weight:600;display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);color:rgba(255,255,255,.9);border:1px solid rgba(255,255,255,.15)}
+.hero-btn-ghost:hover{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.22);color:#fff}
+.hero-checks{display:flex;flex-wrap:wrap;gap:16px;color:rgba(255,255,255,.42);font-size:.84rem;justify-content:center}
+.hero-checks i{color:#20c997;font-size:.95rem}
+
+/* Mockups base - COLORES ORIGINALES MUCUP */
+.mockups-container{position:relative;min-height:520px}
+.mockup-float{position:absolute;animation-timing-function:ease-in-out;animation-iteration-count:infinite}
+.mockup-1{right:0;top:10px;width:290px;z-index:3;animation:float1 7s infinite}
+.mockup-2{left:-10px;top:80px;width:240px;z-index:4;animation:float2 6s infinite}
+.mockup-3{right:10%;bottom:30px;width:210px;z-index:2;animation:float3 8s infinite}
+.mockup-4{left:15%;bottom:140px;width:190px;z-index:5;transform:rotate(-3deg);animation:float4 5s infinite}
+
+.mockup-card{border-radius:20px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.dark-card{background:rgba(18,18,22,.94);border:1px solid rgba(255,255,255,.07);backdrop-filter:blur(12px)}
+.light-card{background:#fff;color:#212529;box-shadow:0 20px 50px rgba(0,0,0,.18);border:1px solid rgba(0,0,0,.04)}
+.mockup-header{display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,.4);padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.06)}
+.mockup-brand{color:#fff;font-weight:700;font-size:.92rem;display:flex;align-items:center;gap:7px}
+.mockup-streak{
+  background:rgba(32,201,151,.12);
+  border:1px solid rgba(32,201,151,.16);
+  color:#2a9d8f;
+  font-size:.72rem;font-weight:700;padding:5px 11px;border-radius:10px;
+  display:inline-flex;align-items:center;
+  letter-spacing:.2px;
+}
+.mockup-body{padding:20px}
+.mockup-label{color:#888;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
+.mockup-title{color:#fff;font-weight:700;font-size:1.12rem}
+.mockup-tags{display:flex;gap:8px;margin-top:8px}
+.tag-light{background:rgba(255,255,255,.06);color:rgba(255,255,255,.7);font-size:.73rem;padding:4px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.06)}
+.tag-warm,.tag-warning{background:rgba(255,193,7,.12);color:#ffc107;font-size:.73rem;padding:4px 10px;border-radius:999px;border:1px solid rgba(255,193,7,.14)}
+.mockup-exercises{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.04);border-radius:14px;padding:14px;margin:16px 0 12px}
+.exercise-row{display:flex;justify-content:space-between;align-items:center;font-size:.88rem;margin-bottom:10px}
+.exercise-row:last-child{margin-bottom:0}
+.exercise-row.muted{color:rgba(255,255,255,.42)}
+.exercise-row.active{color:rgba(255,255,255,.88)}
+.exercise-row .done{color:#20c997;font-weight:600;font-size:.80rem}
+.exercise-row i{font-size:.85rem;margin-right:6px;opacity:.8}
+.mockup-btn{width:100%;background:linear-gradient(135deg,#dc3545,#c0392b);color:#fff;border:none;border-radius:999px;padding:11px;font-weight:700;font-size:.92rem;box-shadow:0 4px 15px rgba(220,53,69,.3);transition:all .2s}
+.mockup-btn:hover{filter:brightness(1.08)}
+
+.light-card-inner{padding:22px}
+.icon-box-red,.icon-box-elegant{width:42px;height:42px;background:rgba(255,138,138,.10);border:1px solid rgba(255,138,138,.16);color:#ff8a8a;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-right:12px;font-size:1.05rem}
+.small-muted{color:#888;font-size:.78rem}
+.stat-strong{color:#212529;font-weight:800;font-size:1.18rem;letter-spacing:-.02em}
+.volume-box{background:#f8f9fa;border:1px solid rgba(0,0,0,.04);border-radius:14px;padding:14px}
+.mini-progress{height:5px;background:#e9ecef;border-radius:999px;overflow:hidden}
+.progress-fill{height:100%;background:#dc3545;border-radius:999px}
+.trend{font-size:.72rem;color:#20c997;margin-top:7px;font-weight:600}
+
+.small-card-inner{padding:18px}
+.small-card-label{color:rgba(255,255,255,.5);font-size:.68rem;font-weight:600;text-transform:uppercase;margin-bottom:14px;letter-spacing:.6px;display:flex;align-items:center}
+.small-card-label i{color:#ffc107}
+.rank-row{display:flex;align-items:center;padding:7px 10px;border-radius:12px;margin-bottom:3px}
+.rank-row.highlight{background:rgba(220,53,69,.12);border:1px solid rgba(220,53,69,.10)}
+.rank-num{font-weight:700;font-size:.85rem;width:22px}
+.rank-num.gold{color:#ffc107}
+.rank-num.muted{color:rgba(255,255,255,.28)}
+.avatar{width:28px;height:28px;border-radius:50%;margin:0 8px;background:#2a2a32;border:1px solid rgba(255,255,255,.06)}
+.avatar.grad1{background:linear-gradient(135deg,#667eea,#764ba2);border:1px solid rgba(255,255,255,.08)}
+.rank-name{flex-grow:1}
+.rank-name div{color:#fff;font-size:.84rem;font-weight:600}
+.rank-pts{font-size:.78rem;font-weight:600;color:#ff6b6b}
+.rank-pts.muted{color:rgba(255,255,255,.42)}
+
+.tiny-card-inner{padding:16px}
+.fire-circle{width:32px;height:32px;background:linear-gradient(135deg,#dc3545,#ff6b6b);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;box-shadow:0 4px 12px rgba(220,53,69,.25)}
+.tiny-title{color:#212529;font-size:.84rem;font-weight:700}
+.tiny-sub{color:#888;font-size:.70rem}
+.tiny-desc{color:#666;font-size:.78rem}
+
+.hero-scroll{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);text-align:center;color:rgba(255,255,255,.28);z-index:2}
+.scroll-mouse{width:26px;height:42px;border:1px solid rgba(255,255,255,.18);border-radius:13px;margin:0 auto 6px;position:relative}
+.scroll-dot{width:4px;height:8px;background:rgba(255,255,255,.42);border-radius:2px;position:absolute;top:8px;left:50%;transform:translateX(-50%);animation:scrollBounce 2s infinite}
+
+/* Corazón pulsante - COLOR ROJO ORIGINAL */
+.heart-pulse-container{position:relative;display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:rgba(220,53,69,.12);border:1px solid rgba(220,53,69,.18);border-radius:50%}
+.heart-pulse-container i{position:relative;z-index:2;font-size:.75rem;color:#dc3545;animation:heartBeat 1.8s ease-in-out infinite}
+.heart-pulse-container::before,.heart-pulse-container::after{
+  content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:100%;height:100%;border-radius:50%;border:1px solid rgba(220,53,69,.45);opacity:0;
+  animation:heartWave 1.8s ease-out infinite;
+}
+.heart-pulse-container::after{animation-delay:.6s}
+@keyframes heartBeat{0%,100%{transform:scale(1)}15%{transform:scale(1.12)}30%{transform:scale(1)}45%{transform:scale(1.10)}60%{transform:scale(1)}}
+@keyframes heartWave{0%{transform:translate(-50%,-50%) scale(1);opacity:.45}100%{transform:translate(-50%,-50%) scale(2.6);opacity:0}}
+
+@keyframes float1{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+@keyframes float3{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes float4{0%,100%{transform:rotate(-3deg) translateY(0)}50%{transform:rotate(-3deg) translateY(-14px)}}
+@keyframes scrollBounce{0%{top:8px;opacity:1}100%{top:22px;opacity:0}}
+
+/* Responsive FIX: cards no se esconden */
+@media(max-width:991px){
+  .hero-container{padding-top:22px;padding-bottom:30px}
+  .hero-row{min-height:auto}
+  .hero-title{font-size:clamp(2rem,8vw,2.8rem)}
+  .mockups-container{
+    display:flex;flex-direction:column;align-items:center;gap:18px;
+    min-height:auto;padding:18px 0;margin-top:24px;
+  }
+  .mockup-float{
+    position:relative !important;right:auto !important;left:auto !important;
+    top:auto !important;bottom:auto !important;
+    width:90% !important;max-width:360px;margin:0 auto;
+    transform:none !important;animation:float1 6s ease-in-out infinite !important;
+  }
+  .mockup-float.mockup-4{transform:none !important}
+  .mockup-2{animation-delay:-1.2s !important}
+  .mockup-3{animation-delay:-2.4s !important}
+  .mockup-4{animation-delay:-3.6s !important}
+  .hero-scroll{display:none}
+}
+@media(max-width:576px){
+  .hero-container{padding-top:18px;padding-bottom:24px}
+  .mockup-float{max-width:320px}
+}

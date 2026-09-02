@@ -21,7 +21,7 @@ export class Navbar implements OnInit {
   ngOnInit() {
     // Releer el rol cada vez que se monta el navbar
     this.esSuperAdmin.set(this.authService.isSuperAdmin());
-    this.esAdmin.set(this.authService.isAdmin() || this.authService.isSuperAdmin());
+     this.esAdmin.set(this.authService.isAdmin());
   }
 
   logout() {

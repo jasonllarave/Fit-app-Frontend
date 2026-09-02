@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth';
+import { PlanService } from '../../services/plan.service';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +15,12 @@ import { AuthService } from '../../services/auth';
 export class Register {
 
   private authService = inject(AuthService);
+  private planService = inject(PlanService);
   private router = inject(Router);
+
+  // Form
+  nombres = ''; apellidos = ''; email = ''; password = ''; telefono = '';
+  planSlug = 'free';
 
   registerForm = new FormGroup({
     nombres: new FormControl('', [Validators.required]),
@@ -23,11 +29,13 @@ export class Register {
     password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     telefono: new FormControl(''),
     ciudad: new FormControl(''),
-    tipoUsuario: new FormControl<'gym' | 'independiente'>('independiente', [Validators.required])
+    tipoUsuario: new FormControl<'gym' | 'independiente'>('independiente', [Validators.required]),
+    planSlug: new FormControl('free')
   });
 
   errorMessage = signal('');
   cargando = signal(false);
+  planes = signal<any[]>([]);
 
   onRegister() {
     if (this.registerForm.invalid) {
@@ -46,6 +54,7 @@ export class Register {
       telefono: this.registerForm.value.telefono,
       ciudad: this.registerForm.value.ciudad,
       tipoUsuario: this.registerForm.value.tipoUsuario,
+      planSlug: this.registerForm.value.planSlug,
       rol: 'usuario'
     };
 
@@ -54,7 +63,7 @@ export class Register {
         if (res.exitoso) {
           localStorage.setItem('token', res.token);
           localStorage.setItem('user', JSON.stringify(res.usuario));
-          this.router.navigate(['/dashboard']);
+          this.authService.redirigirSegunRol();
         }
       },
       error: (err) => {

@@ -12,77 +12,80 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     
-    <!-- Links -->
     <div class="collapse navbar-collapse" id="navbarNav">
       
-      <!-- Links principales + Admin (todo junto) -->
-      <ul class="navbar-nav mx-auto">
-        
-        <li class="nav-item">
-          <a class="nav-link d-flex flex-column align-items-center px-3" routerLink="/dashboard" routerLinkActive="active">
-            <i class="bi bi-browser-safari fs-5"></i>
-            <small>Inicio</small>
-          </a>
-        </li>
+      <!-- ============================================ -->
+      <!-- NAVBAR PARA USUARIO NORMAL / ENTRENADOR      -->
+      <!-- ============================================ -->
+      @if (!esAdmin() && !esSuperAdmin()) {
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item">
+            <a class="nav-link d-flex flex-column align-items-center px-3" routerLink="/dashboard" routerLinkActive="active">
+              <i class="bi bi-browser-safari fs-5"></i><small>Inicio</small>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex flex-column align-items-center px-3" routerLink="/ejercicios" routerLinkActive="active">
+              <i class="bi bi-activity fs-5"></i><small>Ejercicios</small>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex flex-column align-items-center px-3" routerLink="/rutinas" routerLinkActive="active">
+              <i class="bi bi-clipboard-pulse fs-5"></i><small>Rutinas</small>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex flex-column align-items-center px-3" routerLink="/sesiones" routerLinkActive="active">
+              <i class="bi bi-play-circle fs-5"></i><small>Sesiones</small>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex flex-column align-items-center px-3" routerLink="/progreso" routerLinkActive="active">
+              <i class="bi bi-graph-up-arrow fs-5"></i><small>Progreso</small>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex flex-column align-items-center px-3" routerLink="/recompensas" routerLinkActive="active">
+              <i class="bi bi-sourceforge fs-5"></i><small>Logros</small>
+            </a>
+          </li>
+        </ul>
+      }
 
-        <li class="nav-item">
-          <a class="nav-link d-flex flex-column align-items-center px-3" routerLink="/ejercicios" routerLinkActive="active">
-            <i class="bi bi-activity fs-5"></i>
-            <small>Ejercicios</small>
-          </a>
-        </li>
-        
-        <li class="nav-item">
-          <a class="nav-link d-flex flex-column align-items-center px-3" routerLink="/rutinas" routerLinkActive="active">
-            <i class="bi bi-clipboard-pulse fs-5"></i>
-            <small>Rutinas</small>
-          </a>
-        </li>
-        
-        <li class="nav-item">
-          <a class="nav-link d-flex flex-column align-items-center px-3" routerLink="/sesiones" routerLinkActive="active">
-            <i class="bi bi-play-circle fs-5"></i>
-            <small>Sesiones</small>
-          </a>
-        </li>
-        
-        <li class="nav-item">
-          <a class="nav-link d-flex flex-column align-items-center px-3" routerLink="/progreso" routerLinkActive="active">
-            <i class="bi bi-graph-up-arrow fs-5"></i>
-            <small>Progreso</small>
-          </a>
-        </li>
-        
-        <li class="nav-item">
-          <a class="nav-link d-flex flex-column align-items-center px-3" routerLink="/recompensas" routerLinkActive="active">
-            <i class="bi bi-sourceforge fs-5"></i>
-            <small>Logros</small>
-          </a>
-        </li>
-
-        <!-- Solo para superadmin -->
-        @if (esSuperAdmin()) {
+      <!-- ============================================ -->
+      <!-- NAVBAR PARA SUPERADMIN                       -->
+      <!-- ============================================ -->
+      @if (esSuperAdmin()) {
+        <ul class="navbar-nav mx-auto">
           <li class="nav-item">
             <a class="nav-link d-flex flex-column align-items-center px-3" routerLink="/admin" routerLinkActive="active">
-              <i class="bi bi-shield-lock fs-5"></i>
-              <small>Admin</small>
+              <i class="bi bi-shield-lock fs-5"></i><small>Panel Admin</small>
             </a>
           </li>
-        }
-
-        <!-- Solo para admin gym o superadmin -->
-        @if (esAdmin()) {
           <li class="nav-item">
             <a class="nav-link d-flex flex-column align-items-center px-3" routerLink="/admin-gym" routerLinkActive="active">
-              <i class="bi bi-building fs-5"></i>
-              <small>Gym</small>
+              <i class="bi bi-building fs-5"></i><small>Panel Gym</small>
             </a>
           </li>
-        }
-        
-      </ul>
-      
-      <!-- Perfil dropdown a la derecha -->
+        </ul>
+      }
+
+      <!-- ============================================ -->
+      <!-- NAVBAR PARA ADMIN DE GYM                     -->
+      <!-- ============================================ -->
+      @if (esAdmin() && !esSuperAdmin()) {
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item">
+            <a class="nav-link d-flex flex-column align-items-center px-3" routerLink="/admin-gym" routerLinkActive="active">
+              <i class="bi bi-building fs-5"></i><small>Mi Gym</small>
+            </a>
+          </li>
+        </ul>
+      }
+
+      <!-- ============================================ -->
+      <!-- PERFIL DROPDOWN (siempre a la derecha)       -->
+      <!-- ============================================ -->
       <ul class="navbar-nav perfil-offset">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle d-flex flex-column align-items-center" data-bs-toggle="dropdown">
@@ -97,7 +100,9 @@
             </li>
             <li><hr class="dropdown-divider"></li>
             <li>
-              <button class="dropdown-item text-danger" (click)="logout()">Cerrar Sesión</button>
+              <button class="dropdown-item text-danger" (click)="logout()">
+                <i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión
+              </button>
             </li>
           </ul>
         </li>

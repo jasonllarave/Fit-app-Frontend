@@ -1,0 +1,78 @@
+<!-- PRECIOS INDIVIDUO -->
+<section id="precios" class="pricing-section section-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-badge elegant"><i class="bi bi-tag"></i> Planes</span>
+      <h2 class="section-title">Empezá gratis, crecé a tu ritmo</h2>
+      <p class="section-sub">Sin contratos. Cancelás cuando querés.</p>
+    </div>
+    <div class="row justify-content-center">
+      @for (plan of planesIndividuo(); track plan.slug) {
+        <div class="col-md-4 mb-4">
+          <div class="pricing-card" [class.featured]="plan.slug === 'pro'">
+            @if (plan.slug === 'pro') {
+              <div class="pricing-ribbon"><i class="bi bi-patch-check me-1"></i> Más elegido</div>
+            }
+            <div class="pricing-body">
+              <h5 class="plan-name">{{ plan.nombre }}</h5>
+              <div class="plan-price">
+                <span class="price">{{ formatearPrecio(plan.precioMensualCOP) }}</span>
+                @if (plan.precioMensualCOP > 0) {
+                  <span class="per">/mes</span>
+                }
+              </div>
+              <p class="plan-desc">{{ plan.descripcion }}</p>
+              <a class="btn pricing-btn" [class.btn-primary]="plan.slug === 'pro'" [class.btn-outline]="plan.slug !== 'pro'" routerLink="/register">
+                {{ plan.slug === 'free' ? 'Crear cuenta gratis' : 'Elegir ' + plan.nombre }}
+              </a>
+              <hr class="pricing-divider">
+              <ul class="feature-list">
+                <li><i class="bi bi-check2"></i>{{ plan.maxRutinas === 999 ? 'Rutinas ilimitadas' : plan.maxRutinas + ' rutinas' }}</li>
+                @for (f of plan.features.slice(0,3); track f) {
+                  <li><i class="bi bi-check2"></i>{{ f }}</li>
+                }
+              </ul>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- PRECIOS GYM -->
+<section class="pricing-section section-light alt-bg">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-badge elegant dark"><i class="bi bi-shop"></i> Gimnasios</span>
+      <h2 class="section-title">Tu gym también puede crecer</h2>
+      <p class="section-sub">Probá 7 días gratis. Sin compromiso.</p>
+    </div>
+    <div class="row justify-content-center">
+      @for (plan of planesGym(); track plan.slug) {
+        <div class="col-md-4 mb-4">
+          <div class="pricing-card" [class.featured-dark]="plan.slug === 'growth'">
+            @if (plan.slug === 'growth') {
+              <div class="pricing-ribbon dark-ribbon"><i class="bi bi-award me-1"></i> Recomendado</div>
+            }
+            <div class="pricing-body">
+              <h5 class="plan-name">{{ plan.nombre }}</h5>
+              <div class="plan-price">
+                <span class="price">${{ plan.precioMensualCOP.toLocaleString('es-CO') }}</span>
+                <span class="per">/mes</span>
+              </div>
+              <p class="plan-desc">{{ plan.descripcion }}</p>
+              <a class="btn btn-dark pricing-btn" routerLink="/register-gym">Probar 7 días gratis</a>
+              <hr class="pricing-divider">
+              <ul class="feature-list">
+                <li><i class="bi bi-person-heart"></i>Hasta {{ plan.maxMiembros }} miembros</li>
+                <li><i class="bi bi-person-workspace"></i>{{ plan.maxEntrenadores }} entrenadores</li>
+                <li><i class="bi bi-gem"></i>Recompensas propias</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

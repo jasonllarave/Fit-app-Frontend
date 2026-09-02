@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -11,13 +12,19 @@ export class AuthService {
 
   private http = inject(HttpClient);
   private apiUrl = environment.apiUrl;
+  private router = inject(Router);
 
   login(email: string, password: string): Observable<any>{
     return this.http.post(`${this.apiUrl}/auth/login`, {email, password});
+   
   }
 
   register(datos: any): Observable<any>{
     return this.http.post(`${this.apiUrl}/auth/register`, datos);
+  }
+
+  registerGym(datos: any): Observable<any> { // esto es para registrarse segun el (plan)
+    return this.http.post(`${this.apiUrl}/auth/register-gym`, datos);
   }
 
   // Borrar (logout)
@@ -93,6 +100,13 @@ export class AuthService {
   }
 
   
+  // SUPERADMIN: estadísticas globales de la plataforma (gyms, usuarios, sesiones, puntos)
+  
+  traerEstadisticasGlobales(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/users/estadisticas`);
+  }
+
+  
   // SUPERADMIN: cambiar rol de usuario
   
   actualizarRolUsuario(userId: string, rol: string): Observable<any> {
@@ -107,5 +121,26 @@ export class AuthService {
     return this.http.get(`${this.apiUrl}/users/gym/${user?.gymId}`);
   }
 
-
+  redirigirSegunRol(): void {
+  const user = this.getUser();
+  if (!user) {
+    this.router.navigate(['/login']);
+    return;
+  }
+  
+  if (user.rol === 'superadmin') {
+    this.router.navigate(['/admin']);
+  } else if (user.rol === 'admin' && user.tipoUsuario === 'gym') {
+    this.router.navigate(['/admin-gym']);
+  } else {
+    this.router.navigate(['/dashboard']);
+  }
 }
+
+
+
+
+  
+}
+
+

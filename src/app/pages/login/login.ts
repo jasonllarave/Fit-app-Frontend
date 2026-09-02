@@ -33,8 +33,19 @@ export class Login {
         if (res.exitoso) {
           localStorage.setItem('token', res.token);
           localStorage.setItem('user', JSON.stringify(res.usuario)); //JSON.stringify convierte objeto → string para guardar en localStorage.
+          this.authService.redirigirSegunRol();
           this.errorMessage.set(''); // limpia error si habia, errorMessage() tiene texto de error
-          this.router.navigate(['/dashboard']);
+          // Después de guardar el usuario en localStorage
+          const user = res.usuario || res.datos;
+          // Redirigir según rol
+          if (user.rol === 'superadmin') {
+            this.router.navigate(['/admin']);
+          } else if (user.rol === 'admin') {
+            this.router.navigate(['/admin-gym']);
+          } else {
+            this.router.navigate(['/dashboard']);
+          }
+          
         }
       },
       error: (err) => {

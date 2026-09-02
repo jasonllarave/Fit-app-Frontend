@@ -1,0 +1,11 @@
+<div class="film-strip">
+  <div class="film-track">
+    @for (img of images(); track $index) {
+      <div class="film-frame">
+        <img [src]="img" [alt]="'foto ' + $index" loading="lazy" (error)="$event.target.style.display='none'" />
+      </div>
+    }
+  </div>
+  <div class="film-fade film-fade-left"></div>
+  <div class="film-fade film-fade-right"></div>
+</div>

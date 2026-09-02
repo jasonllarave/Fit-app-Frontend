@@ -1,0 +1,84 @@
+<section class="progreso-section section-light">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-5 order-lg-2 mb-5 mb-lg-0">
+        <div class="progreso-card reveal-right">
+          <div class="progreso-card-header">
+            <span><i class="bi bi-activity me-2"></i>Tu evolución</span>
+            <span class="progreso-pill">+12% este mes</span>
+          </div>
+          <div class="progreso-card-body">
+            <div class="row text-center mb-4">
+              <div class="col-4">
+                <h4 class="stat-dark">48</h4>
+                <small class="stat-label">Sesiones</small>
+              </div>
+              <div class="col-4">
+                <h4 class="stat-dark">15</h4>
+                <small class="stat-label">Días racha</small>
+              </div>
+              <div class="col-4">
+                <h4 class="stat-dark">2.4k</h4>
+                <small class="stat-label">Puntos</small>
+              </div>
+            </div>
+            <div class="volume-card">
+              <div class="d-flex justify-content-between mb-1"><span class="fw-semibold">Press banca</span><span class="fw-bold">85 kg</span></div>
+              <div class="progress progreso-progress"><div class="progress-bar" style="width:85%"></div></div>
+              <div class="d-flex justify-content-between small"><span class="text-muted">Inicio: 60 kg</span><span class="fw-semibold" style="color:#0a0a0f">+42% · en racha</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-7 order-lg-1">
+        <div class="reveal-left">
+          <span class="progreso-badge"><i class="bi bi-gem"></i> Progreso real</span>
+          <h2 class="progreso-title">Mirá cómo crecés,<br>sesión a sesión</h2>
+          <p class="progreso-desc">
+            Cada repetición cuenta. Tu volumen, tus récords personales y tu constancia visualizados en un solo lugar.
+          </p>
+          <div class="d-flex flex-column gap-4">
+            <div class="feature-row">
+              <div class="feature-icon elegant"><i class="bi bi-graph-up"></i></div>
+              <div>
+                <h6 class="feature-title">Récords personales automáticos</h6>
+                <p class="feature-desc">La app detecta cuando superás tu marca y te lo celebra.</p>
+              </div>
+            </div>
+            <div class="feature-row">
+              <div class="feature-icon elegant"><i class="bi bi-lightning-charge"></i></div>
+              <div>
+                <h6 class="feature-title">Rachas que motivan</h6>
+                <p class="feature-desc">Mantené tu cadena de días activos y ganá puntos por disciplina.</p>
+              </div>
+            </div>
+            <div class="feature-row">
+              <div class="feature-icon elegant"><i class="bi bi-camera"></i></div>
+              <div>
+                <h6 class="feature-title">Fotos de progreso</h6>
+                <p class="feature-desc">Compará tu transformación mes a mes sin salir de la app.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Galería técnica: tira fotográfica profesional centrada, no encajonada en la card -->
+    <div class="film-gallery-wrap reveal-up">
+      <div class="gallery-label"><span class="label-line"></span><i class="bi bi-collection-play me-2"></i> Biblioteca de movimientos — 300+ ejercicios en gif <span class="label-line"></span></div>
+      <div class="mini-film">
+        <div class="mini-track">
+          @for (gif of gifCollage(); track $index) {
+            <div class="mini-frame"><img [src]="gif" [alt]="'ej ' + $index" loading="lazy" /></div>
+          }
+          @for (gif of gifCollage(); track $index) {
+            <div class="mini-frame"><img [src]="gif" [alt]="'ej ' + $index" loading="lazy" /></div>
+          }
+        </div>
+        <div class="mini-fade"></div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -30,4 +30,14 @@ export class RecompensaService {
   crearRecompensa(datos: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/recompensas`, datos);
   }
+
+  // Editar o activar/desactivar una recompensa (admin del gym / superadmin)
+  actualizarRecompensa(id: string, datos: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/recompensas/${id}`, datos);
+  }
+
+  // Eliminar una recompensa (admin del gym / superadmin)
+  eliminarRecompensa(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/recompensas/${id}`);
+  }
 }
