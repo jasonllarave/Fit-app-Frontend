@@ -2,6 +2,7 @@ import { Component, signal, inject, OnInit, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, ActivatedRoute } from '@angular/router';
 import { SesionService } from '../../services/sesion';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-sesiones',
@@ -20,6 +21,8 @@ export class Sesiones implements OnInit {
   sesionesEnCurso = signal<any[]>([]);
   cargando = signal(false);
   error = signal('');
+
+  mediaUrl = environment.mediaUrl;
 
   // Banner de éxito al volver desde entrenamiento.ts
   mensajeExito = signal('');

@@ -96,10 +96,10 @@
               <div class="d-flex gap-2 mt-1 overflow-auto pb-2">
                 @for (ej of rutina.ejercicios; track ej.ejercicio?._id || $index) {
                   <div class="flex-shrink-0 text-center" style="width: 70px;">
-                    <img [src]="'http://localhost:3000' + (ej.ejercicio?.gif || ej.ejercicio?.imagen)" 
-                         class="rounded border" 
-                         style="width: 60px; height: 60px; object-fit: cover;"
-                         [title]="ej.ejercicio?.nombre">
+                    <img [src]="mediaUrl + (ej.ejercicio?.gif || ej.ejercicio?.imagen)" 
+                          class="rounded border" 
+                          style="width: 60px; height: 60px; object-fit: cover;"
+                          [title]="ej.ejercicio?.nombre">
                     <small class="d-block text-truncate text-muted" style="font-size: 0.65rem;">
                       {{ ej.ejercicio?.nombre }}
                     </small>

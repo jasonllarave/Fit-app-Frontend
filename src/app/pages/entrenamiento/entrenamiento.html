@@ -56,8 +56,8 @@
              [class.bg-success-subtle]="ejercicioCompletado(ejIndex)"
              [class.bg-light]="!ejercicioCompletado(ejIndex)">
           <div class="d-flex align-items-center gap-3">
-            <img [src]="'http://localhost:3000' + (ej.ejercicio?.gif || ej.ejercicio?.imagen)"
-                 style="width: 55px; height: 55px; object-fit: cover; border-radius: 8px;">
+            <img [src]="mediaUrl + (ej.ejercicio?.gif || ej.ejercicio?.imagen)"
+                  style="width: 55px; height: 55px; object-fit: cover; border-radius: 8px;">
             <div>
               <h6 class="mb-0 text-capitalize fw-bold">{{ ej.ejercicio?.nombre }}</h6>
               <small class="text-muted text-capitalize">{{ ej.ejercicio?.musculoObjetivo }}</small>

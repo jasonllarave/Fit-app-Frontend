@@ -2,6 +2,7 @@ import { Component, signal, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { RutinaService } from '../../services/rutina';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-detalle-rutina',
@@ -19,6 +20,8 @@ export class DetalleRutina implements OnInit {
   rutina = signal<any>(null);
   cargando = signal(false);
   error = signal('');
+
+  mediaUrl = environment.mediaUrl;
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');

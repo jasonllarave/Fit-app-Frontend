@@ -77,10 +77,10 @@
             
             <!-- GIF grande -->
             <div class="position-relative bg-light text-center p-3">
-              <img [src]="'http://localhost:3000' + (ej.ejercicio?.gif || ej.ejercicio?.imagen)" 
-                   class="img-fluid rounded" 
-                   style="max-height: 250px; object-fit: contain;"
-                   [alt]="ej.ejercicio?.nombre">
+              <img [src]="mediaUrl + (ej.ejercicio?.gif || ej.ejercicio?.imagen)" 
+                    class="img-fluid rounded" 
+                    style="max-height: 250px; object-fit: contain;"
+                    [alt]="ej.ejercicio?.nombre">
             </div>
 
             <div class="card-body">

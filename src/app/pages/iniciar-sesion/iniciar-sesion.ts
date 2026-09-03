@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { RutinaService } from '../../services/rutina';
 import { SesionService } from '../../services/sesion';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-iniciar-sesion',
@@ -23,6 +24,8 @@ export class IniciarSesion implements OnInit {
   error = signal('');
   bloqueado = signal(false);
   mensajeBloqueo = signal('');
+
+  mediaUrl = environment.mediaUrl;
 
   // Anti-trampa: tiempos mínimos
   readonly DURACION_MINIMA_MINUTOS = 15;      // Mínimo 15 min de entrenamiento

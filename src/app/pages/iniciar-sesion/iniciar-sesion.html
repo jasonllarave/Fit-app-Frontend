@@ -42,10 +42,10 @@
         @for (ej of rutina().ejercicios; track ej.ejercicio?._id || $index) {
           <div class="col-6 col-md-3 mb-3">
             <div class="card h-100 text-center">
-              <img [src]="'http://localhost:3000' + (ej.ejercicio?.gif || ej.ejercicio?.imagen)"
-                   class="card-img-top"
-                   style="height: 100px; object-fit: cover;"
-                   [alt]="ej.ejercicio?.nombre">
+              <img [src]="mediaUrl + (ej.ejercicio?.gif || ej.ejercicio?.imagen)"
+                    class="card-img-top"
+                    style="height: 100px; object-fit: cover;"
+                    [alt]="ej.ejercicio?.nombre">
               <div class="card-body p-2">
                 <small class="text-capitalize d-block text-truncate">{{ ej.ejercicio?.nombre }}</small>
                 <small class="text-muted">{{ ej.series.length }} series</small>

@@ -123,7 +123,7 @@
                     @if (s.ejercicios?.length > 0) {
                       <div class="d-flex gap-2 mb-3 overflow-auto pb-1">
                         @for (ej of s.ejercicios; track $index) {
-                          <img [src]="'http://localhost:3000' + (ej.ejercicio?.gif || ej.ejercicio?.imagen)"
+                          <img [src]="mediaUrl + (ej.ejercicio?.gif || ej.ejercicio?.imagen)"
                                class="rounded border flex-shrink-0"
                                style="width: 50px; height: 50px; object-fit: cover;"
                                [title]="ej.ejercicio?.nombre">
@@ -211,7 +211,7 @@
 
         @for (ej of sesionSeleccionada().ejercicios; track $index) {
           <div class="d-flex align-items-center gap-2 mb-2 mt-3">
-            <img [src]="'http://localhost:3000' + (ej.ejercicio?.gif || ej.ejercicio?.imagen)"
+            <img [src]="mediaUrl + (ej.ejercicio?.gif || ej.ejercicio?.imagen)"
                  style="width: 45px; height: 45px; object-fit: cover; border-radius: 8px;">
             <h6 class="mb-0 text-capitalize fw-bold">{{ ej.ejercicio?.nombre }}</h6>
           </div>
@@ -260,7 +260,7 @@
 
         @for (item of resumenSemanaSeleccionada().ejercicios; track item.ejercicio?._id) {
           <div class="d-flex align-items-center gap-2 mb-2 mt-3">
-            <img [src]="'http://localhost:3000' + (item.ejercicio?.gif || item.ejercicio?.imagen)"
+            <img [src]="mediaUrl + (item.ejercicio?.gif || item.ejercicio?.imagen)"
                  style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;">
             <div>
               <h6 class="mb-0 text-capitalize fw-bold">{{ item.ejercicio?.nombre }}</h6>

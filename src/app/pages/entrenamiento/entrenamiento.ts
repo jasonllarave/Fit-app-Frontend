@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SesionService } from '../../services/sesion';
 import { RecompensaService } from '../../services/recompensa';
+import { environment } from '../../../environments/environment';
 
 // ============================================
 // ESTADO DE CADA SERIE (vive solo en el frontend mientras entrenás)
@@ -36,6 +37,8 @@ export class Entrenamiento implements OnInit, OnDestroy {
   sesion = signal<any>(null);
   cargando = signal(false);
   error = signal('');
+
+  mediaUrl = environment.mediaUrl;
 
   // ============================================
   // CRONÓMETRO GENERAL DE LA SESIÓN

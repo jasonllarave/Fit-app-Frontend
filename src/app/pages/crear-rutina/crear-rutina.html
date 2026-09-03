@@ -85,8 +85,8 @@
           
           <!-- Info del ejercicio -->
           <div class="d-flex align-items-center gap-3">
-            <img [src]="'http://localhost:3000' + (ej.gif || ej.imagen)" 
-                 style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+            <img [src]="mediaUrl + (ej.gif || ej.imagen)" 
+                  style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
             <div>
               <h6 class="mb-0 text-capitalize fw-bold">{{ ej.nombre }}</h6>
               <small class="text-muted text-capitalize">{{ ej.musculoObjetivo }}</small>

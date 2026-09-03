@@ -7,6 +7,7 @@ import { FiltrosSidebar } from '../../components/filtros-sidebar/filtros-sidebar
 //Servicios
 import { EjercicioService } from '../../services/ejercicio';
 import { RutinaService } from '../../services/rutina';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-ejercicios',
@@ -60,6 +61,8 @@ export class Ejercicios implements OnInit {
   // Si es null, estamos creando una rutina nueva
   //  detectar si viene de editar:
   rutinaEnEdicion = signal<string | null>(null);
+
+  mediaUrl = environment.mediaUrl;
 
   //  PASO 4: Diccionario de traducciones (aquí va)
   nombresLegibles: { [key: string]: string } = {

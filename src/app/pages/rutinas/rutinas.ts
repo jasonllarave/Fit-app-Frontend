@@ -2,6 +2,7 @@ import { Component, signal, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { RutinaService } from '../../services/rutina';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-rutinas',
@@ -19,6 +20,8 @@ export class Rutinas {
   cargando = signal(false);
   error = signal('');
   diaFiltro = signal('');
+
+  mediaUrl = environment.mediaUrl;
 
   dias = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
 

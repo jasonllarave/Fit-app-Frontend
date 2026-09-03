@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { RutinaService } from '../../services/rutina';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-crear-rutina',
@@ -39,6 +40,8 @@ export class CrearRutina {
   exito = signal(false);
   cargando = signal(false);
   cargandoRutina = signal(false);
+
+  mediaUrl = environment.mediaUrl;
 
   ngOnInit() {
     // Revisar si hay ID en la URL (modo edición)
