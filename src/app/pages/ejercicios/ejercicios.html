@@ -18,7 +18,7 @@
           <h2 class="fw-bold mb-1 mt-2" style="letter-spacing:-.02em">Catálogo de Ejercicios</h2>
           <small class="text-muted">Explora +2.400 movimientos con GIF real. Filtra, previsualiza y añade a tu rutina.</small>
         </div>
-        <div class="d-flex align-items-center gap-2 text-muted" style="font-size:.78rem"><span class="card-pulse-dot"></span> {{ ejerciciosFiltrados().length }} resultados</div>
+        <div class="d-flex align-items-center gap-2 pulse-text" style="font-size:.78rem;color:#dc3545;font-weight:700">{{ ejerciciosFiltrados().length }} resultados</div>
       </div>
       
       @if (cargando()) {
@@ -122,9 +122,9 @@
               <div class="p-3">
                 <h6 class="ej-title text-capitalize mb-1">{{ ej.nombre }}</h6>
                 <div class="d-flex flex-wrap gap-2 align-items-center">
-                  <span class="badge-cat"><i class="bi bi-lightning-charge-fill me-1"></i>{{ traducir(ej.categoria) }}</span>
+                  <span class="badge-cat"><i class="bi bi-person-arms-up me-1"></i>{{ traducir(ej.categoria) }}</span>
                   <span class="small text-muted d-flex align-items-center gap-1" style="font-size:.78rem">
-                    <i class="bi bi-bullseye" style="color:#dc3545"></i>{{ traducir(ej.musculoObjetivo) }}
+                    <i class="bi bi-heart-pulse" style="color:#dc3545;font-size:.95rem"></i>{{ traducir(ej.musculoObjetivo) }}
                   </span>
                 </div>
               </div>
@@ -161,7 +161,7 @@
               </button>
             </div>
             <div class="text-center pb-3">
-              <small class="text-muted d-inline-flex align-items-center gap-1" style="font-size:.72rem"><span class="card-pulse-dot" style="width:6px;height:6px"></span> Se guarda y te lleva a crear rutina</small>
+              <small class="text-muted d-inline-flex align-items-center gap-1" style="font-size:.72rem">Se guarda y te lleva a crear rutina</small>
             </div>
           </div>
         </div>

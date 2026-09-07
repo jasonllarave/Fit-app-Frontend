@@ -10,7 +10,7 @@
 
   <div class="d-flex align-items-center gap-2 mb-2">
     <span class="ses-badge"><i class="bi bi-heart-pulse-fill"></i> Historial</span>
-    <span class="d-inline-flex align-items-center gap-1 text-muted" style="font-size:.76rem"><span class="card-pulse-dot" style="width:6px;height:6px"></span> LIVE</span>
+    <span class="d-inline-flex align-items-center gap-1 pulse-text" style="font-size:.76rem;color:#dc3545;font-weight:700">LIVE</span>
   </div>
   <h2 class="fw-bold mb-1" style="letter-spacing:-.02em">Historial de Entrenamientos</h2>
   <p class="text-muted mb-4" style="font-size:.92rem">Tus sesiones con pulso rojo. Filtra por semana y revive tu progreso.</p>
@@ -54,7 +54,7 @@
   }
 
   <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-    <h5 class="fw-bold mb-0 d-flex align-items-center gap-2">Completados <span class="card-pulse-dot"></span></h5>
+    <h5 class="fw-bold mb-0 d-flex align-items-center gap-2"><span class="pulse-text" style="color:#dc3545">Completados</span></h5>
     @if (opcionesSemanas().length > 0) {
       <select class="form-select form-select-sm w-auto" style="border-radius:999px"
               (change)="filtrarPorSemana($any($event.target).value)">
@@ -165,7 +165,6 @@
           <div class="d-flex align-items-center gap-2 mb-2 mt-3">
             <img [src]="mediaUrl + (ej.ejercicio?.gif || ej.ejercicio?.imagen)" style="width: 48px; height: 48px; object-fit: cover; border-radius: 10px;border:1px solid rgba(0,0,0,.06)">
             <h6 class="mb-0 text-capitalize fw-bold">{{ ej.ejercicio?.nombre }}</h6>
-            <span class="ms-auto card-pulse-dot"></span>
           </div>
           <div class="table-responsive">
             <table class="table table-sm">

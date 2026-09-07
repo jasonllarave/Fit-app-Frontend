@@ -70,8 +70,7 @@
     @if (rutinasHoy().length > 0) {
       <div class="d-flex align-items-center gap-2 mb-3">
         <h4 class="fw-bold mb-0" style="font-size:1.15rem">Rutinas de hoy</h4>
-        <span class="card-pulse-dot"></span>
-        <small class="text-muted">{{ rutinasHoy().length }} programada(s)</small>
+        <small class="pulse-text" style="color:#dc3545;font-weight:700;font-size:.82rem">{{ rutinasHoy().length }} programada(s)</small>
       </div>
       <div class="row g-3 mb-4">
         @for (rutina of rutinasHoy(); track rutina._id) {
@@ -80,7 +79,7 @@
               <div class="p-3">
                 <div class="d-flex justify-content-between align-items-start mb-2">
                   <h6 class="fw-bold mb-0" style="font-size:.96rem">{{ rutina.nombre }}</h6>
-                  <span class="badge rounded-pill" style="background:rgba(25,135,84,.12);color:#198754;border:1px solid rgba(25,135,84,.14);font-size:.70rem"><span class="d-inline-block me-1" style="width:6px;height:6px;background:#198754;border-radius:50%;box-shadow:0 0 6px #198754;animation: pulseHeart 1.6s infinite"></span>Activa</span>
+                  <span class="pulse-text" style="color:#198754;font-weight:800;font-size:.78rem;letter-spacing:.3px">Activa</span>
                 </div>
                 <p class="text-muted small mb-2" style="font-size:.84rem">{{ rutina.descripcion || 'Sin descripción' }}</p>
                 <div class="d-flex flex-wrap gap-1 mb-2">

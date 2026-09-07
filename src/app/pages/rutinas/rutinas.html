@@ -93,7 +93,7 @@
           @if (rutina.ejercicios?.length > 0) {
             <div class="px-3 pb-2">
               <small class="text-muted text-uppercase fw-bold d-flex align-items-center gap-1" style="font-size:.68rem;letter-spacing:.3px">
-                <span class="card-pulse-dot" style="width:6px;height:6px"></span> Ejercicios ({{ rutina.ejercicios.length }})
+                Ejercicios ({{ rutina.ejercicios.length }})
               </small>
               <div class="d-flex gap-2 mt-2 overflow-auto pb-2" style="scrollbar-width:thin">
                 @for (ej of rutina.ejercicios; track ej.ejercicio?._id || $index) {
