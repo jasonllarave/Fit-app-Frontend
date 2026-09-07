@@ -1,59 +1,51 @@
-<div class="container " style="margin-top: 105px;">
+<div class="page-wrap">
+<div class="container" style="max-width:1100px">
 
-  <!-- Banner de éxito -->
   @if (mensajeExito()) {
-    <div class="alert alert-success d-flex justify-content-between align-items-center">
-      <div>
-        <i class="bi bi-check-circle-fill me-2"></i>
-        {{ mensajeExito() }} — ganaste <strong>{{ puntosGanados() }} puntos</strong>
-      </div>
+    <div class="alert border-0 d-flex align-items-center gap-2" style="background:rgba(25,135,84,.10);color:#146c43;border-radius:14px;border:1px solid rgba(25,135,84,.14)">
+      <i class="bi bi-check-circle-fill"></i>
+      {{ mensajeExito() }} — ganaste <strong>{{ puntosGanados() }} puntos</strong>
     </div>
   }
 
-  <h2 class="mb-4">Historial de Entrenamientos</h2>
+  <div class="d-flex align-items-center gap-2 mb-2">
+    <span class="ses-badge"><i class="bi bi-heart-pulse-fill"></i> Historial</span>
+    <span class="d-inline-flex align-items-center gap-1 text-muted" style="font-size:.76rem"><span class="card-pulse-dot" style="width:6px;height:6px"></span> LIVE</span>
+  </div>
+  <h2 class="fw-bold mb-1" style="letter-spacing:-.02em">Historial de Entrenamientos</h2>
+  <p class="text-muted mb-4" style="font-size:.92rem">Tus sesiones con pulso rojo. Filtra por semana y revive tu progreso.</p>
 
   @if (error()) {
-    <div class="alert alert-danger">{{ error() }}</div>
+    <div class="alert border-0" style="background:rgba(220,53,69,.10);color:#b02a37;border-radius:14px">{{ error() }}</div>
   }
 
   @if (cargando()) {
-    <div class="text-center py-5">
-      <div class="spinner-border text-primary"></div>
-    </div>
+    <div class="text-center py-5"><div class="spinner-border" style="color:#dc3545"></div></div>
   }
 
-  <!-- SESIONES EN CURSO -->
   @if (sesionesEnCurso().length > 0) {
-    <h5 class="mb-3 text-warning">
-      <i class="bi bi-exclamation-circle me-1"></i>Entrenamientos sin terminar
-    </h5>
-    <div class="row mb-4">
+    <h5 class="fw-bold mb-3 d-flex align-items-center gap-2"><span style="width:8px;height:8px;background:#ffc107;border-radius:50%;box-shadow:0 0 8px #ffc107;animation: pulseHeart 1.6s infinite"></span> Entrenamientos sin terminar</h5>
+    <div class="row g-3 mb-4">
       @for (s of sesionesEnCurso(); track s._id) {
-        <div class="col-md-6 mb-3">
-          <div class="card border-warning shadow-sm">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-start mb-2">
-                <h6 class="fw-bold mb-0">{{ s.rutina?.nombre || 'Rutina' }}</h6>
-                <small class="text-muted">{{ formatearFecha(s.fecha) }}</small>
-              </div>
-
-              <small class="text-muted d-block mb-2">Ejercicios de esta rutina:</small>
-              <div class="d-flex flex-wrap gap-1 mb-3">
-                @for (ej of s.ejercicios; track $index) {
-                  <span class="badge bg-light text-dark border text-capitalize">
-                    {{ ej.ejercicio?.nombre }}
-                  </span>
-                }
-              </div>
-
-              <div class="d-flex gap-2">
-                <a class="btn btn-dark btn-sm flex-fill" [routerLink]="['/entrenamiento', s._id]">
-                  <i class="bi bi-play-fill me-1"></i>Continuar
-                </a>
-                <button type="button" class="btn btn-outline-danger btn-sm" (click)="descartarSesion(s._id)">
-                  <i class="bi bi-trash"></i>
-                </button>
-              </div>
+        <div class="col-md-6">
+          <div class="card-fit p-3" style="border-color:rgba(255,193,7,.22)">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <h6 class="fw-bold mb-0">{{ s.rutina?.nombre || 'Rutina' }}</h6>
+              <small class="text-muted">{{ formatearFecha(s.fecha) }}</small>
+            </div>
+            <small class="text-muted d-block mb-2">Ejercicios de esta rutina:</small>
+            <div class="d-flex flex-wrap gap-1 mb-3">
+              @for (ej of s.ejercicios; track $index) {
+                <span class="badge rounded-pill" style="background:#fff;color:#6c757d;border:1px solid rgba(0,0,0,.08);font-size:.72rem">{{ ej.ejercicio?.nombre }}</span>
+              }
+            </div>
+            <div class="d-flex gap-2">
+              <a class="btn btn-fit-primary btn-sm flex-fill" style="border-radius:999px" [routerLink]="['/entrenamiento', s._id]">
+                <i class="bi bi-play-fill me-1"></i>Continuar
+              </a>
+              <button type="button" class="btn btn-outline-danger btn-sm" style="border-radius:999px" (click)="descartarSesion(s._id)">
+                <i class="bi bi-trash"></i>
+              </button>
             </div>
           </div>
         </div>
@@ -61,12 +53,10 @@
     </div>
   }
 
-  <!-- SESIONES COMPLETADAS -->
   <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-    <h5 class="mb-0">Completados</h5>
-
+    <h5 class="fw-bold mb-0 d-flex align-items-center gap-2">Completados <span class="card-pulse-dot"></span></h5>
     @if (opcionesSemanas().length > 0) {
-      <select class="form-select form-select-sm w-auto"
+      <select class="form-select form-select-sm w-auto" style="border-radius:999px"
               (change)="filtrarPorSemana($any($event.target).value)">
         <option value="">Todas las semanas</option>
         @for (op of opcionesSemanas(); track op.clave) {
@@ -77,97 +67,76 @@
   </div>
 
   @if (sesiones().length === 0 && !cargando()) {
-    <div class="alert alert-secondary text-center py-5">
-      <i class="bi bi-calendar-x fs-1 d-block mb-3 text-muted"></i>
-      <h5 class="text-muted">Aún no tienes entrenamientos completados</h5>
-      <a routerLink="/rutinas" class="btn btn-dark mt-2">
+    <div class="card-fit text-center py-5">
+      <div style="width:56px;height:56px;border-radius:14px;background:rgba(220,53,69,.08);border:1px solid rgba(220,53,69,.12);color:#dc3545;display:flex;align-items:center;justify-content:center;margin:0 auto 14px"><i class="bi bi-calendar-x fs-4"></i></div>
+      <h5 class="fw-bold">Aún no tienes entrenamientos completados</h5>
+      <a routerLink="/rutinas" class="btn btn-fit-primary mt-2" style="border-radius:999px">
         <i class="bi bi-lightning-charge-fill me-2"></i>Ir a mis rutinas
       </a>
     </div>
   }
 
   @for (grupo of semanasAgrupadas(); track grupo.clave) {
-    <div class="card mb-3 shadow-sm">
-
-      <!-- HEADER DESPLEGABLE -->
-      <div class="card-header d-flex justify-content-between align-items-center">
-        <div style="cursor: pointer;" (click)="toggleSemana(grupo.clave)">
+    <div class="card-fit mb-3 overflow-hidden">
+      <div class="week-header" style="cursor:pointer" (click)="toggleSemana(grupo.clave)">
+        <div class="d-flex align-items-center gap-2">
           <strong>{{ grupo.etiqueta }}</strong>
-          <span class="badge bg-secondary ms-2">{{ grupo.cantidad }}</span>
+          <span class="badge rounded-pill">{{ grupo.cantidad }}</span>
         </div>
         <div class="d-flex align-items-center gap-2">
-          <button type="button" class="btn btn-outline-dark btn-sm" (click)="abrirResumenSemana(grupo)">
+          <button type="button" class="btn btn-sm" style="background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.12);border-radius:999px" (click)="abrirResumenSemana(grupo); $event.stopPropagation()">
             <i class="bi bi-bar-chart-fill me-1"></i>Resumen
           </button>
-          <i class="bi" style="cursor: pointer;"
+          <i class="bi" style="cursor: pointer;color:#fff"
              [class.bi-chevron-down]="!semanaAbierta(grupo.clave)"
-             [class.bi-chevron-up]="semanaAbierta(grupo.clave)"
-             (click)="toggleSemana(grupo.clave)"></i>
+             [class.bi-chevron-up]="semanaAbierta(grupo.clave)"></i>
         </div>
       </div>
 
       @if (semanaAbierta(grupo.clave)) {
-        <div class="card-body">
-          <div class="row">
+        <div class="p-3">
+          <div class="row g-3">
             @for (s of sesionesPaginadas(grupo.clave, grupo.sesiones); track s._id) {
-              <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card shadow-sm h-100">
-                  <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                      <h5 class="card-title mb-0">{{ s.rutina?.nombre || 'Rutina' }}</h5>
-                      <i class="bi fs-4" [class]="iconoSensacion(s.sensacion)"></i>
+              <div class="col-md-6 col-lg-4">
+                <div class="card-sesion p-3 h-100">
+                  <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h6 class="fw-bold mb-0" style="font-size:.95rem">{{ s.rutina?.nombre || 'Rutina' }}</h6>
+                    <i class="bi fs-5" [class]="iconoSensacion(s.sensacion)"></i>
+                  </div>
+                  <small class="text-muted d-block mb-3">{{ formatearFecha(s.fecha) }}</small>
+                  @if (s.ejercicios?.length > 0) {
+                    <div class="d-flex gap-2 mb-3 overflow-auto pb-1">
+                      @for (ej of s.ejercicios; track $index) {
+                        <img [src]="mediaUrl + (ej.ejercicio?.gif || ej.ejercicio?.imagen)"
+                             class="rounded flex-shrink-0" style="width: 48px; height: 48px; object-fit: cover; border:1px solid rgba(0,0,0,.06);border-radius:10px"
+                             [title]="ej.ejercicio?.nombre">
+                      }
                     </div>
-
-                    <small class="text-muted d-block mb-3">{{ formatearFecha(s.fecha) }}</small>
-
-                    @if (s.ejercicios?.length > 0) {
-                      <div class="d-flex gap-2 mb-3 overflow-auto pb-1">
-                        @for (ej of s.ejercicios; track $index) {
-                          <img [src]="mediaUrl + (ej.ejercicio?.gif || ej.ejercicio?.imagen)"
-                               class="rounded border flex-shrink-0"
-                               style="width: 50px; height: 50px; object-fit: cover;"
-                               [title]="ej.ejercicio?.nombre">
-                        }
-                      </div>
-                    }
-
-                    <div class="d-flex gap-3 mb-3">
-                      <div>
-                        <small class="text-muted d-block">Duración</small>
-                        <strong>{{ s.duracionMinutos }} min</strong>
-                      </div>
-                      <div>
-                        <small class="text-muted d-block">Ejercicios</small>
-                        <strong>{{ s.ejercicios?.length || 0 }}</strong>
-                      </div>
-                    </div>
-
-                    <div class="d-flex justify-content-between align-items-center">
-                      <span style="background-color: rgba(99, 250, 53, 0.685); border-radius: 7px; border: 2px solid rgb(121, 233, 70); padding: 3px 8px;">
-                        <i class="bi bi-check-circle me-1"></i>Completada
-                      </span>
-                      <button type="button" style="background-color: rgb(243, 247, 247); border: 1px solid rgb(227, 230, 229); border-radius: 7px;"
-                              class="btn btn-sm"
-                              (click)="abrirDetalle(s)">
-                        <i class="bi bi-eye me-1"></i>Ver detalle
-                      </button>
-                    </div>
+                  }
+                  <div class="d-flex gap-3 mb-3">
+                    <div><small class="text-muted d-block" style="font-size:.68rem;letter-spacing:.3px">Duración</small><strong style="font-size:.92rem">{{ s.duracionMinutos }} min</strong></div>
+                    <div><small class="text-muted d-block" style="font-size:.68rem;letter-spacing:.3px">Ejercicios</small><strong style="font-size:.92rem">{{ s.ejercicios?.length || 0 }}</strong></div>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="badge rounded-pill" style="background:rgba(25,135,84,.12);color:#198754;border:1px solid rgba(25,135,84,.14);padding:6px 10px"><i class="bi bi-check-circle me-1"></i>Completada</span>
+                    <button type="button" class="btn btn-fit-ghost btn-sm" style="border-radius:999px"
+                            (click)="abrirDetalle(s)">
+                      <i class="bi bi-eye me-1"></i>Ver detalle
+                    </button>
                   </div>
                 </div>
               </div>
             }
           </div>
-
-          <!-- PAGINADOR -->
           @if (totalPaginas(grupo.cantidad) > 1) {
-            <div class="d-flex justify-content-center align-items-center gap-3 mt-2">
-              <button type="button" class="btn btn-outline-dark btn-sm"
+            <div class="d-flex justify-content-center align-items-center gap-3 mt-3">
+              <button type="button" class="btn btn-fit-ghost btn-sm" style="border-radius:999px"
                       [disabled]="paginaActual(grupo.clave) <= 1"
                       (click)="cambiarPagina(grupo.clave, -1)">
                 <i class="bi bi-chevron-left"></i>
               </button>
               <small class="text-muted">Página {{ paginaActual(grupo.clave) }} de {{ totalPaginas(grupo.cantidad) }}</small>
-              <button type="button" class="btn btn-outline-dark btn-sm"
+              <button type="button" class="btn btn-fit-ghost btn-sm" style="border-radius:999px"
                       [disabled]="paginaActual(grupo.clave) >= totalPaginas(grupo.cantidad)"
                       (click)="cambiarPagina(grupo.clave, 1)">
                 <i class="bi bi-chevron-right"></i>
@@ -179,122 +148,66 @@
     </div>
   }
 
-  <!-- POPUP DETALLE DE UNA SESIÓN -->
   @if (sesionSeleccionada()) {
     <div class="modal-backdrop-custom" (click)="cerrarDetalle()">
       <div class="modal-content-custom" (click)="$event.stopPropagation()">
-
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5 class="fw-bold mb-0">{{ sesionSeleccionada().rutina?.nombre || 'Rutina' }}</h5>
+          <h5 class="fw-bold mb-0 d-flex align-items-center gap-2"><i class="bi bi-heart-pulse-fill" style="color:#dc3545"></i> {{ sesionSeleccionada().rutina?.nombre || 'Rutina' }}</h5>
           <button type="button" class="btn-close" (click)="cerrarDetalle()"></button>
         </div>
-
         <div class="d-flex gap-4 mb-3 flex-wrap">
-          <div>
-            <small class="text-muted d-block">Fecha</small>
-            <strong>{{ formatearFecha(sesionSeleccionada().fecha) }}</strong>
-          </div>
-          <div>
-            <small class="text-muted d-block">Duración total</small>
-            <strong>{{ sesionSeleccionada().duracionMinutos }} min</strong>
-          </div>
-          <div>
-            <small class="text-muted d-block">Sensación</small>
-            <strong>
-              <i class="bi fs-5" [class]="iconoSensacion(sesionSeleccionada().sensacion)"></i>
-              {{ sesionSeleccionada().sensacion | titlecase }}
-            </strong>
-          </div>
+          <div><small class="text-muted d-block" style="font-size:.70rem;letter-spacing:.3px">Fecha</small><strong>{{ formatearFecha(sesionSeleccionada().fecha) }}</strong></div>
+          <div><small class="text-muted d-block" style="font-size:.70rem;letter-spacing:.3px">Duración total</small><strong>{{ sesionSeleccionada().duracionMinutos }} min</strong></div>
+          <div><small class="text-muted d-block" style="font-size:.70rem;letter-spacing:.3px">Sensación</small><strong><i class="bi fs-5" [class]="iconoSensacion(sesionSeleccionada().sensacion)"></i> {{ sesionSeleccionada().sensacion | titlecase }}</strong></div>
         </div>
-
-        <hr>
-
+        <hr style="border-color:rgba(0,0,0,.06)">
         @for (ej of sesionSeleccionada().ejercicios; track $index) {
           <div class="d-flex align-items-center gap-2 mb-2 mt-3">
-            <img [src]="mediaUrl + (ej.ejercicio?.gif || ej.ejercicio?.imagen)"
-                 style="width: 45px; height: 45px; object-fit: cover; border-radius: 8px;">
+            <img [src]="mediaUrl + (ej.ejercicio?.gif || ej.ejercicio?.imagen)" style="width: 48px; height: 48px; object-fit: cover; border-radius: 10px;border:1px solid rgba(0,0,0,.06)">
             <h6 class="mb-0 text-capitalize fw-bold">{{ ej.ejercicio?.nombre }}</h6>
+            <span class="ms-auto card-pulse-dot"></span>
           </div>
-
           <div class="table-responsive">
             <table class="table table-sm">
-              <thead>
-                <tr class="text-muted small">
-                  <th>Serie</th>
-                  <th>Peso</th>
-                  <th>Reps</th>
-                  <th>Tiempo ejecución</th>
-                  <th>Estado</th>
-                </tr>
-              </thead>
+              <thead><tr class="text-muted small"><th>Serie</th><th>Peso</th><th>Reps</th><th>Tiempo</th><th>Estado</th></tr></thead>
               <tbody>
                 @for (serie of ej.series; track serie.numeroSerie) {
-                  <tr>
-                    <td>{{ serie.numeroSerie }}</td>
-                    <td>{{ serie.pesoReal }} kg</td>
-                    <td>{{ serie.repeticionesRealizadas }}</td>
-                    <td>{{ formatearTiempo(serie.segundosEjecucion || 0) }}</td>
-                    <td>
-                      <i class="bi me-2" [class]="iconoEstado(serie.estado)"></i>{{ serie.estado }}
-                    </td>
-                  </tr>
+                  <tr><td>{{ serie.numeroSerie }}</td><td>{{ serie.pesoReal }} kg</td><td>{{ serie.repeticionesRealizadas }}</td><td>{{ formatearTiempo(serie.segundosEjecucion || 0) }}</td><td><i class="bi me-2" [class]="iconoEstado(serie.estado)"></i>{{ serie.estado }}</td></tr>
                 }
               </tbody>
             </table>
           </div>
         }
-
       </div>
     </div>
   }
 
-  <!-- POPUP RESUMEN DE LA SEMANA -->
   @if (resumenSemanaSeleccionada()) {
     <div class="modal-backdrop-custom" (click)="cerrarResumenSemana()">
       <div class="modal-content-custom" (click)="$event.stopPropagation()">
-
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h5 class="fw-bold mb-0">Resumen — {{ resumenSemanaSeleccionada().etiqueta }}</h5>
           <button type="button" class="btn-close" (click)="cerrarResumenSemana()"></button>
         </div>
-
         @for (item of resumenSemanaSeleccionada().ejercicios; track item.ejercicio?._id) {
           <div class="d-flex align-items-center gap-2 mb-2 mt-3">
-            <img [src]="mediaUrl + (item.ejercicio?.gif || item.ejercicio?.imagen)"
-                 style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;">
-            <div>
-              <h6 class="mb-0 text-capitalize fw-bold">{{ item.ejercicio?.nombre }}</h6>
-              <small class="text-muted">{{ item.dias.length }} día(s): {{ item.dias.join(', ') }}</small>
-            </div>
+            <img [src]="mediaUrl + (item.ejercicio?.gif || item.ejercicio?.imagen)" style="width: 50px; height: 50px; object-fit: cover; border-radius: 10px;border:1px solid rgba(0,0,0,.06)">
+            <div><h6 class="mb-0 text-capitalize fw-bold">{{ item.ejercicio?.nombre }}</h6><small class="text-muted">{{ item.dias.length }} día(s): {{ item.dias.join(', ') }}</small></div>
           </div>
-
           <div class="row text-center g-2 mb-3">
-            <div class="col-3">
-              <small class="text-muted d-block">Series</small>
-              <strong>{{ item.totalSeries }}</strong>
-            </div>
-            <div class="col-3">
-              <small class="text-muted d-block">Reps</small>
-              <strong>{{ item.totalReps }}</strong>
-            </div>
-            <div class="col-3">
-              <small class="text-muted d-block">Volumen</small>
-              <strong>{{ item.totalPesoAcumulado }} kg</strong>
-            </div>
-            <div class="col-3">
-              <small class="text-muted d-block">Tiempo</small>
-              <strong>{{ formatearDuracionLarga(item.totalSegundosEjecucion) }}</strong>
-            </div>
+            <div class="col-3"><small class="text-muted d-block" style="font-size:.70rem">Series</small><strong>{{ item.totalSeries }}</strong></div>
+            <div class="col-3"><small class="text-muted d-block" style="font-size:.70rem">Reps</small><strong>{{ item.totalReps }}</strong></div>
+            <div class="col-3"><small class="text-muted d-block" style="font-size:.70rem">Volumen</small><strong>{{ item.totalPesoAcumulado }} kg</strong></div>
+            <div class="col-3"><small class="text-muted d-block" style="font-size:.70rem">Tiempo</small><strong>{{ formatearDuracionLarga(item.totalSegundosEjecucion) }}</strong></div>
           </div>
           <hr>
         }
-
         @if (resumenSemanaSeleccionada().ejercicios.length === 0) {
           <p class="text-muted text-center py-3">No hay ejercicios completados esta semana.</p>
         }
-
       </div>
     </div>
   }
 
+</div>
 </div>

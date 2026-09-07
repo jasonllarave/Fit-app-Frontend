@@ -45,7 +45,7 @@ export class CrearRutina {
 
   ngOnInit() {
     // Revisar si hay ID en la URL (modo edición)
-    const id = this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id'); //
 
      if (id) {
       // MODO EDICIÓN: cargar rutina del backend

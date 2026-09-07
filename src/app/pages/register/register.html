@@ -1,78 +1,175 @@
-<div class="container mt-13" style="margin-top: 95px;">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card shadow">
-        <div class="card-body p-4">
-          <h3 class="text-center mb-4">Crear Cuenta</h3>
-
-          @if (errorMessage()) {
-            <div class="alert alert-danger">{{ errorMessage() }}</div>
-          }
-
-          <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
-
-            <div class="row">
-              <div class="col-6 mb-3">
-                <label class="form-label">Nombres</label>
-                <input type="text" class="form-control" formControlName="nombres">
-              </div>
-              <div class="col-6 mb-3">
-                <label class="form-label">Apellidos</label>
-                <input type="text" class="form-control" formControlName="apellidos">
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Correo electrónico</label>
-              <input type="email" class="form-control" formControlName="email">
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Contraseña</label>
-              <input type="password" class="form-control" formControlName="password">
-            </div>
-
-            <!-- TIPO DE USUARIO -->
-            <div class="mb-3">
-              <label class="form-label fw-bold">¿Cómo vas a usar FitApp?</label>
-              <select class="form-select" formControlName="tipoUsuario">
-                <option value="independiente">Entreno por mi cuenta (Independiente)</option>
-                <option value="gym"> Soy cliente de un Gimnasio</option>
-              </select>
-              <small class="text-muted">
-                @if (registerForm.value.tipoUsuario === 'gym') {
-                  Podrás vincularte a un gimnasio desde tu perfil.
-                } @else {
-                  Acceso completo sin vinculación a gimnasio.
-                }
-              </small>
-            </div>
-
-            <div class="row">
-              <div class="col-6 mb-3">
-                <label class="form-label">Teléfono</label>
-                <input type="text" class="form-control" formControlName="telefono">
-              </div>
-              <div class="col-6 mb-3">
-                <label class="form-label">Ciudad</label>
-                <input type="text" class="form-control" formControlName="ciudad">
-              </div>
-            </div>
-
-            <button type="submit" class="btn btn-primary w-100" [disabled]="cargando()">
-              @if (cargando()) {
-                <span class="spinner-border spinner-border-sm me-2"></span>
-              }
-              Registrarse
-            </button>
-
-            <p class="text-center mt-3 mb-0">
-              ¿Ya tienes cuenta? <a routerLink="/login">Iniciar sesión</a>
-            </p>
-
-          </form>
+<div class="auth-shell">
+  <!-- Left hero - órgano funcional HUD igual que login -->
+  <div class="auth-hero">
+    <div class="auth-hero-bg"></div>
+    <div class="hud-arc"></div>
+    <div class="hud-scanline"></div>
+    <div class="hud-corners"><span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span></div>
+    <div class="auth-hero-content">
+      <div class="hud-label">NÚCLEO ACTIVO • REGISTRO SYNC</div>
+      <div class="d-inline-flex align-items-center gap-2 mb-3">
+        <span class="hero-logo-icon"><i class="bi bi-heart-pulse-fill"></i></span>
+        <span class="hero-logo-text">FitApp</span>
+        <span class="hud-version">v2.1 CORE</span>
+      </div>
+      <h1 class="hero-title">Únete a la<br><span class="hero-gradient">comunidad que no para.</span></h1>
+      <p class="hero-sub">No es formulario — es <strong style="color:#fff">activación de órgano</strong>. Independiente, cliente o dueño, tu núcleo se sincroniza en &lt;1 minuto.</p>
+      <div class="reactor-panel">
+        <div class="reactor">
+          <div class="reactor-ring r1"></div>
+          <div class="reactor-ring r2"></div>
+          <div class="reactor-ring r3"></div>
+          <div class="reactor-core"><i class="bi bi-heart-pulse-fill"></i></div>
+          <svg class="reactor-ecg" viewBox="0 0 200 40" preserveAspectRatio="none"><path d="M0 20 H38 L46 8 L54 32 L62 6 L70 20 H102 L110 12 L118 28 L126 20 H158 L166 10 L174 30 L182 20 H200" fill="none" stroke="rgba(255,107,107,.45)" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </div>
+        <div class="reactor-metrics">
+          <div class="r-metric"><span class="r-label">GYMS</span><span class="r-value">+120</span><span class="r-unit">activos</span></div>
+          <div class="r-metric"><span class="r-label">ONBOARD</span><span class="r-value">&lt;1m</span><span class="r-unit">rápido</span></div>
+          <div class="r-metric"><span class="r-label">SYNC</span><span class="r-value">100%</span><span class="r-unit">seguro</span></div>
         </div>
       </div>
+      <div class="hero-stats hud-stats">
+        <div class="hero-stat hud-stat"><div class="hero-stat-icon"><i class="bi bi-shield-check"></i></div><div><strong>100% Seguro</strong><small>Datos protegidos</small></div></div>
+        <div class="hero-stat hud-stat"><div class="hero-stat-icon"><i class="bi bi-lightning-charge"></i></div><div><strong>Onboarding</strong><small>&lt; 1 minuto</small></div></div>
+        <div class="hero-stat hud-stat"><div class="hero-stat-icon"><i class="bi bi-building"></i></div><div><strong>Gyms reales</strong><small>Validados</small></div></div>
+      </div>
+    </div>
+    <div class="hero-mini-card hud-mini">
+      <div class="mini-card-head"><span><i class="bi bi-stars text-warning me-1"></i> Elige cómo entras</span></div>
+      <div class="mini-card-body"><strong>3 formas de empezar</strong><div class="d-flex gap-2 mt-2 flex-wrap"><span class="badge rounded-pill" style="background:rgba(32,201,151,.12);color:#20c997;border:1px solid rgba(32,201,151,.18);font-size:.70rem">Independiente</span><span class="badge rounded-pill" style="background:rgba(33,37,41,.10);color:#212529;border:1px solid rgba(33,37,41,.14);font-size:.70rem">Cliente Gym</span><span class="badge rounded-pill" style="background:rgba(220,53,69,.10);color:#dc3545;border:1px solid rgba(220,53,69,.14);font-size:.70rem">Dueño Gym</span></div></div>
+    </div>
+  </div>
+
+  <!-- Right form -->
+  <div class="auth-form-side register-side">
+    <div class="auth-form-container pulse-form" style="max-width:580px">
+      <a routerLink="/" class="d-inline-flex align-items-center gap-1 mb-3" style="font-size:.82rem;color:#6c757d;text-decoration:none;font-weight:500"><i class="bi bi-arrow-left"></i> Volver al inicio</a>
+      <div class="d-flex d-lg-none align-items-center gap-2 mb-3 justify-content-center"><span class="hero-logo-icon" style="width:36px;height:36px;font-size:1rem"><i class="bi bi-heart-pulse-fill"></i></span><span style="font-weight:800;font-size:1.2rem;letter-spacing:-.3px">FitApp</span></div>
+
+      <div class="form-hud">
+        <span class="form-hud-left">PANEL DE REGISTRO</span>
+        <span class="form-hud-right"><i class="bi bi-shield-check"></i> ENCRIPTADO</span>
+      </div>
+      <div class="mb-3 text-center">
+        <h2 class="auth-title">Crear cuenta</h2>
+        <p class="auth-subtitle">Elige tu perfil y te mostramos el formulario exacto. Sin vueltas.</p>
+        <div class="form-ecg-line"><div class="form-ecg-track"></div><span class="form-ecg-node"><i class="bi bi-heart-pulse-fill"></i></span></div>
+      </div>
+
+      @if (errorMessage()) {<div class="alert alert-danger d-flex align-items-center gap-2 border-0 py-2" style="background:rgba(220,53,69,.10);color:#b02a37;border-radius:12px;font-size:.88rem"><i class="bi bi-exclamation-triangle-fill"></i> {{ errorMessage() }}</div>}
+      @if (successMessage()) {<div class="alert alert-success d-flex align-items-center gap-2 border-0 py-2" style="background:rgba(32,201,151,.12);color:#0f5132;border-radius:12px;font-size:.88rem"><i class="bi bi-check-circle-fill"></i> {{ successMessage() }}</div>}
+
+      <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+
+        <!-- Datos base -->
+        <div class="row g-3">
+          <div class="col-6"><label class="form-label small fw-semibold text-muted text-uppercase" style="font-size:.68rem;letter-spacing:.35px">Nombres *</label><div class="input-icon-wrap"><i class="bi bi-person input-icon"></i><input type="text" class="form-control" formControlName="nombres" placeholder="Ej: Camilo"></div></div>
+          <div class="col-6"><label class="form-label small fw-semibold text-muted text-uppercase" style="font-size:.68rem;letter-spacing:.35px">Apellidos *</label><div class="input-icon-wrap"><i class="bi bi-person input-icon"></i><input type="text" class="form-control" formControlName="apellidos" placeholder="Ej: Torres"></div></div>
+        </div>
+        <div class="mt-3"><label class="form-label small fw-semibold text-muted text-uppercase" style="font-size:.68rem;letter-spacing:.35px">Correo electrónico *</label><div class="input-icon-wrap"><i class="bi bi-envelope input-icon"></i><input type="email" class="form-control" formControlName="email" placeholder="tu@email.com"></div></div>
+        <div class="mt-3"><label class="form-label small fw-semibold text-muted text-uppercase" style="font-size:.68rem;letter-spacing:.35px">Contraseña *</label><div class="input-icon-wrap"><i class="bi bi-lock input-icon"></i><input type="password" class="form-control" formControlName="password" placeholder="Mín. 6 caracteres"></div></div>
+
+        <!-- Selector 3 opciones como tarjetas -->
+        <div class="mt-3">
+          <label class="form-label small fw-semibold text-muted text-uppercase" style="font-size:.68rem;letter-spacing:.35px">¿Cómo vas a usar FitApp?</label>
+          <div class="row g-2">
+            <div class="col-12 col-md-4">
+              <button type="button" class="w-100 p-3 text-start rounded-3 border bg-white position-relative" [style.borderColor]="esIndependiente() ? '#20c997' : '#dee2e6'" [style.background]="esIndependiente() ? 'rgba(32,201,151,.06)' : '#fff'" [style.boxShadow]="esIndependiente() ? '0 0 0 2px rgba(32,201,151,.12)' : 'none'" (click)="seleccionarTipo('independiente')">
+                <div class="d-flex align-items-center gap-2 mb-1"><span class="d-inline-flex align-items-center justify-content-center" style="width:28px;height:28px;border-radius:8px;background:rgba(32,201,151,.14);color:#20c997"><i class="bi bi-person"></i></span><strong style="font-size:.88rem">Independiente</strong>@if(esIndependiente()){<i class="bi bi-check-circle-fill ms-auto" style="color:#20c997"></i>}</div>
+                <small class="text-muted" style="font-size:.74rem;line-height:1.2">Entreno por mi cuenta, sin gym.</small>
+              </button>
+            </div>
+            <div class="col-12 col-md-4">
+              <button type="button" class="w-100 p-3 text-start rounded-3 border bg-white position-relative" [style.borderColor]="esClienteGym() ? '#212529' : '#dee2e6'" [style.background]="esClienteGym() ? 'rgba(33,37,41,.06)' : '#fff'" [style.boxShadow]="esClienteGym() ? '0 0 0 2px rgba(33,37,41,.12)' : 'none'" (click)="seleccionarTipo('cliente_gym')">
+                <div class="d-flex align-items-center gap-2 mb-1"><span class="d-inline-flex align-items-center justify-content-center" style="width:28px;height:28px;border-radius:8px;background:rgba(33,37,41,.14);color:#212529"><i class="bi bi-people"></i></span><strong style="font-size:.88rem">Cliente Gym</strong>@if(esClienteGym()){<i class="bi bi-check-circle-fill ms-auto" style="color:#212529"></i>}</div>
+                <small class="text-muted" style="font-size:.74rem;line-height:1.2">Ya voy a un gym que usa FitApp.</small>
+              </button>
+            </div>
+            <div class="col-12 col-md-4">
+              <button type="button" class="w-100 p-3 text-start rounded-3 border bg-white position-relative" [style.borderColor]="esAdminGym() ? '#dc3545' : '#dee2e6'" [style.background]="esAdminGym() ? 'rgba(220,53,69,.06)' : '#fff'" [style.boxShadow]="esAdminGym() ? '0 0 0 2px rgba(220,53,69,.12)' : 'none'" (click)="seleccionarTipo('admin_gym')">
+                <div class="d-flex align-items-center gap-2 mb-1"><span class="d-inline-flex align-items-center justify-content-center" style="width:28px;height:28px;border-radius:8px;background:rgba(220,53,69,.14);color:#dc3545"><i class="bi bi-building"></i></span><strong style="font-size:.88rem">Dueño Gym</strong>@if(esAdminGym()){<i class="bi bi-check-circle-fill ms-auto" style="color:#dc3545"></i>}</div>
+                <small class="text-muted" style="font-size:.74rem;line-height:1.2">Quiero registrar mi gimnasio.</small>
+              </button>
+            </div>
+          </div>
+          <!-- input oculto para mantener FormControl -->
+          <select formControlName="tipoCuenta" class="d-none"><option value="independiente">independiente</option><option value="cliente_gym">cliente_gym</option><option value="admin_gym">admin_gym</option></select>
+        </div>
+
+        <!-- BLOQUE CLIENTE_GYM: lista de gyms -->
+        @if (esClienteGym()) {
+          <div class="mt-3 p-3" style="background:rgba(33,37,41,.04);border:1px solid rgba(33,37,41,.14);border-radius:14px">
+            <div class="d-flex align-items-center gap-2 mb-2"><span class="d-inline-flex align-items-center justify-content-center" style="width:28px;height:28px;background:#212529;border-radius:8px;color:#fff"><i class="bi bi-search"></i></span><h6 class="mb-0 fw-bold" style="font-size:.92rem">Selecciona tu gimnasio</h6>@if(cargandoGyms()){<span class="spinner-border spinner-border-sm ms-auto" style="width:16px;height:16px"></span>}</div>
+            <p class="text-muted mb-2" style="font-size:.78rem">Busca por nombre, ciudad o dirección. Valida que <strong>haces parte</strong> de ese gym — tu cuenta quedará vinculada y el admin podrá verte en su panel.</p>
+
+            <div class="input-icon-wrap mb-2">
+              <i class="bi bi-search input-icon"></i>
+              <input type="text" class="form-control" placeholder="Buscar gym... Ej: PowerFit, Bogotá" [value]="busquedaGym()" (input)="busquedaGym.set($any($event.target).value)">
+            </div>
+
+            @if (gymsFiltrados().length > 0) {
+              <div class="border rounded-3 bg-white" style="max-height:220px;overflow-y:auto">
+                @for (g of gymsFiltrados(); track g._id) {
+                  <label class="d-flex align-items-center gap-3 p-2 px-3 border-bottom m-0" style="cursor:pointer" [style.background]="registerForm.value.gymId===g._id ? 'rgba(33,37,41,.08)' : '#fff'">
+                    <input type="radio" name="gymId" [value]="g._id" [checked]="registerForm.value.gymId===g._id" (change)="seleccionarGym(g._id)" style="accent-color:#212529">
+                    <div class="flex-grow-1"><div class="fw-semibold" style="font-size:.90rem">{{ g.nombre }} @if(g.activo){<span class="badge bg-success-subtle text-success border border-success-subtle ms-1" style="font-size:.60rem">Activo</span>}</div><small class="text-muted" style="font-size:.76rem"><i class="bi bi-geo-alt me-1"></i>{{ g.direccion }} — {{ g.ciudad }} @if(g.plan){· {{ g.plan }}}</small></div>
+                    @if(registerForm.value.gymId===g._id){<i class="bi bi-check-circle-fill" style="color:#212529"></i>}
+                  </label>
+                }
+              </div>
+              <small class="text-muted d-block mt-2" style="font-size:.72rem"><i class="bi bi-info-circle me-1"></i>{{ gymsFiltrados().length }} gym(s) encontrados. Selecciona uno para continuar.</small>
+            } @else {
+              @if (!cargandoGyms()) {
+                <div class="text-center py-3 border rounded-3 bg-white">
+                  <i class="bi bi-building-x fs-4 text-muted mb-2 d-block"></i>
+                  @if (gyms().length === 0) {
+                    <p class="text-muted mb-2" style="font-size:.85rem">Aún no hay gimnasios registrados en FitApp.</p>
+                    <div class="d-flex gap-2 justify-content-center flex-wrap">
+                      <button type="button" class="btn btn-outline-secondary btn-sm" style="border-radius:999px" (click)="seleccionarTipo('independiente')"><i class="bi bi-person me-1"></i>Registrarme como independiente</button>
+                      <button type="button" class="btn btn-outline-danger btn-sm" style="border-radius:999px" (click)="seleccionarTipo('admin_gym')"><i class="bi bi-building me-1"></i>Registrar mi gym</button>
+                    </div>
+                  } @else {
+                    <p class="text-muted mb-2" style="font-size:.85rem">Ningún gym coincide con “{{ busquedaGym() }}”.</p>
+                    <button type="button" class="btn btn-sm btn-outline-dark" style="border-radius:999px" (click)="busquedaGym.set('')"><i class="bi bi-x-circle me-1"></i>Limpiar búsqueda</button>
+                    <div class="mt-2"><small class="text-muted" style="font-size:.72rem">¿Tu gym no aparece? Pide al dueño que lo registre como <a href="#" (click)="seleccionarTipo('admin_gym'); $event.preventDefault()">Dueño Gym</a> o registrate como independiente y vincúlate luego desde tu perfil.</small></div>
+                  }
+                </div>
+              }
+            }
+
+            <!-- Opción fallback -->
+            <div class="mt-3 p-2 rounded-3" style="background:#fff;border:1px dashed #adb5bd">
+              <small class="text-muted d-flex align-items-start gap-2" style="font-size:.76rem"><i class="bi bi-shield-check mt-1" style="color:#212529"></i><span><strong>¿Tu gym no está en la lista?</strong> Si no encuentras tu gym, puedes registrarte como <a href="#" (click)="seleccionarTipo('independiente'); $event.preventDefault()" style="font-weight:600">Independiente</a> y luego validar desde <em>Perfil → Vincular gym</em> cuando esté disponible. O si eres el dueño, <a href="#" (click)="seleccionarTipo('admin_gym'); $event.preventDefault()" style="font-weight:600;color:#dc3545">registra tu gimnasio</a> y queda activo en 1 minuto.</span></small>
+            </div>
+          </div>
+        }
+
+        <!-- BLOQUE ADMIN_GYM -->
+        @if (esAdminGym()) {
+          <div class="mt-3 p-3" style="background:rgba(220,53,69,.04);border:1px solid rgba(220,53,69,.12);border-radius:14px">
+            <div class="d-flex align-items-center gap-2 mb-3"><span class="d-inline-flex align-items-center justify-content-center" style="width:28px;height:28px;background:linear-gradient(135deg,#dc3545,#ff4757);border-radius:8px;color:#fff"><i class="bi bi-building"></i></span><h6 class="mb-0 fw-bold" style="font-size:.92rem">Datos de tu gimnasio</h6><span class="badge bg-danger-subtle text-danger border border-danger-subtle ms-auto" style="font-size:.66rem">OBLIGATORIO</span></div>
+            <div class="mt-2"><label class="form-label small fw-semibold text-muted text-uppercase" style="font-size:.68rem">Nombre del gimnasio *</label><div class="input-icon-wrap"><i class="bi bi-shop input-icon"></i><input type="text" class="form-control" formControlName="nombreGym" placeholder="Ej: PowerFit Box"></div></div>
+            <div class="mt-3"><label class="form-label small fw-semibold text-muted text-uppercase" style="font-size:.68rem">Dirección *</label><div class="input-icon-wrap"><i class="bi bi-geo-alt input-icon"></i><input type="text" class="form-control" formControlName="direccion" placeholder="Ej: Calle 80 #12-34, Bogotá"></div></div>
+            <div class="row g-3 mt-1"><div class="col-6"><label class="form-label small fw-semibold text-muted text-uppercase" style="font-size:.68rem">Teléfono del gym</label><div class="input-icon-wrap"><i class="bi bi-telephone input-icon"></i><input type="text" class="form-control" formControlName="telefonoGym" placeholder="+57 300 ..."></div></div><div class="col-6"><label class="form-label small fw-semibold text-muted text-uppercase" style="font-size:.68rem">Ciudad del gym</label><div class="input-icon-wrap"><i class="bi bi-buildings input-icon"></i><input type="text" class="form-control" formControlName="ciudadGym" placeholder="Bogotá"></div></div></div>
+            <div class="mt-3"><label class="form-label small fw-semibold text-muted text-uppercase" style="font-size:.68rem">Plan para tu gimnasio</label><div class="input-icon-wrap"><i class="bi bi-stars input-icon"></i><select class="form-select" formControlName="planSlug" style="padding-left:42px;height:46px;border-radius:12px">@for (p of planesGym(); track p.slug) {<option [value]="p.slug">{{ p.nombre }} — ${{ p.precioMensualCOP.toLocaleString() }}/mes · {{ p.descripcion }}</option>}</select></div>@if(cargandoPlanes()){<small class="text-muted" style="font-size:.72rem"><span class="spinner-border spinner-border-sm me-1" style="width:12px;height:12px"></span>Cargando planes...</small>} @else {<small class="text-muted" style="font-size:.72rem">Todos incluyen 7 días de prueba. Cambias de plan luego.</small>}</div>
+          </div>
+        }
+
+        <!-- Datos contacto generales -->
+        <div class="row g-3 mt-1">
+          <div class="col-6"><label class="form-label small fw-semibold text-muted text-uppercase" style="font-size:.68rem">Teléfono</label><div class="input-icon-wrap"><i class="bi bi-telephone input-icon"></i><input type="text" class="form-control" formControlName="telefono" placeholder="+57 ..."></div></div>
+          <div class="col-6"><label class="form-label small fw-semibold text-muted text-uppercase" style="font-size:.68rem">Ciudad</label><div class="input-icon-wrap"><i class="bi bi-geo-alt input-icon"></i><input type="text" class="form-control" formControlName="ciudad" placeholder="Bogotá"></div></div>
+        </div>
+
+        <button type="submit" class="btn btn-fit-primary w-100 mt-4" style="height:48px;font-size:.95rem" [disabled]="cargando()">
+          @if (cargando()) {<span class="spinner-border spinner-border-sm me-2"></span>@if(esAdminGym()){Registrando gimnasio...} @else if(esClienteGym()){Vinculando a gym...} @else{Creando cuenta...}}
+          @else {<span><i class="bi bi-person-plus me-1"></i>@if(esAdminGym()){Registrar mi gimnasio}@else if(esClienteGym()){Unirme a mi gym}@else{Crear cuenta}</span>}
+        </button>
+
+        <p class="text-center mt-3 mb-0" style="font-size:.90rem">¿Ya tienes cuenta? <a routerLink="/login" style="font-weight:700;text-decoration:none">Iniciar sesión</a></p>
+      </form>
+
+      <div class="d-flex align-items-center gap-2 justify-content-center mt-4 text-muted" style="font-size:.72rem">Al registrarte aceptas nuestros términos</div>
     </div>
   </div>
 </div>

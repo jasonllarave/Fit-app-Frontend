@@ -1,101 +1,103 @@
-<div  style="margin-top: 105px; ">
+<div class="page-wrap">
+  <div class="container" style="max-width:1200px">
 
-  <!-- HEADER BIENVENIDA -->
-  <div class="mb-4">
-    <h2 class="fw-bold mb-1">
-       Hola, {{ usuario()?.nombre || 'Entrenador' }}
-    </h2>
-    <p class="text-muted mb-0 mt-4" >
-      Hoy es <strong>{{ diaHoy() | titlecase }}</strong>. 
-      @if (rutinasHoy().length > 0) {
-        Tenés {{ rutinasHoy().length }} rutina{{ rutinasHoy().length > 1 ? 's' : '' }} programada{{ rutinasHoy().length > 1 ? 's' : '' }}.
-      } @else {
-        No tenés rutinas programadas para hoy.
-      }
-    </p>
+  <!-- HEADER -->
+  <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+    <div>
+      <span class="dash-badge pulse-online pulse-border"><span class="pulse-text">Online</span></span>
+      <h2 class="dash-title mt-2 mb-1">Hola, {{ usuario()?.nombre || 'Entrenador' }}</h2>
+      <p class="text-muted mb-0" style="font-size:.92rem">
+        Hoy es <strong>{{ diaHoy() | titlecase }}</strong>.
+        @if (rutinasHoy().length > 0) {
+          Tenés <strong style="color:#dc3545">{{ rutinasHoy().length }} rutina{{ rutinasHoy().length > 1 ? 's' : '' }}</strong> programada{{ rutinasHoy().length > 1 ? 's' : '' }}.
+        } @else {
+          No tenés rutinas programadas para hoy.
+        }
+      </p>
+    </div>
+    <div class="d-flex gap-2">
+      <a routerLink="/rutinas" class="btn btn-fit-ghost btn-sm" style="border-radius:999px; padding:8px 16px"><i class="bi bi-plus-lg me-1"></i> Nueva Rutina</a>
+      <a routerLink="/ejercicios" class="btn btn-fit-primary btn-sm" style="padding:8px 18px"><i class="bi bi-lightning-charge-fill me-1"></i> Entrenar</a>
+    </div>
   </div>
 
   @if (error()) {
-    <div class="alert alert-danger">{{ error() }}</div>
+    <div class="alert alert-danger border-0" style="background:rgba(220,53,69,.10);color:#b02a37;border-radius:14px">{{ error() }}</div>
   }
 
   @if (cargando()) {
     <div class="text-center py-5">
-      <div class="spinner-border text-primary"></div>
+      <div class="spinner-border" style="color:#dc3545"></div>
+      <p class="text-muted mt-2 small">Cargando tu progreso...</p>
     </div>
   }
 
   @if (!cargando()) {
 
-    <!-- CARDS RESUMEN -->
-    <div class="row mb-4">
-      <div class="col-6 col-md-3 mb-3">
-        <div class="card shadow-sm text-center h-100 border-0 bg-light">
-          <div class="card-body">
-            <i class="bi bi-heart-pulse fs-3 text-dark"></i> 
-            <h3 class="fw-bold mb-0 mt-2">{{ rutinasActivas().length }}</h3>
-            <small class="text-muted text-uppercase" style="font-size: 0.65rem;">Rutinas activas</small>
-          </div>
+    <!-- STATS -->
+    <div class="row g-3 mb-4">
+      <div class="col-6 col-md-3">
+        <div class="dash-stat h-100">
+          <div class="icon-box-dash red"><i class="bi bi-heart-pulse"></i></div>
+          <h3 class="fw-bold mb-0" style="font-size:1.6rem;letter-spacing:-.02em">{{ rutinasActivas().length }}</h3>
+          <small class="text-muted text-uppercase" style="font-size:.65rem;letter-spacing:.3px">Rutinas activas</small>
         </div>
       </div>
-      <div class="col-6 col-md-3 mb-3">
-        <div class="card shadow-sm text-center h-100 border-0 bg-light">
-          <div class="card-body">
-            <i class="bi bi-speedometer fs-3 text-dark"></i>
-            <h3 class="fw-bold mb-0 mt-2">{{ sesionesEstaSemana().length }}</h3>
-            <small class="text-muted text-uppercase" style="font-size: 0.65rem;">Esta semana</small>
-          </div>
+      <div class="col-6 col-md-3">
+        <div class="dash-stat h-100">
+          <div class="icon-box-dash dark"><i class="bi bi-speedometer"></i></div>
+          <h3 class="fw-bold mb-0" style="font-size:1.6rem">{{ sesionesEstaSemana().length }}</h3>
+          <small class="text-muted text-uppercase" style="font-size:.65rem;letter-spacing:.3px">Esta semana</small>
         </div>
       </div>
-      <div class="col-6 col-md-3 mb-3">
-        <div class="card shadow-sm text-center h-100 border-0 bg-light">
-          <div class="card-body">
-            <i class="bi bi-rocket-takeoff fs-3 text-dark"></i>
-            <h3 class="fw-bold mb-0 mt-2">{{ racha() }}</h3>
-            <small class="text-muted text-uppercase" style="font-size: 0.65rem;">Días de racha</small>
-          </div>
+      <div class="col-6 col-md-3">
+        <div class="dash-stat h-100">
+          <div class="icon-box-dash amber"><i class="bi bi-rocket-takeoff"></i></div>
+          <h3 class="fw-bold mb-0" style="font-size:1.6rem">{{ racha() }}</h3>
+          <small class="text-muted text-uppercase" style="font-size:.65rem;letter-spacing:.3px">Días de racha</small>
         </div>
       </div>
-      <div class="col-6 col-md-3 mb-3">
-        <div class="card shadow-sm text-center h-100 border-0 bg-light">
-          <div class="card-body">
-            <i class="bi bi-crosshair fs-3 text-dark"></i>
-            <h3 class="fw-bold mb-0 mt-2">{{ puntos()?.saldo ?? 0 }}</h3>
-            <small class="text-muted text-uppercase" style="font-size: 0.65rem;">Puntos</small>
-          </div>
+      <div class="col-6 col-md-3">
+        <div class="dash-stat h-100">
+          <div class="icon-box-dash green"><i class="bi bi-crosshair"></i></div>
+          <h3 class="fw-bold mb-0" style="font-size:1.6rem">{{ puntos()?.saldo ?? 0 }}</h3>
+          <small class="text-muted text-uppercase" style="font-size:.65rem;letter-spacing:.3px">Puntos</small>
         </div>
       </div>
     </div>
 
     <!-- RUTINAS DE HOY -->
     @if (rutinasHoy().length > 0) {
-      <h4 class="fw-bold mb-3"> Rutinas de hoy</h4>
-      <div class="row mb-4">
+      <div class="d-flex align-items-center gap-2 mb-3">
+        <h4 class="fw-bold mb-0" style="font-size:1.15rem">Rutinas de hoy</h4>
+        <span class="card-pulse-dot"></span>
+        <small class="text-muted">{{ rutinasHoy().length }} programada(s)</small>
+      </div>
+      <div class="row g-3 mb-4">
         @for (rutina of rutinasHoy(); track rutina._id) {
-          <div class="col-md-6 col-lg-4 mb-3 mt-4">
-            <div class="card shadow-sm h-100 border-0">
-              <div class="card-body">
+          <div class="col-md-6 col-lg-4">
+            <div class="rutina-card h-100">
+              <div class="p-3">
                 <div class="d-flex justify-content-between align-items-start mb-2">
-                  <h6 class="fw-bold mb-0">{{ rutina.nombre }}</h6>
-                  <span class="badge bg-success">Activa</span>
+                  <h6 class="fw-bold mb-0" style="font-size:.96rem">{{ rutina.nombre }}</h6>
+                  <span class="badge rounded-pill" style="background:rgba(25,135,84,.12);color:#198754;border:1px solid rgba(25,135,84,.14);font-size:.70rem"><span class="d-inline-block me-1" style="width:6px;height:6px;background:#198754;border-radius:50%;box-shadow:0 0 6px #198754;animation: pulseHeart 1.6s infinite"></span>Activa</span>
                 </div>
-                <p class="text-muted small mb-2">{{ rutina.descripcion || 'Sin descripción' }}</p>
-                
-                <div class="mb-2">
+                <p class="text-muted small mb-2" style="font-size:.84rem">{{ rutina.descripcion || 'Sin descripción' }}</p>
+                <div class="d-flex flex-wrap gap-1 mb-2">
                   @for (dia of rutina.diasSemana; track dia) {
-                    <span class="badge bg-dark text-success border me-1" 
-                          [class.bg-primary]="dia === diaHoy()"
-                          [class.text-white]="dia === diaHoy()">
+                    <span class="badge rounded-pill border" 
+                          [style.background]="dia === diaHoy() ? '#dc3545' : '#fff'"
+                          [style.color]="dia === diaHoy() ? '#fff' : '#6c757d'"
+                          [style.border-color]="dia === diaHoy() ? '#dc3545' : 'rgba(0,0,0,.08)'"
+                          style="font-size:.68rem;font-weight:600">
                       {{ traducirDia(dia) }}
                     </span>
                   }
                 </div>
-
-                <small class="text-muted d-block mb-2">
-                  {{ rutina.ejercicios?.length || 0 }} ejercicios
-                </small>
-
-                <a class="btn btn-dark btn-sm w-100" [routerLink]="['/iniciar-sesion', rutina._id]">
+                <small class="text-muted d-flex align-items-center gap-1" style="font-size:.78rem"><i class="bi bi-collection"></i> {{ rutina.ejercicios?.length || 0 }} ejercicios</small>
+              </div>
+              <div class="px-3 pb-3">
+                <a class="btn btn-fit-primary w-100 btn-sm" style="border-radius:999px" [routerLink]="['/iniciar-sesion', rutina._id]">
                   <i class="bi bi-play-fill me-1"></i>Entrenar ahora
                 </a>
               </div>
@@ -106,62 +108,56 @@
     }
 
     <!-- ACCESO RÁPIDO -->
-    <h4 class="fw-bold mb-3"> Acceso rápido</h4>
-    <div class="row mb-4 mt-4">
-      <div class="col-6 col-md-3 mb-3">
-        <a class="card shadow-sm text-center text-decoration-none h-100 border-0 text-dark" routerLink="/rutinas">
-          <div class="card-body">
-            <i class="bi bi-cloud-haze2 fs-2 text-dark mb-2 d-block"></i>
-            <span class="fw-bold small">Mis Rutinas</span>
-          </div>
+    <h4 class="fw-bold mb-3" style="font-size:1.15rem">Acceso rápido</h4>
+    <div class="row g-3 mb-4">
+      <div class="col-6 col-md-3">
+        <a class="quick-card h-100 d-block" routerLink="/rutinas">
+          <i class="bi bi-cloud-haze2"></i>
+          <span class="fw-bold small d-block">Mis Rutinas</span>
+          <small class="text-muted" style="font-size:.75rem">Gestiona tus planes</small>
         </a>
       </div>
-      <div class="col-6 col-md-3 mb-3">
-        <a class="card shadow-sm text-center text-decoration-none h-100 border-0 text-dark" routerLink="/ejercicios">
-          <div class="card-body">
-            <i class="bi bi-droplet-half fs-2 text-dark mb-2 d-block"></i>
-            <span class="fw-bold small">Ejercicios</span>
-          </div>
+      <div class="col-6 col-md-3">
+        <a class="quick-card h-100 d-block" routerLink="/ejercicios">
+          <i class="bi bi-droplet-half"></i>
+          <span class="fw-bold small d-block">Ejercicios</span>
+          <small class="text-muted" style="font-size:.75rem">+2.400 disponibles</small>
         </a>
       </div>
-      <div class="col-6 col-md-3 mb-3">
-        <a class="card shadow-sm text-center text-decoration-none h-100 border-0 text-dark" routerLink="/progreso">
-          <div class="card-body">
-            <i class="bi bi-cloud-sun fs-2 text-dark mb-2 d-block"></i>
-            <span class="fw-bold small">Progreso</span>
-          </div>
+      <div class="col-6 col-md-3">
+        <a class="quick-card h-100 d-block" routerLink="/progreso">
+          <i class="bi bi-cloud-sun"></i>
+          <span class="fw-bold small d-block">Progreso</span>
+          <small class="text-muted" style="font-size:.75rem">Volumen y evolución</small>
         </a>
       </div>
-      <div class="col-6 col-md-3 mb-3">
-        <a class="card shadow-sm text-center text-decoration-none h-100 border-0 text-dark" routerLink="/recompensas">
-          <div class="card-body">
-            <i class="bi bi-envelope fs-2 text-dark mb-2 d-block"></i>
-            <span class="fw-bold small">Recompensas</span>
-          </div>
+      <div class="col-6 col-md-3">
+        <a class="quick-card h-100 d-block" routerLink="/recompensas">
+          <i class="bi bi-envelope"></i>
+          <span class="fw-bold small d-block">Recompensas</span>
+          <small class="text-muted" style="font-size:.75rem">Canjea tus puntos</small>
         </a>
       </div>
     </div>
 
     <!-- ÚLTIMA SESIÓN -->
     @if (ultimaSesion()) {
-      <h4 class="fw-bold mb-3"> Última sesión</h4>
-      <div class="card shadow-sm border-0 mb-4">
-        <div class="card-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <div>
-              <h6 class="fw-bold mb-1">{{ ultimaSesion().rutina?.nombre || 'Entrenamiento' }}</h6>
-              <small class="text-muted">
-                {{ ultimaSesion().fecha | date:'dd MMM, HH:mm' }} · 
-                {{ ultimaSesion().duracionMinutos || 0 }} min · 
-                {{ ultimaSesion().ejercicios?.length || 0 }} ejercicios
-              </small>
-            </div>
-            <span class="badge bg-success">Completada</span>
+      <h4 class="fw-bold mb-3" style="font-size:1.15rem">Última sesión</h4>
+      <div class="card-fit p-3 mb-4 d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center gap-3">
+          <div style="width:44px;height:44px;border-radius:12px;background:rgba(25,135,84,.10);border:1px solid rgba(25,135,84,.14);color:#198754;display:flex;align-items:center;justify-content:center"><i class="bi bi-check-circle-fill fs-5"></i></div>
+          <div>
+            <h6 class="fw-bold mb-1" style="font-size:.95rem">{{ ultimaSesion().rutina?.nombre || 'Entrenamiento' }}</h6>
+            <small class="text-muted" style="font-size:.82rem">
+              {{ ultimaSesion().fecha | date:'dd MMM, HH:mm' }} · {{ ultimaSesion().duracionMinutos || 0 }} min · {{ ultimaSesion().ejercicios?.length || 0 }} ejercicios
+            </small>
           </div>
         </div>
+        <span class="badge rounded-pill" style="background:rgba(25,135,84,.12);color:#198754;border:1px solid rgba(25,135,84,.18)">Completada</span>
       </div>
     }
 
   }
 
+  </div>
 </div>

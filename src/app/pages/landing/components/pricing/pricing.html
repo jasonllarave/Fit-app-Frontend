@@ -29,7 +29,7 @@
               <ul class="feature-list">
                 <li><i class="bi bi-check2"></i>{{ plan.maxRutinas === 999 ? 'Rutinas ilimitadas' : plan.maxRutinas + ' rutinas' }}</li>
                 @for (f of plan.features.slice(0,3); track f) {
-                  <li><i class="bi bi-check2"></i>{{ f }}</li>
+                  <li><i class="bi bi-check2"></i>{{ formatearFeature(f) }}</li>
                 }
               </ul>
             </div>
@@ -65,8 +65,8 @@
               <a class="btn btn-dark pricing-btn" routerLink="/register-gym">Probar 7 días gratis</a>
               <hr class="pricing-divider">
               <ul class="feature-list">
-                <li><i class="bi bi-person-heart"></i>Hasta {{ plan.maxMiembros }} miembros</li>
-                <li><i class="bi bi-person-workspace"></i>{{ plan.maxEntrenadores }} entrenadores</li>
+                <li><i class="bi bi-person-heart"></i>{{ plan.maxMiembros >= 999999 ? 'Miembros ilimitados' : 'Hasta ' + plan.maxMiembros + ' miembros' }}</li>
+                <li><i class="bi bi-person-workspace"></i>{{ plan.maxEntrenadores >= 999 ? 'Entrenadores ilimitados' : plan.maxEntrenadores + ' entrenadores' }}</li>
                 <li><i class="bi bi-gem"></i>Recompensas propias</li>
               </ul>
             </div>

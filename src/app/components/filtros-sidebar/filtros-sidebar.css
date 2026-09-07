@@ -1,8 +1,16 @@
 .nav-link:hover {
-  color: #dc3545 !important;
+  color: #ff6b6b !important;
   transition: color 0.2s;
 }
-
-.offcanvas {
-  width: 260px;
+.nav-link.active-filter{ color:#ff6b6b !important; font-weight:700;}
+.nav-link.active-filter i{ color:#ff6b6b !important;}
+.offcanvas { width: 260px; }
+.sidebar-dark{
+  background:#0a0a0f; border:1px solid rgba(255,255,255,.06); border-radius:18px; overflow:hidden;
+  box-shadow:0 12px 30px rgba(0,0,0,.18);
 }
+.sidebar-head{
+  text-align:center; padding:18px 0 8px; border-bottom:1px solid rgba(255,255,255,.06); margin-bottom:12px;
+}
+.sidebar-head i{ color:#ff6b6b; font-size:1.6rem; animation: pulseHeart 1.8s infinite; display:block;}
+.sidebar-section small{ color:rgba(255,255,255,.45) !important; letter-spacing:.4px;}

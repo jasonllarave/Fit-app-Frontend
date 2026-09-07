@@ -1,33 +1,36 @@
-<div class="container " style="margin-top: 105px;">
+<div class="page-wrap">
+<div class="container" style="max-width:1200px">
 
   <!-- Header -->
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="mb-4">Mis Rutinas</h2>
-    <a routerLink="/ejercicios" class="btn btn-success" style="background-color: rgb(1, 32, 11);"> 
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div>
+      <span class="rutinas-badge"><i class="bi bi-heart-pulse-fill"></i> Mis Rutinas</span>
+      <h2 class="fw-bold mb-1 mt-2" style="letter-spacing:-.02em">Tus planes de entrenamiento</h2>
+      <small class="text-muted">Crea, filtra y lanza tus sesiones. Todo con el pulso FitApp.</small>
+    </div>
+    <a routerLink="/ejercicios" class="btn btn-fit-primary" style="border-radius:999px; padding:10px 22px">
       <i class="bi bi-plus-lg me-2"></i>Nueva Rutina
     </a>
   </div>
 
-  <!-- Loading -->
   @if (cargando()) {
     <div class="text-center py-5">
-      <div class="spinner-border text-primary" role="status"></div>
+      <div class="spinner-border" style="color:#dc3545"></div>
     </div>
   }
 
-  <!-- Error -->
   @if (error()) {
-    <div class="alert alert-danger">{{ error() }}</div>
+    <div class="alert border-0" style="background:rgba(220,53,69,.10);color:#b02a37;border-radius:14px">{{ error() }}</div>
   }
 
   <!-- Filtro por día -->
-  <div class="mb-4">
-    <label class="form-label text-muted small fw-bold text-uppercase">Filtrar por día</label>
-    <div class="d-flex flex-wrap gap-2">
+  <div class="card-fit p-3 mb-4">
+    <label class="small fw-bold text-muted text-uppercase" style="font-size:.68rem;letter-spacing:.4px"><i class="bi bi-funnel me-1 text-danger"></i>Filtrar por día</label>
+    <div class="d-flex flex-wrap gap-2 mt-2">
       @for (dia of dias; track dia) {
         <button type="button"
-                class="btn btn-sm"
-                [class.btn-dark]="diaFiltro() === dia"
+                class="btn btn-sm filter-btn"
+                [class.active]="diaFiltro() === dia"
                 [class.btn-outline-dark]="diaFiltro() !== dia"
                 (click)="filtrarPorDia(dia)">
           {{ dia | titlecase }}
@@ -36,71 +39,69 @@
     </div>
     @if (diaFiltro()) {
       <small class="text-muted d-block mt-2">
-        Mostrando rutinas de <strong>{{ diaFiltro() | titlecase }}</strong>
-        <button class="btn btn-link btn-sm p-0 ms-2" (click)="diaFiltro.set('')">Limpiar</button>
+        Mostrando rutinas de <strong style="color:#dc3545">{{ diaFiltro() | titlecase }}</strong>
+        <button class="btn btn-link btn-sm p-0 ms-2" style="color:#dc3545;text-decoration:none;font-weight:700" (click)="diaFiltro.set('')">Limpiar</button>
       </small>
     }
   </div>
 
-  <!-- Lista vacía -->
   @if (rutinasFiltradas().length === 0 && !cargando()) {
-    <div class="alert alert-secondary text-center py-5">
-      <i class="bi bi-clipboard-x fs-1 d-block mb-3 text-muted"></i>
+    <div class="card-fit text-center py-5 px-4">
+      <div style="width:56px;height:56px;border-radius:14px;background:rgba(220,53,69,.08);border:1px solid rgba(220,53,69,.12);color:#dc3545;display:flex;align-items:center;justify-content:center;margin:0 auto 14px"><i class="bi bi-clipboard-x fs-4"></i></div>
       @if (diaFiltro()) {
-        <h5 class="text-muted">No tienes rutinas para {{ diaFiltro() | titlecase }}</h5>
+        <h5 class="fw-bold">No tienes rutinas para {{ diaFiltro() | titlecase }}</h5>
       } @else {
-        <h5 class="text-muted">No tienes rutinas creadas</h5>
+        <h5 class="fw-bold">No tienes rutinas creadas</h5>
       }
       <p class="text-muted mb-3">Crea tu primera rutina desde el catálogo de ejercicios</p>
-      <a routerLink="/ejercicios" class="btn btn-outline-dark">
+      <a routerLink="/ejercicios" class="btn btn-fit-ghost" style="border-radius:999px">
         <i class="bi bi-box-arrow-up-right me-2"></i>Ir al catálogo
       </a>
     </div>
   }
 
-  <!-- Grid de rutinas -->
-  <div class="row">
+  <!-- Grid -->
+  <div class="row g-3">
     @for (rutina of rutinasFiltradas(); track rutina._id) {
-      <div class="col-md-6 col-lg-4 mb-4">
-        <div class="card shadow-sm h-100">
+      <div class="col-md-6 col-lg-4">
+        <div class="card-rutina h-100 d-flex flex-column">
           
-          <!-- Card header -->
-          <div class="card-body pb-2">
+          <div class="p-3 pb-2 flex-grow-1">
             <div class="d-flex justify-content-between align-items-start mb-2">
-              <h5 class="card-title mb-0 fw-bold">{{ rutina.nombre }}</h5>
-              <span class="badge" 
-                    [class.bg-success]="rutina.activa"  
-                    [class.bg-secondary]="!rutina.activa">
+              <h5 class="fw-bold mb-0" style="font-size:1rem;letter-spacing:-.01em">{{ rutina.nombre }}</h5>
+              <span class="badge rounded-pill" 
+                    [style.background]="rutina.activa ? 'rgba(25,135,84,.12)' : 'rgba(108,117,125,.12)'"
+                    [style.color]="rutina.activa ? '#198754' : '#6c757d'"
+                    [style.border]="'1px solid ' + (rutina.activa ? 'rgba(25,135,84,.18)' : 'rgba(0,0,0,.06)' )"
+                    style="font-size:.70rem">
+                <span class="d-inline-block me-1" style="width:6px;height:6px;border-radius:50%;background:currentColor;animation: pulseHeart 1.6s infinite"></span>
                 {{ rutina.activa ? 'Activa' : 'Inactiva' }}
               </span>
             </div>
             
-            <p class="card-text text-muted small mb-2">
+            <p class="text-muted small mb-2" style="font-size:.84rem">
               {{ rutina.descripcion || 'Sin descripción' }}
             </p>
             
-            <!-- Días -->
-            <div class="mb-3">
+            <div class="d-flex flex-wrap gap-1 mb-3">
               @for (dia of rutina.diasSemana; track dia) {
-                <span class="badge bg-light text-dark border me-1">{{ traducirDia(dia) }}</span>
+                <span class="day-pill" [class.active]="dia === diaFiltro()" [class.idle]="dia !== diaFiltro()">{{ traducirDia(dia) }}</span>
               }
             </div>
           </div>
 
-          <!-- Ejercicios dentro del card (scroll horizontal) -->
           @if (rutina.ejercicios?.length > 0) {
             <div class="px-3 pb-2">
-              <small class="text-muted text-uppercase fw-bold" style="font-size: 0.7rem;">
-                Ejercicios ({{ rutina.ejercicios.length }})
+              <small class="text-muted text-uppercase fw-bold d-flex align-items-center gap-1" style="font-size:.68rem;letter-spacing:.3px">
+                <span class="card-pulse-dot" style="width:6px;height:6px"></span> Ejercicios ({{ rutina.ejercicios.length }})
               </small>
-              <div class="d-flex gap-2 mt-1 overflow-auto pb-2">
+              <div class="d-flex gap-2 mt-2 overflow-auto pb-2" style="scrollbar-width:thin">
                 @for (ej of rutina.ejercicios; track ej.ejercicio?._id || $index) {
-                  <div class="flex-shrink-0 text-center" style="width: 70px;">
+                  <div class="flex-shrink-0 text-center" style="width:68px;">
                     <img [src]="mediaUrl + (ej.ejercicio?.gif || ej.ejercicio?.imagen)" 
-                          class="rounded border" 
-                          style="width: 60px; height: 60px; object-fit: cover;"
+                          class="rutina-img" 
                           [title]="ej.ejercicio?.nombre">
-                    <small class="d-block text-truncate text-muted" style="font-size: 0.65rem;">
+                    <small class="d-block text-truncate text-muted mt-1" style="font-size:.65rem;">
                       {{ ej.ejercicio?.nombre }}
                     </small>
                   </div>
@@ -109,55 +110,35 @@
             </div>
           }
 
-          <!-- Botones de acción -->
-          <div class="card-footer bg-white border-top-0 pt-0 pb-3 px-3">
-            <div class="d-flex gap-2">
-
-             <!-- VER DETALLE (NUEVO) -->
-                <a class="btn btn-outline-dark btn-sm" [routerLink]="['/rutina', rutina._id]">
+          <div class="p-3 pt-2 mt-auto" style="border-top:1px solid rgba(0,0,0,.04);background:rgba(248,249,250,.6)">
+            <div class="d-flex flex-wrap gap-2">
+                <a class="btn btn-outline-dark btn-sm btn-accion" [routerLink]="['/rutina', rutina._id]">
                   <i class="bi bi-eye me-1"></i>Ver
                 </a> 
-
-              <!-- Editar -->
-              <a class="btn btn-outline-dark btn-sm flex-fill" 
+              <a class="btn btn-outline-dark btn-sm btn-accion flex-fill" 
                  [routerLink]="['/crear-rutina', rutina._id]">
                 <i class="bi bi-pencil me-1"></i>Editar
               </a>
-              
-              <!-- Añadir ejercicios (NUEVO) -->
               <button type="button" 
-                      class="btn btn-success btn-sm flex-fill " style="background-color: rgb(1, 32, 11);"
+                      class="btn btn-fit-primary btn-sm flex-fill" style="border-radius:999px"
                       (click)="agregarEjercicios(rutina._id)">
                 <i class="bi bi-plus-circle me-1"></i>Añadir
               </button>
-
-              <!-- ACTIVAR/DESACTIVAR (NUEVO) -->
                 @if (rutina.activa) {
-                  <button type="button" 
-                          class="btn btn-outline-warning btn-sm"
-                          (click)="desactivarRutina(rutina._id)">
+                  <button type="button" class="btn btn-outline-warning btn-sm btn-accion" (click)="desactivarRutina(rutina._id)" title="Pausar">
                     <i class="bi bi-pause-fill"></i>
                   </button>
                 } @else {
-                  <button type="button" 
-                          class="btn btn-outline-success btn-sm" 
-                          (click)="activarRutina(rutina._id)">
+                  <button type="button" class="btn btn-outline-success btn-sm btn-accion" (click)="activarRutina(rutina._id)" title="Activar">
                     <i class="bi bi-play-fill"></i>
                   </button>
                 }
-
-                <!-- 5. ENTRENAR (iniciar sesión de workout) -->
-                <a class="btn btn-dark btn-sm" [routerLink]="['/iniciar-sesion', rutina._id]">
-                  <i class="bi bi-lightning-charge-fill me-1"></i>Entrenar
+                <a class="btn btn-dark btn-sm btn-accion" style="border-radius:999px" [routerLink]="['/iniciar-sesion', rutina._id]">
+                  <i class="bi bi-lightning-charge-fill"></i>
                 </a>
-              
-              <!-- Eliminar -->
-              <button type="button" 
-                      class="btn btn-outline-danger btn-sm"
-                      (click)="eliminarRutina(rutina._id)">
+              <button type="button" class="btn btn-outline-danger btn-sm btn-accion" (click)="eliminarRutina(rutina._id)">
                 <i class="bi bi-trash"></i>
               </button>
-
             </div>
           </div>
 
@@ -166,4 +147,5 @@
     }
   </div>
 
+</div>
 </div>

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../../../services/auth';
 
 @Component({
   selector: 'app-landing-topbar',
@@ -8,4 +9,8 @@ import { RouterLink } from '@angular/router';
   templateUrl: './topbar.html',
   styleUrl: './topbar.css'
 })
-export class LandingTopbar {}
+export class LandingTopbar {
+  private auth = inject(AuthService);
+  isLogged = () => this.auth.isLogged();
+  irDashboard = () => this.auth.redirigirSegunRol();
+}

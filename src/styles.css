@@ -1,30 +1,120 @@
-/* You can add global styles to this file, and also import other style files */
+/* FitApp - Sistema de Diseño Global */
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Fredoka:wght@600;700&display=swap');
 
 :root {
   --font-explosive: 'Space Grotesk', system-ui, -apple-system, sans-serif;
   --font-display: 'Fredoka', 'Space Grotesk', sans-serif;
+  /* Identidad */
+  --fit-red: #dc3545;
+  --fit-red-dark: #b02a37;
+  --fit-red-light: #ff6b6b;
+  --fit-red-soft: rgba(220,53,69,.10);
+  --fit-red-border: rgba(220,53,69,.14);
+  --fit-red-glow: rgba(220,53,69,.35);
   --holo-red: #dc3545;
   --holo-red-glow: rgba(220, 53, 69, 0.4);
   --holo-cyan: #00d4ff;
   --holo-cyan-glow: rgba(0, 212, 255, 0.3);
-  --glass-bg: rgba(10, 10, 15, 0.75);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  /* Neutrales */
+  --fit-dark: #0a0a0f;
+  --fit-dark-2: #141419;
+  --fit-card: #ffffff;
+  --fit-light: #f8f9fa;
+  --fit-border: rgba(0,0,0,.06);
+  --fit-text: #212529;
+  --fit-muted: #6c757d;
+  /* Glass */
+  --glass-bg: rgba(10, 10, 15, 0.82);
+  --glass-border: rgba(255,255,255,.08);
+  --fit-radius: 18px;
+  --fit-radius-lg: 22px;
 }
 
 html, body {
   font-family: var(--font-explosive);
   scroll-behavior: smooth;
+  background: #f8f9fa;
+  color: var(--fit-text);
 }
-
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-explosive);
   letter-spacing: -0.03em;
 }
-
 .display-font {
   font-weight: 800;
   letter-spacing: -0.04em;
   line-height: 1.05;
   font-family: var(--font-display);
 }
+
+/* ================= Bootstrap overrides elegantes ================= */
+.btn-fit-primary{
+  background: linear-gradient(135deg,var(--fit-red),var(--fit-red-dark));
+  color:#fff; border:none; border-radius:999px;
+  font-weight:700; letter-spacing:.2px;
+  box-shadow:0 6px 20px rgba(220,53,69,.28);
+  transition:all .2s ease;
+}
+.btn-fit-primary:hover{ filter:brightness(1.07); transform:translateY(-1px); box-shadow:0 10px 28px rgba(220,53,69,.35); color:#fff;}
+.btn-fit-ghost{
+  background:#fff; color:var(--fit-text); border:1px solid rgba(0,0,0,.12);
+  border-radius:999px; font-weight:600;
+}
+.btn-fit-ghost:hover{ border-color:rgba(0,0,0,.22); background:#f8f9fa;}
+
+.form-control:focus, .form-select:focus{
+  border-color: var(--fit-red-border);
+  box-shadow: 0 0 0 .20rem rgba(220,53,69,.15);
+}
+a{ color:var(--fit-red);}
+a:hover{ color:var(--fit-red-dark);}
+
+/* Cards unificadas */
+.card-fit{
+  background: var(--fit-card);
+  border:1px solid var(--fit-border);
+  border-radius: var(--fit-radius-lg);
+  box-shadow:0 10px 30px rgba(0,0,0,.06);
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s;
+}
+.card-fit:hover{
+  transform:translateY(-4px);
+  box-shadow:0 18px 40px rgba(0,0,0,.09);
+  border-color: rgba(0,0,0,.08);
+}
+.card-fit.accent-hover:hover{ border-color: var(--fit-red-border); box-shadow:0 18px 40px rgba(220,53,69,.10);}
+
+/* Badge / pills */
+.badge-fit-red{ background:var(--fit-red-soft); color:var(--fit-red); border:1px solid var(--fit-red-border); font-weight:700; letter-spacing:.2px;}
+.badge-fit-dark{ background:#212529; color:#fff; border:1px solid #212529;}
+
+/* ================= Animaciones sistema ================= */
+@keyframes pulseHeart{ 0%,100%{ transform:scale(1)} 15%{transform:scale(1.12)} 30%{transform:scale(1)} 45%{transform:scale(1.08)} 60%{transform:scale(1)}}
+@keyframes pulseRing{ 0%{ transform:scale(.65); opacity:.55} 100%{transform:scale(2.4); opacity:0}}
+@keyframes softFloat{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)}}
+.fit-pulse-icon{ animation: pulseHeart 1.8s ease-in-out infinite;}
+.fit-pulse-ring::before, .fit-pulse-ring::after{
+  content:''; position:absolute; inset:0; border-radius:50%;
+  border:1px solid rgba(220,53,69,.45); opacity:0; animation: pulseRing 1.8s ease-out infinite;
+}
+.fit-pulse-ring::after{ animation-delay:.6s;}
+.card-pulse-dot{
+  width:8px; height:8px; background:var(--fit-red); border-radius:50%;
+  box-shadow:0 0 10px var(--fit-red-glow); animation: pulseHeart 1.6s infinite;
+}
+
+/* Section helpers */
+.section-dark{background:var(--fit-dark); color:#fff}
+.section-light{background:var(--fit-light); color:var(--fit-text)}
+.page-wrap{ margin-top: 88px; }
+@media(max-width:576px){ .page-wrap{ margin-top: 76px; } }
+
+/* Scrollbar sutil */
+::-webkit-scrollbar{ width:6px; height:6px;}
+::-webkit-scrollbar-thumb{ background: rgba(0,0,0,.15); border-radius:999px;}
+::-webkit-scrollbar-thumb:hover{ background: rgba(220,53,69,.35);}
+
+/* Inputs auth elegantes */
+.input-icon-wrap{ position:relative;}
+.input-icon-wrap .form-control{ padding-left:42px; height:46px; border-radius:12px; background:#fff;}
+.input-icon-wrap .input-icon{ position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#adb5bd; font-size:1.05rem;}

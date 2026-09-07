@@ -6,22 +6,27 @@
           <i class="bi bi-heart-pulse-fill"></i>
         </div>
         <span class="brand-text">FitApp</span>
-        <span class="brand-dot"></span>
       </a>
       <div class="topbar-live">
-        <i class="bi bi-broadcast" style="color:#20c997"></i>
+        <i class="bi bi-broadcast" style="color:#adb5bd"></i>
         <span>Sistema activo</span>
-        <span class="live-dot"></span>
       </div>
       <div class="topbar-actions">
-        <a routerLink="/login" class="btn-holo btn-holo-ghost">
-          <i class="bi bi-box-arrow-in-right"></i>
-          <span>Ingresar</span>
-        </a>
-        <a routerLink="/register" class="btn-holo btn-holo-primary">
-          <i class="bi bi-person-plus"></i>
-          <span>Registrate</span>
-        </a>
+        @if (isLogged()) {
+          <a (click)="irDashboard()" class="btn-holo btn-holo-primary" style="cursor:pointer">
+            <i class="bi bi-speedometer2"></i>
+            <span>Ir a mi espacio</span>
+          </a>
+        } @else {
+          <a routerLink="/login" class="btn-holo btn-holo-ghost">
+            <i class="bi bi-box-arrow-in-right"></i>
+            <span>Ingresar</span>
+          </a>
+          <a routerLink="/register" class="btn-holo btn-holo-primary">
+            <i class="bi bi-person-plus"></i>
+            <span>Registrate</span>
+          </a>
+        }
       </div>
     </div>
   </div>

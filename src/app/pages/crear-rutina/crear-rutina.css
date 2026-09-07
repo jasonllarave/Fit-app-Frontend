@@ -1,0 +1,13 @@
+.page-wrap{ margin-top:88px;}
+.create-header{
+  display:inline-flex;align-items:center;gap:8px;
+  background:#0a0a0f;color:#fff;padding:7px 14px;border-radius:999px;font-size:.78rem;font-weight:700;
+}
+.create-header i{ color:#ff6b6b;}
+.form-card{ background:#fff; border:1px solid rgba(0,0,0,.06); border-radius:20px; padding:22px; box-shadow:0 10px 28px rgba(0,0,0,.06);}
+.heart-icon{ animation: pulseHeart 1.8s infinite;}
+.pill-day{ border-radius:999px; font-weight:600; font-size:.82rem; padding:6px 14px; border:1px solid rgba(0,0,0,.10); background:#fff; color:#6c757d; transition:all .18s;}
+.pill-day.active{ background:#dc3545; color:#fff; border-color:#dc3545; box-shadow:0 4px 12px rgba(220,53,69,.25);}
+.ejercicio-card{ background:#fff; border:1px solid rgba(0,0,0,.06); border-radius:18px; overflow:hidden; box-shadow:0 10px 28px rgba(0,0,0,.06);}
+.ejercicio-card .card-header{ background:linear-gradient(180deg,#fff,#f8f9fa); border-bottom:1px solid rgba(0,0,0,.06);}
+.table thead.table-dark{ --bs-table-bg:#0a0a0f; --bs-table-border-color:rgba(255,255,255,.08);}

@@ -1,109 +1,112 @@
-<div class="container"  style="margin-top: 95px;">
-  <h2 class="mb-4">
-    @if (esEdicion()) {
-      <i class="bi bi-pencil-square me-2"></i>Editar Rutina
-    } @else {
-      <i class="bi bi-plus-circle me-2"></i>Crear Rutina
-    }
+<div class="page-wrap">
+<div class="container" style="max-width:900px">
+
+  <div class="d-flex align-items-center gap-2 mb-3">
+    <span class="create-header">
+      @if (esEdicion()) { <i class="bi bi-pencil-square"></i> Editar Rutina }
+      @else { <i class="bi bi-plus-circle"></i> Crear Rutina }
+    </span>
+    <span class="d-inline-flex align-items-center gap-1 text-muted" style="font-size:.76rem"><span class="card-pulse-dot" style="width:6px;height:6px"></span> {{ ejerciciosSeleccionados().length }} ejercicios</span>
+  </div>
+
+  <h2 class="fw-bold mb-1" style="letter-spacing:-.02em">
+    @if (esEdicion()) { Edita tu rutina }
+    @else { Diseña tu nueva rutina }
   </h2>
+  <p class="text-muted mb-4" style="font-size:.92rem">Configura días, series y peso. Todo queda guardado con el sistema de pulsaciones FitApp.</p>
 
   @if (cargandoRutina()) {
     <div class="text-center py-4">
-      <div class="spinner-border"></div>
-      <p class="mt-2 text-muted">Cargando rutina...</p>
+      <div class="spinner-border" style="color:#dc3545"></div>
+      <p class="mt-2 text-muted small">Cargando rutina...</p>
     </div>
   }
 
   @if (exito()) {
-    <div class="alert alert-success">
+    <div class="alert border-0 d-flex align-items-center gap-2" style="background:rgba(25,135,84,.10);color:#146c43;border-radius:14px;border:1px solid rgba(25,135,84,.14)">
+      <i class="bi bi-check-circle-fill"></i>
       @if (esEdicion()) { Rutina actualizada correctamente }
       @else { Rutina creada correctamente }
     </div>
   }
 
   @if (error()) {
-    <div class="alert alert-danger">{{ error() }}</div>
+    <div class="alert border-0" style="background:rgba(220,53,69,.10);color:#b02a37;border-radius:14px">{{ error() }}</div>
   }
 
   <form [formGroup]="rutinaForm" (ngSubmit)="onSubmit()">
 
-    <!-- NOMBRE -->
-    <div class="mb-3">
-      <label class="form-label fw-bold">Nombre de la rutina *</label>
-      <input type="text" class="form-control" formControlName="nombre" placeholder="Ej: Rutina de Pecho">
-    </div>
+    <div class="form-card mb-4">
+      <div class="mb-3">
+        <label class="form-label fw-bold small text-uppercase" style="font-size:.70rem;letter-spacing:.3px;color:#0a0a0f">Nombre de la rutina *</label>
+        <div class="input-icon-wrap">
+          <i class="bi bi-lightning-charge input-icon" style="color:#dc3545"></i>
+          <input type="text" class="form-control" formControlName="nombre" placeholder="Ej: Rutina de Pecho">
+        </div>
+      </div>
 
-    <!-- DESCRIPCIÓN -->
-    <div class="mb-3">
-      <label class="form-label">Descripción</label>
-      <textarea class="form-control" formControlName="descripcion" rows="2"></textarea>
-    </div>
+      <div class="mb-3">
+        <label class="form-label small fw-semibold text-muted text-uppercase" style="font-size:.68rem;letter-spacing:.3px">Descripción</label>
+        <textarea class="form-control" formControlName="descripcion" rows="2" placeholder="Objetivo, notas breves..." style="border-radius:12px"></textarea>
+      </div>
 
-    <!-- FRECUENCIA -->
-    <div class="mb-3">
-      <label class="form-label">Frecuencia</label>
-      <select class="form-select" formControlName="frecuencia">
-        <option value="diaria">Diaria</option>
-        <option value="semanal">Semanal</option>
-        <option value="personalizada">Personalizada</option>
-      </select>
-    </div>
+      <div class="mb-3">
+        <label class="form-label small fw-semibold text-muted text-uppercase" style="font-size:.68rem;letter-spacing:.3px">Frecuencia</label>
+        <select class="form-select" formControlName="frecuencia" style="border-radius:12px">
+          <option value="diaria">Diaria</option>
+          <option value="semanal">Semanal</option>
+          <option value="personalizada">Personalizada</option>
+        </select>
+      </div>
 
-    <!-- DÍAS -->
-    <div class="mb-4" >
-      <label class="form-label fw-bold">Días de la semana</label>
-      <div class="d-flex flex-wrap gap-2">
-        @for (dia of dias; track dia) {
-          <button type="button" 
-                  class="btn btn-sm" 
-                  [class.btn-dark]="(rutinaForm.value.diasSemana || []).includes(dia)"
-                  [class.btn-outline-dark]="!(rutinaForm.value.diasSemana || []).includes(dia)"
-                  (click)="toggleDia(dia)" >
-            {{ dia | titlecase }}
-          </button>
-        }
+      <div>
+        <label class="form-label fw-bold small text-uppercase" style="font-size:.70rem;letter-spacing:.3px">Días de la semana</label>
+        <div class="d-flex flex-wrap gap-2 mt-1">
+          @for (dia of dias; track dia) {
+            <button type="button" 
+                    class="pill-day" 
+                    [class.active]="(rutinaForm.value.diasSemana || []).includes(dia)"
+                    (click)="toggleDia(dia)" >
+              {{ dia | titlecase }}
+            </button>
+          }
+        </div>
       </div>
     </div>
 
-    <!-- EJERCICIOS CON SERIES EDITABLES -->
-    <h5 class="mt-4 mb-3 fw-bold">
+    <h5 class="fw-bold d-flex align-items-center gap-2 mb-3">
       Ejercicios 
-      <span class="badge bg-dark">{{ ejerciciosSeleccionados().length }}</span>
+      <span class="badge rounded-pill" style="background:#0a0a0f;color:#fff;border:1px solid #0a0a0f">{{ ejerciciosSeleccionados().length }}</span>
+      <span class="card-pulse-dot"></span>
     </h5>
     
     @if (ejerciciosSeleccionados().length === 0) {
-      <div class="alert alert-secondary">
-        No hay ejercicios seleccionados.
-        <a routerLink="/ejercicios" class="alert-link">Ir al catálogo</a>
+      <div class="card-fit text-center py-4">
+        <div style="width:48px;height:48px;border-radius:12px;background:rgba(220,53,69,.08);border:1px solid rgba(220,53,69,.12);color:#dc3545;display:flex;align-items:center;justify-content:center;margin:0 auto 10px"><i class="bi bi-collection"></i></div>
+        <p class="text-muted mb-2">No hay ejercicios seleccionados.</p>
+        <a routerLink="/ejercicios" class="btn btn-fit-primary btn-sm" style="border-radius:999px"><i class="bi bi-search me-1"></i> Ir al catálogo</a>
       </div>
     }
 
-    <!-- CADA EJERCICIO ES UNA CARD CON SU TABLA DE SERIES -->
     @for (ej of ejerciciosSeleccionados(); track ej._id; let ejIndex = $index) {
-      <div class="card mb-4 shadow-sm">
-        <div class="card-header bg-light d-flex justify-content-between align-items-center">
-          
-          <!-- Info del ejercicio -->
+      <div class="ejercicio-card mb-3">
+        <div class="card-header d-flex justify-content-between align-items-center p-3">
           <div class="d-flex align-items-center gap-3">
             <img [src]="mediaUrl + (ej.gif || ej.imagen)" 
-                  style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                  style="width: 56px; height: 56px; object-fit: cover; border-radius: 12px; border:1px solid rgba(0,0,0,.06)">
             <div>
-              <h6 class="mb-0 text-capitalize fw-bold">{{ ej.nombre }}</h6>
-              <small class="text-muted text-capitalize">{{ ej.musculoObjetivo }}</small>
+              <h6 class="mb-0 text-capitalize fw-bold" style="font-size:.95rem">{{ ej.nombre }}</h6>
+              <small class="text-muted text-capitalize d-flex align-items-center gap-1" style="font-size:.78rem"><i class="bi bi-bullseye" style="color:#dc3545;font-size:.7rem"></i> {{ ej.musculoObjetivo }}</small>
             </div>
           </div>
-          
-          <!-- Eliminar ejercicio completo -->
-          <button type="button" class="btn btn-outline-danger btn-sm" (click)="eliminarEjercicio(ejIndex)">
+          <button type="button" class="btn btn-outline-danger btn-sm" style="border-radius:999px" (click)="eliminarEjercicio(ejIndex)">
             <i class="bi bi-trash"></i> Quitar
           </button>
         </div>
         
-        <div class="card-body">
-          
-          <!-- TABLA DE SERIES -->
+        <div class="p-3">
           <div class="table-responsive">
-            <table class="table table-sm table-bordered align-middle">
+            <table class="table table-sm table-bordered align-middle mb-2" style="border-radius:12px;overflow:hidden">
               <thead class="table-dark">
                 <tr>
                   <th class="text-center" style="width: 50px;">#</th>
@@ -116,36 +119,27 @@
               <tbody>
                 @for (serie of ej.series; track $index; let sIndex = $index) {
                   <tr>
-                    <!-- Número de serie (solo lectura) -->
-                    <td class="text-center fw-bold">{{ serie.numeroSerie }}</td>
-                    
-                    <!-- Repeticiones -->
+                    <td class="text-center fw-bold" style="color:#dc3545">{{ serie.numeroSerie }}</td>
                     <td>
                       <input type="number" class="form-control form-control-sm" 
                              [value]="serie.repeticiones"
                              (change)="actualizarSerie(ejIndex, sIndex, 'repeticiones', $any($event.target).value)"
-                             min="1" style="min-width: 70px;">
+                             min="1" style="min-width: 70px;border-radius:8px">
                     </td>
-                    
-                    <!-- Peso objetivo -->
                     <td>
                       <input type="number" class="form-control form-control-sm" 
                              [value]="serie.pesoObjetivo"
                              (change)="actualizarSerie(ejIndex, sIndex, 'pesoObjetivo', $any($event.target).value)"
-                             min="0" step="0.5" style="min-width: 80px;">
+                             min="0" step="0.5" style="min-width: 80px;border-radius:8px">
                     </td>
-                    
-                    <!-- Descanso -->
                     <td>
                       <input type="number" class="form-control form-control-sm" 
                              [value]="serie.descansoSegundos"
                              (change)="actualizarSerie(ejIndex, sIndex, 'descansoSegundos', $any($event.target).value)"
-                             min="0" step="5" style="min-width: 80px;">
+                             min="0" step="5" style="min-width: 80px;border-radius:8px">
                     </td>
-                    
-                    <!-- Eliminar serie -->
                     <td class="text-center">
-                      <button type="button" class="btn btn-outline-danger btn-sm py-0 px-2"
+                      <button type="button" class="btn btn-outline-danger btn-sm py-0 px-2" style="border-radius:999px"
                               (click)="eliminarSerie(ejIndex, sIndex)"
                               [disabled]="ej.series.length === 1">
                         <i class="bi bi-dash"></i>
@@ -157,27 +151,23 @@
             </table>
           </div>
           
-          <!-- Botón agregar serie -->
-          <button type="button" class="btn btn-outline-dark btn-sm" (click)="agregarSerie(ejIndex)">
+          <button type="button" class="btn btn-fit-ghost btn-sm" style="border-radius:999px" (click)="agregarSerie(ejIndex)">
             <i class="bi bi-plus-lg me-1"></i>Agregar serie
           </button>
           
-          <!-- Notas del ejercicio -->
           <div class="mt-3">
-            <label class="form-label small text-muted mb-1">Notas</label>
-            <input type="text" class="form-control form-control-sm" 
+            <label class="form-label small text-muted mb-1" style="font-size:.72rem;letter-spacing:.3px">Notas</label>
+            <input type="text" class="form-control form-control-sm" style="border-radius:10px"
                    [value]="ej.notas"
                    (change)="actualizarNotas(ejIndex, $any($event.target).value)"
                    placeholder="Ej: Mantener espalda recta, subir lento...">
           </div>
-          
         </div>
       </div>
     }
 
-    <!-- BOTÓN GUARDAR -->
     <button type="submit" 
-            class="btn btn-dark w-100 btn-lg" 
+            class="btn btn-fit-primary w-100 btn-lg mt-2" style="border-radius:999px;height:52px"
             [disabled]="rutinaForm.invalid || ejerciciosSeleccionados().length === 0 || cargando()">
       @if (cargando()) {
         <span class="spinner-border spinner-border-sm me-2"></span>
@@ -192,4 +182,5 @@
     </button>
 
   </form>
+</div>
 </div>

@@ -16,6 +16,7 @@ export class Login {
   private router = inject(Router);
 
   errorMessage = signal('');
+  animando = signal(false);
 
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -24,6 +25,10 @@ export class Login {
 
   onLogin() {
     if (this.loginForm.invalid) return;
+
+    // animación corazón: inicia más a la derecha y corre total a la derecha (un poco más lento)
+    this.animando.set(true);
+    setTimeout(() => this.animando.set(false), 1050);
 
     const email = this.loginForm.value.email!;
     const password = this.loginForm.value.password!;

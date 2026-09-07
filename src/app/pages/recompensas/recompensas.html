@@ -1,80 +1,68 @@
-<div class="container mt-4">
+<div class="page-wrap">
+<div class="container" style="max-width:1100px">
 
-  <h2 class="mb-4">🏆 Mis Recompensas</h2>
+  <div class="d-flex align-items-center gap-2 mb-3">
+    <span class="recomp-badge"><i class="bi bi-trophy-fill"></i> Mis Recompensas</span>
+    <span class="d-inline-flex align-items-center gap-1 text-muted" style="font-size:.76rem"><span class="card-pulse-dot" style="width:6px;height:6px"></span> Catálogo gym</span>
+  </div>
+  <h2 class="fw-bold mb-1" style="letter-spacing:-.02em">Canjea tu esfuerzo</h2>
+  <p class="text-muted mb-4" style="font-size:.92rem">Tus puntos laten en rojo. Convierte constancia en premios.</p>
 
-  <!-- ============================================ -->
-  <!-- ESTADO 1: INDEPENDIENTE (BLOQUEADO) -->
-  <!-- ============================================ -->
   @if (esIndependiente()) {
-    <div class="card border-warning shadow-sm">
-      <div class="card-body text-center py-5">
-        <i class="bi bi-lock-fill fs-1 text-warning mb-3 d-block"></i>
-        <h4 class="fw-bold">Recompensas solo para Gimnasios</h4>
-        <p class="text-muted">
-          El sistema de recompensas está diseñado para miembros de gimnasios afiliados a FitApp.
-        </p>
-        <div class="alert alert-light border mt-3">
-          <strong>¿Quieres acceder a recompensas?</strong><br>
-          Contacta a tu gimnasio para que se afilie a nuestra plataforma.
-        </div>
+    <div class="card-fit text-center py-5 px-4">
+      <div style="width:56px;height:56px;border-radius:14px;background:rgba(255,193,7,.10);border:1px solid rgba(255,193,7,.14);color:#b48b00;display:flex;align-items:center;justify-content:center;margin:0 auto 14px"><i class="bi bi-lock-fill fs-4"></i></div>
+      <h4 class="fw-bold">Recompensas solo para Gimnasios</h4>
+      <p class="text-muted">El sistema de recompensas está diseñado para miembros de gimnasios afiliados a FitApp.</p>
+      <div class="alert border-0 mt-3" style="background:rgba(220,53,69,.06);border:1px solid rgba(220,53,69,.10);border-radius:14px">
+        <strong>¿Quieres acceder a recompensas?</strong><br>Contacta a tu gimnasio para que se afilie a nuestra plataforma.
       </div>
     </div>
   }
 
-  <!-- ============================================ -->
-  <!-- ESTADO 2 Y 3: GYM (ACTIVAS O DESACTIVADAS) -->
-  <!-- ============================================ -->
   @else {
     
-    <!-- Saldo de puntos -->
     @if (puntos()) {
-      <div class="card bg-primary text-white mb-4 shadow">
-        <div class="card-body d-flex justify-content-between align-items-center">
-          <div>
-            <h3 class="mb-0">{{ puntos().saldo }}</h3>
-            <small>Puntos disponibles</small>
-          </div>
-          <i class="bi bi-trophy-fill fs-1 opacity-50"></i>
+      <div class="puntos-hero mb-4 d-flex justify-content-between align-items-center">
+        <div class="position-relative" style="z-index:2">
+          <small style="opacity:.85;letter-spacing:.3px;text-transform:uppercase;font-size:.70rem;font-weight:700">Puntos disponibles</small>
+          <h3 class="mb-0 fw-bold" style="font-size:2rem;letter-spacing:-.02em">{{ puntos().saldo }}</h3>
+          <small style="opacity:.75">Sigue entrenando para sumar más</small>
         </div>
+        <i class="bi bi-trophy-fill" style="font-size:2.6rem;opacity:.22;position:relative;z-index:2"></i>
       </div>
     }
 
     @if (error()) {
-      <div class="alert alert-danger">{{ error() }}</div>
+      <div class="alert border-0" style="background:rgba(220,53,69,.10);color:#b02a37;border-radius:14px">{{ error() }}</div>
     }
 
     @if (cargando()) {
-      <div class="text-center py-4">
-        <div class="spinner-border text-primary"></div>
-      </div>
+      <div class="text-center py-4"><div class="spinner-border" style="color:#dc3545"></div></div>
     }
 
-    <!-- Lista de recompensas -->
-    <div class="row">
+    <div class="row g-3">
       @for (rec of recompensas(); track rec._id) {
-        <div class="col-md-4 col-lg-3 mb-4">
-          <div class="card h-100 shadow-sm">
-            
+        <div class="col-md-4 col-lg-3">
+          <div class="rec-card h-100">
             @if (rec.imagen) {
-              <img [src]="rec.imagen" class="card-img-top" style="height: 150px; object-fit: cover;">
+              <img [src]="rec.imagen" style="height: 150px; object-fit: cover;width:100%;display:block">
+            } @else {
+              <div style="height:8px;background:linear-gradient(90deg,#dc3545,#ff6b6b)"></div>
             }
-
-            <div class="card-body">
-              <span class="badge bg-secondary mb-2">{{ rec.tipo | titlecase }}</span>
-              <h5 class="card-title">{{ rec.nombre }}</h5>
-              <p class="card-text text-muted small">{{ rec.descripcion }}</p>
-              
+            <div class="p-3">
+              <span class="badge rounded-pill mb-2" style="background:rgba(220,53,69,.08);color:#dc3545;border:1px solid rgba(220,53,69,.12);font-size:.68rem">{{ rec.tipo | titlecase }}</span>
+              <h6 class="fw-bold mb-1" style="font-size:.95rem">{{ rec.nombre }}</h6>
+              <p class="text-muted small mb-2" style="font-size:.82rem">{{ rec.descripcion }}</p>
               @if (rec.stock !== -1) {
-                <small class="text-muted d-block mb-2">Stock: {{ rec.stock }} unidades</small>
+                <small class="text-muted d-block mb-2" style="font-size:.75rem">Stock: {{ rec.stock }} unidades</small>
               } @else {
-                <small class="text-muted d-block mb-2">Stock ilimitado</small>
+                <small class="text-muted d-block mb-2" style="font-size:.75rem">Stock ilimitado</small>
               }
-
               <div class="d-flex justify-content-between align-items-center mt-3">
-                <span class="badge bg-warning text-dark fs-6">
+                <span class="badge rounded-pill" style="background:rgba(255,193,7,.12);color:#b48b00;border:1px solid rgba(255,193,7,.18);font-size:.85rem">
                   <i class="bi bi-star-fill me-1"></i>{{ rec.puntosNecesarios }}
                 </span>
-                <button class="btn btn-primary btn-sm" 
+                <button class="btn btn-fit-primary btn-sm" style="border-radius:999px;padding:6px 14px"
                         (click)="canjear(rec._id, rec.puntosNecesarios)"
                         [disabled]="(puntos()?.saldo || 0) < rec.puntosNecesarios">
                   Canjear
@@ -86,15 +74,15 @@
       }
     </div>
 
-    <!-- Sin recompensas -->
     @if (recompensas().length === 0 && !cargando()) {
-      <div class="alert alert-secondary text-center py-5">
-        <i class="bi bi-gift fs-1 d-block mb-3 text-muted"></i>
-        <h5 class="text-muted">No hay recompensas disponibles</h5>
+      <div class="card-fit text-center py-5 mt-3">
+        <i class="bi bi-gift fs-1 d-block mb-2" style="color:#dc3545;opacity:.5"></i>
+        <h5 class="fw-bold">No hay recompensas disponibles</h5>
         <p class="text-muted">Tu gimnasio aún no ha cargado recompensas.</p>
       </div>
     }
 
   }
 
+</div>
 </div>

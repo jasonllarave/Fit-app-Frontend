@@ -17,4 +17,9 @@ export class LandingPricing {
     if (valor === 0) return 'Gratis';
     return '$' + valor.toLocaleString('es-CO');
   }
+
+  formatearFeature(f: string): string {
+    if (!f) return '';
+    return f.replace(/_/g, ' ');
+  }
 }
